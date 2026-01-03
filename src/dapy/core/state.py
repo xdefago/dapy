@@ -1,6 +1,6 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Any, Iterable, Optional, Self
+from typing import Iterable, Optional, Self
 
 from .pid import Pid
 
@@ -12,7 +12,7 @@ class State(ABC):
     """
     pid: Pid
     
-    def cloned_with(self, **kwargs: dict[str, Any]) -> Self:
+    def cloned_with(self, **kwargs: object) -> Self:
         """Create a copy of this state with updated attributes.
         
         Args:

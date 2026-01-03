@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Sequence
 
 from dapy.core import Algorithm, Event, Message, Pid, Signal, State
 
@@ -36,7 +37,7 @@ class MySignal(Signal):
 # Define the algorithm itself.
 #
 @dataclass(frozen=True)
-class MyAlgorithm(Algorithm):
+class MyAlgorithm(Algorithm[MyState]):
     """
     This algorithm does something.
     """
@@ -61,7 +62,7 @@ class MyAlgorithm(Algorithm):
     # given the state of a process and an event (signal or message) applied to it,
     # return the new state of the process and a list of events to be scheduled.
     #
-    def on_event(self, old_state: MyState, event: Event) -> tuple[MyState, list[Event]]:
+    def on_event(self, old_state: MyState, event: Event) -> tuple[MyState, Sequence[Event]]:
         """
         Given the state of a process and an event, return the new state and a list of events to be scheduled.
         """
@@ -83,8 +84,8 @@ class MyAlgorithm(Algorithm):
         """
         return "My Algorithm"
     
-    def on_start(self, init_state: MyState) -> tuple[MyState, list[Event]]:
-        """Given the initial state of a process, return a modified state and a list of events to be scheduled.
+    def on_start(self, init_state: MyState) -> tuple[MyState, Sequence[Event]]:
+        """Given the initial state of a process, return a modified state and a sequence of events to be scheduled.
         """
         # Although the the state can be modified, the intention is mainly to provide a way to issue initial events.
         # This is not always needed, as the initial events can also be scheduled externally.

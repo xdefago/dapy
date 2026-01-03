@@ -72,8 +72,8 @@ With the main ingredients defined (state and messages), this leaves the writing 
 This is done by defining a subclass of `Algorithm` with at least two methods defined:
 * `initial_state(self, pid) -> State:`<br>
     Given a process identifier `pid`, constructs the initial state for that algorithm.
-* `on_event(self, old_state: State, event: Event) -> tuple[State, list[Event]]:`<br>
-    Given a state and an event, compute a new state and generate a list of events (messages or signals) to be scheduled later.
+* `on_event(self, old_state: State, event: Event) -> tuple[State, Sequence[Event]]:`<br>
+    Given a state and an event, compute a new state and generate a sequence of events (messages or signals) to be scheduled later.
     Note that the state is immutable. However, one can create a derived and modified instance of a state, using the method `clone_with` and named parameters. See the example below.
 
 The base class `Algorithm` defines a field `system` that holds information about the system (or at least where a process can find the information that is implicitly known, such as its neighbors).
@@ -86,6 +86,8 @@ To get back to the concrete example of Learn the Topology algorithm,
 
 ```python
 from dataclasses import dataclass
+from typing import Sequence
+
 from dapy.core import ProcessSet, Event, Pid
 from dapy.core import ProcessSet, ChannelSet, Channel
 from dapy.core import Algorithm
@@ -94,7 +96,7 @@ from dapy.core import Algorithm
 # The algorithm itself.
 # 
 @dataclass(frozen=True)
-class LearnGraphAlgorithm(Algorithm):
+class LearnGraphAlgorithm(Algorithm[LearnState]):
     """
     This algorithm learns the topology of the network.
     """
@@ -121,7 +123,7 @@ class LearnGraphAlgorithm(Algorithm):
     # given the state of a process and an event (signal or message) applied to it,
     # return the new state of the process and a list of events to be scheduled.
     #
-    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, list[Event]]:
+    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, Sequence[Event]]:
 
         match event:
             
@@ -196,7 +198,7 @@ class LearnGraphAlgorithm(Algorithm):
     # (3)    end for
     # (4)    part_i <- true
     # (5) end operation
-    def _do_start(self, state: LearnState) -> tuple[LearnState, list[Event]]:
+    def _do_start(self, state: LearnState) -> tuple[LearnState, Sequence[Event]]:
         """
         Handle the start of the algorithm.
         """

@@ -58,11 +58,12 @@ class MyMessage(Message):
     
 # 4. Define the distributed algorithm by subclassing the Algorithm class and providing
 #    an implementation for the two mandatory abstract methods `initial_state` and `on_event`.
+from typing import Sequence
 @dataclass(frozen=True)
-class MyAlgorithm(Algorithm):
+class MyAlgorithm(Algorithm[MyState]):
     def initial_state(self, pid) -> MyState:
         ...
-    def on_event(self, old_state: MyState, event: Event) -> tuple[MyState, list[Event]]:
+    def on_event(self, old_state: MyState, event: Event) -> tuple[MyState, Sequence[Event]]:
         ...
 ```
 

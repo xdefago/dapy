@@ -3,6 +3,7 @@ This module implements the "Learn the Topology" algorithm, from the .
 """
 
 from dataclasses import dataclass, field
+from typing import Sequence
 
 from ..core import Algorithm, Channel, ChannelSet, Event, Message, Pid, ProcessSet, Signal, State
 
@@ -59,7 +60,7 @@ class LearnState(State):
 # The algorithm itself.
 # 
 @dataclass(frozen=True)
-class LearnGraphAlgorithm(Algorithm):
+class LearnGraphAlgorithm(Algorithm[LearnState]):
     """Algorithm for distributed learning of the network topology.
     
     This algorithm enables each process to learn the complete network topology
@@ -104,7 +105,7 @@ class LearnGraphAlgorithm(Algorithm):
     # given the state of a process and an event (signal or message) applied to it,
     # return the new state of the process and a list of events to be scheduled.
     #
-    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, list[Event]]:
+    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, Sequence[Event]]:
         """Process an event and update the process state.
         
         Handles Start signals to initiate the algorithm, PositionMsg messages
@@ -135,10 +136,11 @@ class LearnGraphAlgorithm(Algorithm):
             # () when Position(id, neighbors) is received from neighbor id_x do
             case PositionMsg(_, id_x, id, neighbors):
                 new_state = old_state
-                new_events = []
+                new_events: list[Event] = []
                 # (6) if (not part_i) then start() end if
                 if not new_state.part_i:
-                    new_state, new_events = self._do_start(new_state)
+                    new_state, events_from_start = self._do_start(new_state)
+                    new_events = list(events_from_start)
 
                 # (7) if id not in proc_known_i then                    
                 if id not in new_state.proc_known_i:
@@ -191,7 +193,7 @@ class LearnGraphAlgorithm(Algorithm):
     # (3)    end for
     # (4)    part_i <- true
     # (5) end operation
-    def _do_start(self, state: LearnState) -> tuple[LearnState, list[Event]]:
+    def _do_start(self, state: LearnState) -> tuple[LearnState, Sequence[Event]]:
         """Initialize the topology learning process.
         
         Sends the process's initial neighbors to all neighbors and marks

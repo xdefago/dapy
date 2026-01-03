@@ -1,14 +1,17 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Generic, Sequence, TypeVar
 
 from .event import Event
 from .pid import Pid
 from .state import State
 from .system import System
 
+StateT = TypeVar('StateT', bound=State)
+
 
 @dataclass(frozen=True)
-class Algorithm(ABC):
+class Algorithm(ABC, Generic[StateT]):
     """Abstract base class for distributed algorithms.
     
     This class defines the interface for distributed algorithms that can be
@@ -35,7 +38,7 @@ class Algorithm(ABC):
     # Mandatory method: given a process id, create and return the initial state of that process.
     #
     @abstractmethod
-    def initial_state(self, pid: Pid) -> State:
+    def initial_state(self, pid: Pid) -> StateT:
         """Create the initial state for a process.
         
         Args:
@@ -53,7 +56,7 @@ class Algorithm(ABC):
     # Optional method: handle the start of the algorithm.
     # Override this method only if your algorithms needs to do something specific at the start of the execution.
     #
-    def on_start(self, init_state: State) -> tuple[State, list[Event]]:
+    def on_start(self, init_state: StateT) -> tuple[StateT, Sequence[Event]]:
         """
         Handle the start of the algorithm.
         """
@@ -65,7 +68,7 @@ class Algorithm(ABC):
     # return the new state of the process and a list of events to be scheduled.
     #    
     @abstractmethod
-    def on_event(self, old_state: State, event: Event) -> tuple[State, list[Event]]:
+    def on_event(self, old_state: StateT, event: Event) -> tuple[StateT, Sequence[Event]]:
         """
         Handle an event.
         Given the old state and the event, return the new state and a list of events to be sent.

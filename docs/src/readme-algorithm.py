@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from typing import Sequence
+
 from dapy.core import ProcessSet, ChannelSet, Channel, Pid
 from dapy.core import Algorithm, Event
 from dapy.algo.learn import Start, PositionMsg, GraphIsKnown, LearnState
@@ -7,7 +9,7 @@ from dapy.algo.learn import Start, PositionMsg, GraphIsKnown, LearnState
 # The algorithm itself.
 # 
 @dataclass(frozen=True)
-class LearnGraphAlgorithm(Algorithm):
+class LearnGraphAlgorithm(Algorithm[LearnState]):
     """
     This algorithm learns the topology of the network.
     """
@@ -34,7 +36,7 @@ class LearnGraphAlgorithm(Algorithm):
     # given the state of a process and an event (signal or message) applied to it,
     # return the new state of the process and a list of events to be scheduled.
     #
-    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, list[Event]]:
+    def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, Sequence[Event]]:
         
         match event:
             
@@ -109,7 +111,7 @@ class LearnGraphAlgorithm(Algorithm):
     # (3)    end for
     # (4)    part_i <- true
     # (5) end operation
-    def _do_start(self, state: LearnState) -> tuple[LearnState, list[Event]]:
+    def _do_start(self, state: LearnState) -> tuple[LearnState, Sequence[Event]]:
         """
         Handle the start of the algorithm.
         """

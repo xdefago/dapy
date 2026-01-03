@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Iterable, Self
+from typing import Iterable, Iterator, Self
 
 
 @dataclass(frozen=True, order=True)
@@ -44,7 +44,7 @@ class ProcessSet:
     def __len__(self) -> int:
         return len(self.processes)
     
-    def __iter__(self) -> Iterable[Pid]:
+    def __iter__(self) -> Iterator[Pid]:
         return iter(self.processes)
     
     def __eq__(self, other: Self) -> bool:
@@ -174,7 +174,7 @@ class ChannelSet:
     def __len__(self) -> int:
         return len(self.channels)
     
-    def __iter__(self) -> Iterable[Channel]:
+    def __iter__(self) -> Iterator[Channel]:
         return iter(self.channels)
     
     def __eq__(self, other: Self) -> bool:
