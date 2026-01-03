@@ -158,10 +158,9 @@ class TimeSpaceDiagram(QWidget):
         self.update()
     
     def _compute_causal_relations(self, event_idx: int) -> None:
-        """Compute causal past and future for an event.
+        """Compute causal past and future for an event using vector clocks.
         
-        Uses happens-before relation based on Lamport's logical clocks and
-        message causality.
+        Uses vector clocks to determine causality precisely.
         
         Args:
             event_idx: Index of the selected event.
@@ -174,114 +173,13 @@ class TimeSpaceDiagram(QWidget):
         
         selected_event = self.model.events[event_idx]
         
-        # Build causality graph
-        # An event e1 happens-before e2 if:
-        # 1. e1 and e2 are on the same process and e1 comes before e2 (by end_time)
-        # 2. e1 is a send event and e2 is the corresponding receive event
-        # 3. There exists e3 such that e1 -> e3 and e3 -> e2 (transitivity)
+        # Use vector clocks to determine causal past and future
+        causal_past_events = self.model.get_causal_past(selected_event)
+        causal_future_events = self.model.get_causal_future(selected_event)
         
-        # Sort events by end_time for proper ordering
-        events_by_process: dict[Pid, List[int]] = {}
-        for evt in self.model.events:
-            if evt.pid not in events_by_process:
-                events_by_process[evt.pid] = []
-            events_by_process[evt.pid].append(evt.index)
-        
-        # Sort each process's events by time
-        for pid in events_by_process:
-            events_by_process[pid].sort(
-                key=lambda idx: self.model.events[idx].end_time
-            )
-        
-        # Build message send->receive edges
-        # Find receive events that correspond to messages
-        msg_edges: List[Tuple[int, int]] = []  # (send_event_idx, receive_event_idx)
-        
-        for msg in self.model.messages:
-            # Find the receive event for this message
-            recv_evt = None
-            for evt in self.model.events:
-                if (evt.is_message and 
-                    evt.pid == msg.receiver and 
-                    evt.sender == msg.sender and
-                    abs(evt.end_time - msg.receive_time) < 0.0001):
-                    recv_evt = evt
-                    break
-            
-            if recv_evt:
-                # Find the closest event on sender before send_time
-                # This represents the "send" event
-                if msg.sender in events_by_process:
-                    sender_events = events_by_process[msg.sender]
-                    send_evt_idx = None
-                    for idx in sender_events:
-                        evt = self.model.events[idx]
-                        if evt.end_time <= msg.send_time + 0.0001:
-                            send_evt_idx = idx
-                    if send_evt_idx is not None:
-                        msg_edges.append((send_evt_idx, recv_evt.index))
-        
-        # BFS to find causal past (predecessors)
-        visited_past: Set[int] = set()
-        queue = [event_idx]
-        visited_past.add(event_idx)
-        
-        while queue:
-            current_idx = queue.pop(0)
-            current_evt = self.model.events[current_idx]
-            
-            # Check same-process predecessors
-            if current_evt.pid in events_by_process:
-                process_events = events_by_process[current_evt.pid]
-                for other_idx in process_events:
-                    if other_idx == current_idx:
-                        continue
-                    other_evt = self.model.events[other_idx]
-                    # other happens before current on same process
-                    if other_evt.end_time < current_evt.end_time:
-                        if other_idx not in visited_past:
-                            visited_past.add(other_idx)
-                            self._causal_past.add(other_idx)
-                            queue.append(other_idx)
-            
-            # Check message causality (receive has send in its past)
-            for send_idx, recv_idx in msg_edges:
-                if recv_idx == current_idx:
-                    if send_idx not in visited_past:
-                        visited_past.add(send_idx)
-                        self._causal_past.add(send_idx)
-                        queue.append(send_idx)
-        
-        # BFS to find causal future (successors)
-        visited_future: Set[int] = set()
-        queue = [event_idx]
-        visited_future.add(event_idx)
-        
-        while queue:
-            current_idx = queue.pop(0)
-            current_evt = self.model.events[current_idx]
-            
-            # Check same-process successors
-            if current_evt.pid in events_by_process:
-                process_events = events_by_process[current_evt.pid]
-                for other_idx in process_events:
-                    if other_idx == current_idx:
-                        continue
-                    other_evt = self.model.events[other_idx]
-                    # current happens before other on same process
-                    if current_evt.end_time < other_evt.end_time:
-                        if other_idx not in visited_future:
-                            visited_future.add(other_idx)
-                            self._causal_future.add(other_idx)
-                            queue.append(other_idx)
-            
-            # Check message causality (send leads to receive in future)
-            for send_idx, recv_idx in msg_edges:
-                if send_idx == current_idx:
-                    if recv_idx not in visited_future:
-                        visited_future.add(recv_idx)
-                        self._causal_future.add(recv_idx)
-                        queue.append(recv_idx)
+        # Store indices
+        self._causal_past = {evt.index for evt in causal_past_events}
+        self._causal_future = {evt.index for evt in causal_future_events}
     
     def add_ruler(self, time: float) -> None:
         """Add a vertical ruler at the specified time.
@@ -451,7 +349,7 @@ class TimeSpaceDiagram(QWidget):
         for event in self.model.events:
             # Use end_time for event position (when event occurs/is processed)
             if self.use_logical_time:
-                time = event.logical_time
+                time = int(event.logical_time)
             else:
                 time = event.end_time
             
@@ -473,10 +371,12 @@ class TimeSpaceDiagram(QWidget):
                 radius = 8
             else:
                 # Different colors for different event types
-                if event.is_message:
+                if event.is_receive:
                     color = QColor(0, 180, 0)  # Green for message receives
+                elif event.is_send:
+                    color = QColor(0, 100, 255)  # Blue for send events
                 else:
-                    color = QColor(0, 100, 255)  # Blue for internal events
+                    color = QColor(100, 100, 100)  # Gray for local events
                 radius = self.event_radius
             
             painter.setBrush(QBrush(color))
@@ -492,8 +392,8 @@ class TimeSpaceDiagram(QWidget):
         """Draw an arrow for a message."""
         # Use logical or physical time based on mode
         if self.use_logical_time:
-            send_time = msg.send_logical_time
-            recv_time = msg.receive_logical_time
+            send_time = int(msg.send_logical_time)
+            recv_time = int(msg.receive_logical_time)
         else:
             send_time = msg.send_time
             recv_time = msg.receive_time
@@ -621,7 +521,6 @@ class TimeSpaceDiagram(QWidget):
         if clicked_event is not None:
             self.clear_highlights()
             self.selected_event = clicked_event.index
-            self.highlighted_events.add(clicked_event.index)
             # Compute causal past and future
             self._compute_causal_relations(clicked_event.index)
             self.event_selected.emit(clicked_event.index)
@@ -672,7 +571,7 @@ class TimeSpaceDiagram(QWidget):
         """Find an event at the given pixel coordinates."""
         for event in self.model.events:
             if self.use_logical_time:
-                time = event.logical_time
+                time = int(event.logical_time)
             else:
                 time = event.end_time
             
@@ -688,8 +587,8 @@ class TimeSpaceDiagram(QWidget):
         """Find a message at the given pixel coordinates."""
         for idx, msg in enumerate(self.model.messages):
             if self.use_logical_time:
-                send_time = msg.send_logical_time
-                recv_time = msg.receive_logical_time
+                send_time = int(msg.send_logical_time)
+                recv_time = int(msg.receive_logical_time)
             else:
                 send_time = msg.send_time
                 recv_time = msg.receive_time
