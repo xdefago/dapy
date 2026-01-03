@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 from abc import ABC
 from dataclasses import dataclass
 from typing import Self

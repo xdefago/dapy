@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """
 This module contains the core components of the dapy library, which are used to define
 distributed algorithms and represent distributed executions.

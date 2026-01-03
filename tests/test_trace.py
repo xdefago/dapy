@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Test suite for trace generation and serialization."""
 
 from datetime import timedelta

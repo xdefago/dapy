@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Dapy Trace Viewer - Main Application Entry Point."""
 
 import sys

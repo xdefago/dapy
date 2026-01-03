@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Model representing trace data for visualization."""
 
 from dataclasses import dataclass, field

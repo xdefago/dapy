@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Minimap widget showing network topology."""
 
 from typing import Dict, Set, Optional

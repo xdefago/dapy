@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Generate a sample trace file for testing the dapyview GUI."""
 
 from dapy.core import Pid, System, Ring, Asynchronous

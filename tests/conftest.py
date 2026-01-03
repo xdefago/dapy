@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """Shared pytest fixtures and configuration for dapy tests."""
 
 import pytest

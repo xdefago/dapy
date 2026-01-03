@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 """
 This module implements the "Learn the Topology" algorithm, from the .
 """

@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 from dapy.core import Pid, System, Ring, Asynchronous
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.sim import Simulator, Settings

@@ -1,3 +1,6 @@
+# Copyright (c) 2025-2026 Xavier Defago
+# SPDX-License-Identifier: MIT
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Iterable, Iterator, Self
