@@ -8,23 +8,31 @@ from .configuration import Configuration
 
 @dataclass(frozen=True, order=True)
 class Timed(ABC):
-    """
-    Abstract base class to represent a timed object.
+    """Abstract base class for objects with an associated timestamp.
+    
+    Attributes:
+        time: The timestamp associated with this object.
     """
     time: timedelta
 
 
 @dataclass(frozen=True, order=True)
 class TimedEvent(Timed):
-    """
-    Class to represent a timed event.
+    """Represents an event associated with a specific time.
+    
+    Attributes:
+        time: The time when the event occurs.
+        event: The event object.
     """
     event: Event
 
 
 @dataclass(frozen=True, order=True)
 class TimedConfiguration(Timed):
-    """
-    Class to represent a timed configuration.
+    """Represents a system configuration at a specific time.
+    
+    Attributes:
+        time: The time when this configuration was active.
+        configuration: The configuration object.
     """
     configuration: Configuration

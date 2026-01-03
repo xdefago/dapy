@@ -9,25 +9,13 @@ from .system import System
 
 @dataclass(frozen=True)
 class Algorithm(ABC):
-    """
-    Abstract class to represent a distributed algorithm.
+    """Abstract base class for distributed algorithms.
+    
+    This class defines the interface for distributed algorithms that can be
+    simulated using the dapy framework.
     
     Attributes:
-        system: System
-            The system in which the algorithm is executed.
-            
-    Methods:
-        name: str (@property):
-            Return the name of the algorithm.
-            
-        initial_state(pid: Pid) -> State:
-            Create and return the initial state of the process with the given pid.
-            
-        on_start(init_state: State) -> tuple[State, list[Event]]:
-            Handle the start of the algorithm.
-            
-        on_event(old_state: State, event: Event) -> tuple[State, list[Event]]:
-            Handle an event and return the new state and a list of events to be sent.
+        system: The distributed system in which the algorithm is executed.
     """
     system: System
 
@@ -48,6 +36,14 @@ class Algorithm(ABC):
     #
     @abstractmethod
     def initial_state(self, pid: Pid) -> State:
+        """Create the initial state for a process.
+        
+        Args:
+            pid: The process identifier for which to create the initial state.
+        
+        Returns:
+            The initial state for the given process.
+        """
         """
         Initialize the algorithm with the given system.
         """

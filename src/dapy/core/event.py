@@ -26,8 +26,11 @@ class Event(ABC):
     target: Pid
     
     def __str__(self) -> str:
-        """
-        String representation of the start signal.
+        """Return a string representation of the event.
+        
+        Returns:
+            A formatted string showing the event type, target process,
+            and any additional attributes.
         """
         other_attributes = ', '.join(f"{k}={v!s}" for k,v in self.__dict__.items() if k != 'target' and v is not None)
         if other_attributes:
@@ -35,8 +38,15 @@ class Event(ABC):
         return f"{self.__class__.__name__}(@{self.target}{other_attributes})"
     
     def __lt__(self, other: Self) -> bool:
-        """
-        Compare two events.
+        """Check if this event is less than another event.
+        
+        Events are compared by their target process identifier.
+        
+        Args:
+            other: The event to compare with.
+        
+        Returns:
+            True if this event's target is less than the other event's target.
         """
         if not isinstance(other, Event):
             return NotImplemented

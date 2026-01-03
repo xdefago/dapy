@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from typing import Iterable, Self
+from typing import Iterable, Iterator, Self
 
 from .pid import Channel, Pid, ProcessSet
 
@@ -11,16 +11,23 @@ class NetworkTopology(ABC):
     Abstract class to represent a network topology.
     """
     @abstractmethod
-    def neighbors_of(self, ) -> ProcessSet:
-        """
-        Given a process identifier (PID), return its neighbors.
+    def neighbors_of(self, pid: Pid) -> ProcessSet:
+        """Get the neighbors of the given process in the topology.
+        
+        Args:
+            pid: The process identifier.
+        
+        Returns:
+            A ProcessSet containing all neighbors of the given process.
         """
         pass
     
     @abstractmethod
     def processes(self) -> ProcessSet:
-        """
-        Return the set of processes in the topology.
+        """Return the set of all processes in the topology.
+        
+        Returns:
+            A ProcessSet containing all processes in this topology.
         """
         pass
     
@@ -34,7 +41,7 @@ class NetworkTopology(ABC):
         # for the sake of performance
         return pid in self.processes()
     
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Pid]:
         # default implementation; expected to be overridden in subclasses
         # for the sake of performance
         return iter(self.processes())
@@ -51,11 +58,11 @@ class CompleteGraph(NetworkTopology):
     def processes(self) -> ProcessSet:
         return ProcessSet(self._processes)
     
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._processes)
     def __contains__(self, pid: Pid) -> bool:
         return pid in self._processes
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Pid]:
         return iter(self._processes)
 
     @classmethod
@@ -64,8 +71,18 @@ class CompleteGraph(NetworkTopology):
     
     @classmethod
     def of_size(cls, size: int) -> Self:
-        """
-        Create a complete graph topology with the given size.
+        """Create a complete graph topology with the given number of processes.
+        
+        In a complete graph, every process is connected to every other process.
+        
+        Args:
+            size: The number of processes in the topology. Must be positive.
+        
+        Returns:
+            A CompleteGraph instance with sequential process IDs from 1 to size.
+        
+        Raises:
+            ValueError: If size is not a positive integer.
         """
         if size <= 0:
             raise ValueError("Size must be a positive integer.")
@@ -90,11 +107,11 @@ class Ring(NetworkTopology):
     def processes(self) -> ProcessSet:
         return ProcessSet(self._processes)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._processes)
     def __contains__(self, pid: Pid) -> bool:
         return pid in self._processes
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Pid]:
         return iter(self._processes)
         
     @classmethod
@@ -118,7 +135,7 @@ class Star(NetworkTopology):
     _center: Pid
     _leaves: frozenset[Pid]
     
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if len(self._leaves) < 1:
             raise ValueError("A star topology must have at least one leaf.")
         if self._center in self._leaves:
@@ -137,11 +154,11 @@ class Star(NetworkTopology):
     def processes(self) -> ProcessSet:
         return ProcessSet({self._center} | self._leaves)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return 1 + len(self._leaves)
     def __contains__(self, pid: Pid) -> bool:
         return pid == self._center or pid in self._leaves
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Pid]:
         return iter({self._center} | self._leaves)
         
     @classmethod
@@ -166,7 +183,7 @@ class Arbitrary(NetworkTopology):
     _neighbors: dict[Pid, ProcessSet]
     _processes: ProcessSet = field(init=False)
     
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         object.__setattr__(self, '_processes', ProcessSet(self._neighbors.keys()))
         
     def neighbors_of(self, pid: Pid) -> ProcessSet:

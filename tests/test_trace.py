@@ -1,56 +1,63 @@
-import pytest
+"""Test suite for trace generation and serialization."""
 
-from dapy.core import Pid, System, Ring, Synchronous
-from dapy.algo.learn import LearnGraphAlgorithm, Start
-from dapy.sim import Simulator, Settings, Trace
 from datetime import timedelta
+from typing import Optional
+
+from dapy.sim import Trace
 
 
-def generate_trace():
-    settings = Settings(enable_trace=True)
-    
-    # define system, algorithm and simulator
-    system = System(
-        topology=Ring.of_size(3),
-        synchrony=Synchronous(fixed_delay=timedelta(seconds=1)),
-    )
-    algorithm = LearnGraphAlgorithm(system)
-    sim = Simulator.from_system(system, algorithm, settings=settings)
+class TestTraceGeneration:
+    """Test suite for Trace generation and validation."""
 
-    # run the simulation
-    sim.start()
-    sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
-    sim.run_to_completion()
-
-    # analyze the trace
-    assert sim.trace.system == system
-    assert sim.trace.algorithm_name == algorithm.name
-    assert len(sim.trace.history) == 16
-    assert len(sim.trace.events_list) == 16
-    assert len(sim.trace.history[0].configuration) == 3
-    assert sim.trace.history[0].time == timedelta(seconds=0)
-    assert sim.trace.history[-1].configuration == sim.current_configuration
-    assert sim.trace.history[-1].time == sim.current_time
-    assert sim.current_time == timedelta(seconds=3)
-    #
-    return sim.trace
+    def test_trace_properties(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test that generated trace has expected properties."""
+        trace = trace_from_learn_algorithm
+        assert trace is not None
+        assert trace.algorithm_name == "Learn the Topology"
+        assert len(trace.history) == 16
+        assert len(trace.events_list) == 16
+        assert len(trace.history[0].configuration) == 3
+        assert trace.history[0].time == timedelta(seconds=0)
+        assert trace.history[-1].time == timedelta(seconds=3)
 
 
-def test_trace_generation_json():
-    trace = generate_trace()
-    
-    trace_json = trace.dump_json()
-    trace2 = Trace.load_json(trace_json)
-    assert trace2 == trace
+class TestTraceSerialization:
+    """Test suite for Trace serialization and deserialization."""
 
-def test_trace_generation_pickle():
-    trace = generate_trace()
-    
-    trace_bytes = trace.dump_pickle()
-    trace2 = Trace.load_pickle(trace_bytes)
-    assert trace2 == trace
+    def test_trace_json_serialization(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test JSON serialization and deserialization of Trace."""
+        original_trace = trace_from_learn_algorithm
+        assert original_trace is not None
+        trace_json = original_trace.dump_json()
+        assert trace_json is not None
+        assert isinstance(trace_json, str)
+        
+        # Deserialize from JSON
+        restored_trace = Trace.load_json(trace_json)
+        assert restored_trace == original_trace
 
+    def test_trace_pickle_serialization(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test Pickle serialization and deserialization of Trace."""
+        original_trace = trace_from_learn_algorithm
+        assert original_trace is not None
+        trace_bytes = original_trace.dump_pickle()
+        assert trace_bytes is not None
+        assert isinstance(trace_bytes, bytes)
+        
+        # Deserialize from pickle
+        restored_trace = Trace.load_pickle(trace_bytes)
+        assert restored_trace == original_trace
 
-if __name__ == "__main__":
-    test_trace_generation_json()
-    test_trace_generation_pickle()
+    def test_trace_roundtrip_consistency(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test that JSON and Pickle serialization preserve trace equality."""
+        original_trace = trace_from_learn_algorithm
+        assert original_trace is not None
+        json_trace = Trace.load_json(original_trace.dump_json())
+        # Test Pickle roundtrip
+        pickle_trace = Trace.load_pickle(original_trace.dump_pickle())
+        
+        # Both should be equal to original
+        assert json_trace == original_trace
+        assert pickle_trace == original_trace
+        # And equal to each other
+        assert json_trace == pickle_trace

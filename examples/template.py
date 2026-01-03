@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from dapy.core import Algorithm, Event, Message, Signal, State
+from dapy.core import Algorithm, Event, Message, Pid, Signal, State
 
 #
 # Define the State of a process in the algorithm.
@@ -46,7 +46,7 @@ class MyAlgorithm(Algorithm):
     #
     # Mandatory method: given a process id, create and return the initial state of that process.
     #
-    def initial_state(self, pid) -> MyState:
+    def initial_state(self, pid: Pid) -> MyState:
         """
         Create and return the initial state of the process.
         """
@@ -83,9 +83,8 @@ class MyAlgorithm(Algorithm):
         """
         return "My Algorithm"
     
-    def on_start(self, init_state):
-        """
-        Given the initial state of a process, return a modified state and a list of events to be scheduled.
+    def on_start(self, init_state: MyState) -> tuple[MyState, list[Event]]:
+        """Given the initial state of a process, return a modified state and a list of events to be scheduled.
         """
         # Although the the state can be modified, the intention is mainly to provide a way to issue initial events.
         # This is not always needed, as the initial events can also be scheduled externally.

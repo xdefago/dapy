@@ -3,14 +3,16 @@
 
 ## Preliminaries
 
+You are already set if you installed `dapy` with the `dev` option (or `--all-groups`) and can directly skip to running the tests.
+
 Install `pytest` if not already there:
 ```shell
-pip install pytest
+uv pip install pytest
 ```
 
 Setup the project by installing the package with `pip`:
 ```shell
-pip install --editable .
+uv pip install --editable .
 ```
 
 ## Running tests
@@ -18,5 +20,5 @@ pip install --editable .
 From the root directory:
 
 ```shell
-python -m pytest
+uv run pytest
 ```

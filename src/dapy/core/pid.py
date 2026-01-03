@@ -4,11 +4,10 @@ from typing import Iterable, Self
 
 @dataclass(frozen=True, order=True)
 class Pid:
-    """
-    Class to represent a process identifier (PID).
+    """Represents a unique process identifier in a distributed system.
     
     Attributes:
-        id (int): The unique identifier for the process.
+        id: The unique numeric identifier for the process.
     """
     id: int
     
@@ -21,15 +20,14 @@ class Pid:
 
 @dataclass(frozen=True)
 class ProcessSet:
-    """
-    Class to represent a set of processes.
+    """Represents an immutable set of process identifiers.
     
     Attributes:
-        processes (frozenset[Pid]): A set of unique process identifiers.
+        processes: A frozenset of unique process identifiers.
     """
     processes: frozenset[Pid] = field(default_factory=frozenset)
     
-    def __init__(self, processes: Iterable[Pid] | Pid = frozenset()):
+    def __init__(self, processes: Iterable[Pid] | Pid = frozenset()) -> None:
         if isinstance(processes, Pid):
             processes = {processes}
         object.__setattr__(self, 'processes', frozenset(processes))
@@ -66,25 +64,25 @@ class ProcessSet:
         
     @staticmethod
     def empty() -> Self:
-        """
-        Return an empty ProcessSet.
+        """Create an empty process set.
+        
+        Returns:
+            An empty ProcessSet instance.
         """
         return ProcessSet()
 
 
 @dataclass(frozen=True, order=True)
 class Channel:
-    """
-    Class to represent a communication channel between two processes.
+    """Represents a communication channel between two processes.
     
-    By default, channels are directed, in the sense that `s` is a sender process and `r` is a receiver process.
-    If you want to create an undirected channel, set the `directed` parameter to False.
-    In this case, the order of the processes does not matter for equality or comparison.
+    Channels can be directed (sender to receiver) or undirected.
+    For undirected channels, the order of processes is normalized for equality.
     
     Attributes:
-        s (Pid): The sender process identifier.
-        r (Pid): The receiver process identifier.
-        directed (bool): Indicates if the channel is directed or not. Default is True.
+        s: The sender process identifier.
+        r: The receiver process identifier.
+        directed: Indicates if the channel is directed. Defaults to True.
     """
     s: Pid
     r: Pid
@@ -129,14 +127,20 @@ class Channel:
             return hash(self.normalized())
     
     def as_tuple(self) -> tuple[Pid, Pid]:
-        """
-        Return the channel as a tuple of PIDs.
+        """Convert the channel to a tuple of process identifiers.
+        
+        Returns:
+            A tuple (sender, receiver) representing the channel.
         """
         return (self.s, self.r)
         
     def normalized(self) -> tuple[Pid, Pid]:
-        """
-        Return a normalized representation of the channel, where `s` <= `r`.
+        """Return a normalized representation of the channel for comparison.
+        
+        For undirected channels, ensures the smaller PID comes first.
+        
+        Returns:
+            A tuple where the first PID is always less than or equal to the second.
         """
         if self.s <= self.r:
             return (self.s, self.r)
@@ -146,15 +150,14 @@ class Channel:
 
 @dataclass(frozen=True)
 class ChannelSet:
-    """
-    Class to represent a set of channels.
+    """Represents an immutable set of communication channels.
     
     Attributes:
-        channels (frozenset[Channel]): A set of unique channels.
+        channels: A frozenset of unique Channel objects.
     """
     channels: frozenset[Channel] = field(init=False)
     
-    def __init__(self, channels: Iterable[Channel] | Channel = frozenset()):
+    def __init__(self, channels: Iterable[Channel] | Channel = frozenset()) -> None:
         if isinstance(channels, Channel):
             channels = {channels}
         object.__setattr__(self, 'channels', frozenset(channels))

@@ -11,35 +11,34 @@ This is a simple (simplistic) programming framework to simulate the execution of
 
 
 
-## How to begin (temporary)
+## How to begin
 
 The project is currently under active development with many changes to come in the near future.
 Therefore, it is not yet recommended to install it as a fixed module.
 
 ### Requirements
 
-The project was developed and tested using python version 3.13.2.
-Although untested, it is likely to work with any version 3.11 and above.
-The source code uses features that were introduced from python 3.11 and hence will not work with earlier versions of the interpreter.
+It is recommended to use [uv](https://docs.astral.sh/uv/) for dependency management and building.
+The project requires Python 3.13 or higher which is installed in a virtual environment by `uv` automatically _(i.e., you have nothing to do if using `uv`)_.
 
 ### Setup: Initial steps
 
 To use the environment, please follow the following steps:
 
-1. clone this repository.
-1. open a terminal in the root of the cloned project.
-1. if you're using `pyenv` or `venv`, set them appropriately.
-    You can find instructions about [setting up virtual environment with `venv`](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/). This is a little cumbersome but ensures no conflicts with an existing installation.
-1. then, install the python package locally using the following `pip` command.
+1. Clone this repository.
+2. Install `uv` if you haven't already:
     ```shell
-    pip install --editable .
+    brew install uv # on Mac
     ```
-    The flag `--editable` informs the `pip` command that the source code may change in the future and that changes should be taken into account. 
-    This ensures that updates (and fixes) are taken into account whenever pulling commits, without requiring a further install. See the note below about [virtual environments](#venv).
-1. check if the install worked properly.
-    Still from the root directory of the project, try to run the example as follows:
+    _check the page ["Installing uv"](https://docs.astral.sh/uv/getting-started/installation/) for other environments._
+    
+3. Synchronize dependencies (omit `--all-groups` for a more lightweight install):
     ```shell
-    python example.py
+    uv sync --all-groups
+    ```
+4. Check if the install worked properly by running an example:
+    ```shell
+    uv run python examples/example.py
     ```
     The output should show some execution trace of the "Learn the Topology" algorithm in a ring of four processes.
 
@@ -56,17 +55,37 @@ You can also check the following code template:
 
 Some additional features are available optionally:
 
-* `json` enables a dump/load of any `Trace` object into a JSON string.
+* `json` enables serialization/deserialization of `Trace` objects to/from JSON strings using the `dump_json()` and `load_json()` methods.
 
-To enable a feature, (re-)install `dapy` using the following command (e.g., for the `json` feature):
+To use optional features in a user installation, install `dapy` with the optional dependencies:
 ```shell
-pip install --editable ".[json]"
+uv pip install -e ".[json]"
 ```
 
-### <a name="venv"></a> About virtual environments
+**Note**: During development, the `json` dependency is included in the dev group, so `uv sync --all-groups` will automatically install it for testing.
 
-The install warns that installing `dapy` directly may possibly result in dependencies conflicts, but the risk is actually very small in this case, since the package has no mandatory dependencies.
+### Development
 
-Although `pip` recommends to install this using `venv`, I personally install it on my regular python installation.  
+To contribute to the project:
 
-Nevertheless, should you want to protect your environment, you can follow instructions about installing it into a virtual environment, either [using `venv` directly](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) or [using it via `uv`](https://docs.astral.sh/uv/pip/environments/)
+1. Sync all dependencies including dev tools:
+    ```shell
+    uv sync --all-groups
+    ```
+
+2. Run tests:
+    ```shell
+    uv run pytest
+    ```
+
+3. Run linting and formatting:
+    ```shell
+    uv run ruff check src --fix
+    uv run ruff format src
+    ```
+
+4. Install pre-commit hooks:
+    ```shell
+    uv pip install pre-commit
+    pre-commit install
+    ```

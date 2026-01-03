@@ -12,16 +12,25 @@ from ..core import Algorithm, Channel, ChannelSet, Event, Message, Pid, ProcessS
 #
 @dataclass(frozen=True)
 class PositionMsg(Message):
+    """Message containing topology information from a process.
+    
+    Used to propagate knowledge of the network topology during the
+    learn topology algorithm.
+    
+    Attributes:
+        origin: The identifier of the process whose neighbors are being shared.
+        neighbors: The set of neighbor processes of the origin process.
+    """
     origin: Pid
     neighbors: ProcessSet = field(default_factory=ProcessSet)
 
 @dataclass(frozen=True)
 class Start(Signal):
-    pass
+    """Signal to initiate the topology learning algorithm in a process."""
 
 @dataclass(frozen=True)
 class GraphIsKnown(Signal):
-    """Event to signal that the graph is known."""
+    """Signal indicating that a process has learned the complete network topology."""
     pass
 
 
@@ -31,6 +40,14 @@ class GraphIsKnown(Signal):
 #
 @dataclass(frozen=True)
 class LearnState(State):
+    """State maintained by a process during the topology learning algorithm.
+    
+    Attributes:
+        neighbors_i: The set of neighbor processes (constant throughout execution).
+        proc_known_i: The set of processes whose existence this process has learned.
+        channels_known_i: The set of communication channels (directed edges) learned.
+        part_i: Boolean flag indicating if this process has started (participated).
+    """
     neighbors_i: ProcessSet = field(default_factory=ProcessSet)
     proc_known_i: ProcessSet = field(default_factory=ProcessSet)
     channels_known_i: ChannelSet = field(default_factory=ChannelSet)
@@ -43,15 +60,24 @@ class LearnState(State):
 # 
 @dataclass(frozen=True)
 class LearnGraphAlgorithm(Algorithm):
-    """
-    This algorithm learns the topology of the network.
+    """Algorithm for distributed learning of the network topology.
+    
+    This algorithm enables each process to learn the complete network topology
+    by having processes exchange their known neighbors. Each process initiates
+    by sending its neighbors to all neighbors, then forwards received information
+    to remaining neighbors until the complete graph is known.
+    
+    Attributes:
+        is_verbose: Enable verbose output of algorithm events. Defaults to False.
     """
     is_verbose: bool = False
     
     @property
     def name(self) -> str:
-        """
-        Return the name of the algorithm.
+        """Get the name of the algorithm.
+        
+        Returns:
+            The string "Learn the Topology".
         """
         return "Learn the Topology"
     
@@ -59,6 +85,14 @@ class LearnGraphAlgorithm(Algorithm):
     # Mandatory method: given a process id, create and return the initial state of that process.
     #
     def initial_state(self, pid: Pid) -> LearnState:
+        """Create the initial state for a process.
+        
+        Args:
+            pid: The process identifier.
+        
+        Returns:
+            A LearnState initialized with the process's neighbors from the topology.
+        """
         return LearnState(
             pid=pid,
             neighbors_i=self.system.topology.neighbors_of(pid),
@@ -71,6 +105,21 @@ class LearnGraphAlgorithm(Algorithm):
     # return the new state of the process and a list of events to be scheduled.
     #
     def on_event(self, old_state: LearnState, event: Event) -> tuple[LearnState, list[Event]]:
+        """Process an event and update the process state.
+        
+        Handles Start signals to initiate the algorithm, PositionMsg messages
+        to learn about other processes and channels, and GraphIsKnown signals.
+        
+        Args:
+            old_state: The current state of the process.
+            event: The event to process (Start, PositionMsg, or GraphIsKnown).
+        
+        Returns:
+            A tuple of (new_state, list_of_new_events) to send.
+        
+        Raises:
+            NotImplementedError: If an unknown event type is received.
+        """
         
         match event:
             
@@ -143,8 +192,16 @@ class LearnGraphAlgorithm(Algorithm):
     # (4)    part_i <- true
     # (5) end operation
     def _do_start(self, state: LearnState) -> tuple[LearnState, list[Event]]:
-        """
-        Handle the start of the algorithm.
+        """Initialize the topology learning process.
+        
+        Sends the process's initial neighbors to all neighbors and marks
+        the process as participating in the algorithm.
+        
+        Args:
+            state: The current state of the process.
+        
+        Returns:
+            A tuple of (updated_state, list_of_position_messages) to send.
         """
         events = [
             PositionMsg(target=neighbor, sender=state.pid, origin=state.pid, neighbors=state.neighbors_i)

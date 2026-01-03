@@ -1,13 +1,13 @@
 ## Generate API Documentation
 
-Install pdoc if necessary:
+Install pdoc (included in `dev` dependencies):
 ```shell
-pip install pdoc
+uv pip install pdoc
 ```
 
 Generate the docs:
 ```shell
-pdoc -o docs/api -d google src/dapy
+uv run pdoc -o docs/api -d google src/dapy
 ```
 
 Open the docs (using open command on Mac terminal):

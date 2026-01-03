@@ -86,7 +86,7 @@ To get back to the concrete example of Learn the Topology algorithm,
 
 ```python
 from dataclasses import dataclass
-from dapy.core import ProcessSet, Event
+from dapy.core import ProcessSet, Event, Pid
 from dapy.core import ProcessSet, ChannelSet, Channel
 from dapy.core import Algorithm
 
@@ -109,7 +109,7 @@ class LearnGraphAlgorithm(Algorithm):
     #
     # Mandatory method: given a process id, create and return the initial state of that process.
     #
-    def initial_state(self, pid) -> LearnState:
+    def initial_state(self, pid: Pid) -> LearnState:
         return LearnState(
             pid=pid,
             neighbors_i=self.system.topology.neighbors_of(pid),
@@ -149,7 +149,12 @@ class LearnGraphAlgorithm(Algorithm):
                     # add the new position to the state
                     new_state = new_state.cloned_with(
                         proc_known_i=new_state.proc_known_i + id,
-                        channels_known_i=new_state.channels_known_i + ChannelSet( Channel(id, neighbor) for neighbor in neighbors ),
+                        channels_known_i=(
+                            new_state.channels_known_i
+                            + ChannelSet(
+                                Channel(id, neighbor) for neighbor in neighbors
+                            )
+                        ),
                     )
                     # (10) for each id_y in neighbors_i \ {id_x} do
                     # (11)  send POSITION(id, neighbors) to id_y

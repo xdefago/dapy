@@ -20,4 +20,4 @@ from . import core
 from . import algo
 from . import sim
 
-__all__ = ['core', 'algo', 'sim']
+__all__ = ['algo', 'core', 'sim']

@@ -1,44 +1,21 @@
-[build-system]
-requires = ['setuptools>=78','wheel']
-
-# Commands:
-# - install
-#     `pip install -e .`
-#     `pip install -e ".[dev]"` (for development)
-# - tests
-#     `pytest`
-# - lint
-#     `ruff check src`
-# - imports
-#     `isort src`
-# - api docs
-#     `pdoc -o docs/api -d google src/dapy`
-
-
 [project]
 name = "dapy"
 version = "0.1.0"
-description = "A Python package simulating distributed algorithms."
 authors = [
     {name = "Xavier Défago", email = "defago@c.titech.ac.jp"},
 ]
+description = "A Python package simulating distributed algorithms."
 readme = "README.md"
 license = "MIT"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 
 keywords = ["distributed", "algorithms", "simulation"]
 
 dependencies = []
 
 [project.optional-dependencies]
-json = [ # enables JSON serialization
+json = [
     "classifiedjson >= 1.0.0",
-]
-test = ["pytest"]
-lint = ["ruff"]
-imports = ["isort"]
-dev = [
-    "dapy[test,lint,imports,json]",
 ]
 
 [project.urls]
@@ -46,26 +23,30 @@ homepage = "https://xdefago.github.io/dapy"
 documentation = "https://xdefago.github.io/dapy/api"
 repository = "https://github.com/xdefago/dapy.git"
 
-
-#
-# Build
-#
-
-[tool.setuptools]
-package-dir = {"" = "src"}
-
-#
-# Tests
-#
-
-[tool.pytest.ini_options]
-addopts = [
-    "--import-mode=importlib",
+[dependency-groups]
+dev = [
+    "pytest>=9.0",        # Testing framework
+    "black>=25.12",       # Code formatter
+    "isort>=7.0",         # Import sorter
+    "ruff>=0.14",         # Fast Python linter (Rust-based)
+    "pdoc>=16.0",         # Documentation generator
+    #
+    "dapy[json]",  # For testing with JSON serialization
 ]
 
-#
-# Lint
-#
+[tool.uv.workspace]
+members = ["dapy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "-v",
+    "--strict-markers",
+]
+markers = [
+    "parametrize: mark test to run with multiple parameter sets",
+]
 
 [tool.ruff]
 line-length = 120
@@ -87,18 +68,16 @@ select = [
 fixable = ["ALL"]
 ignore = ["ANN201", "ANN202", "ANN204", "I001", "RUF003"]
 
-
-#
-# isort (import sorting)
-# https://pycqa.github.io/isort/
-#
-
 [tool.isort]
-known_first_party = 'dapy'
+known_first_party = ["dapy"]
 ensure_newline_before_comments = true
 force_grid_wrap = 0
 include_trailing_comma = true
-line_length = 100
+line_length = 120
 lines_between_types = 1
 multi_line_output = 3
 use_parentheses = true
+
+[build-system]
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
