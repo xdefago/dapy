@@ -133,11 +133,25 @@ Additional features are available through optional dependencies:
 
 * **`json`** - Enables serialization/deserialization of `Trace` objects to/from JSON strings using `dump_json()` and `load_json()` methods.
 
+* **`ui`** - Installs the **dapyview** GUI trace viewer for interactive visualization of execution traces:
+  - Time-space diagrams showing process timelines, events, and messages
+  - Toggle between physical time and logical time (Lamport clocks)
+  - Interactive network topology minimap
+  - Zoom, rulers, and highlighting features
+  - See [src/dapyview/README.md](src/dapyview/README.md) for details
+
 To install dapy with optional dependencies:
 
 **Using uv:**
 ```shell
+# For JSON support only
 uv add "dapy[json] @ git+https://github.com/xdefago/dapy.git"
+
+# For GUI viewer (includes JSON support)
+uv add "dapy[ui] @ git+https://github.com/xdefago/dapy.git"
+
+# For both during development
+uv sync --group ui
 ```
 
 **Using pip:**

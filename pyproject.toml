@@ -1,6 +1,6 @@
 [project]
 name = "dapy"
-version = "0.2.0"
+version = "0.3.0"
 authors = [
     {name = "Xavier Défago", email = "defago@c.titech.ac.jp"},
 ]
@@ -15,8 +15,17 @@ dependencies = []
 
 [project.optional-dependencies]
 json = [
-    "classifiedjson >= 1.0.0",
+    "classifiedjson >= 1.1",
 ]
+ui = [
+    "PySide6 >= 6.10",
+    "networkx >= 3.6",
+    "numpy >= 2.4",
+    "classifiedjson >= 1.1",
+]
+
+[project.scripts]
+dapyview = "dapyview.main:main"
 
 [project.urls]
 homepage = "https://xdefago.github.io/dapy"
@@ -32,6 +41,12 @@ dev = [
     "pdoc>=16.0",         # Documentation generator
     #
     "dapy[json]",  # For testing with JSON serialization
+]
+ui = [
+    "PySide6 >= 6.10",
+    "networkx >= 3.6",
+    "numpy >= 2.4",
+    "classifiedjson >= 1.1",
 ]
 
 [tool.uv.workspace]
