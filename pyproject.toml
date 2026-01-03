@@ -1,6 +1,6 @@
 [project]
 name = "dapy"
-version = "0.1.0"
+version = "0.2.0"
 authors = [
     {name = "Xavier Défago", email = "defago@c.titech.ac.jp"},
 ]
