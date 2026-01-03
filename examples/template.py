@@ -68,8 +68,8 @@ class MyAlgorithm(Algorithm[MyState]):
         """
         # implement the algorithm logic here
         ...
-        new_state = old_state.cloned_with(...)
-        new_events = [...]
+        new_state = old_state.cloned_with(...)  # create the new state
+        new_events: list[Event] = [...]  # create any events to be scheduled
         ...
         return new_state, new_events
 
@@ -89,7 +89,7 @@ class MyAlgorithm(Algorithm[MyState]):
         """
         # Although the the state can be modified, the intention is mainly to provide a way to issue initial events.
         # This is not always needed, as the initial events can also be scheduled externally.
-        return init_state, [...]
+        return init_state, [...]  # possibly schedule some initial events
 
 
 
@@ -110,8 +110,8 @@ if __name__ == "__main__":
     # define the system (topology, synchrony model)
     #
     system = System(
-        topology= ...,
-        synchrony= ...,
+        topology= ...,  # e.g., RingTopology(num_processes=5)
+        synchrony= ..., # e.g., SynchronousModel()
     )
 
     #
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     # Start the simulation; all processes are initialized to their initial state 
     sim.start()
     # Possibly schedule some initial event(s)
-    sim.schedule_event(...)
+    sim.schedule_event(..., ...)  # e.g., sim.schedule_event(timedelta(seconds=0), MySignal(target=Pid(1)))
     # Run the algorithm until completion
     sim.run_to_completion()
 

@@ -13,19 +13,77 @@ This is a simple (simplistic) programming framework to simulate the execution of
 
 ## How to begin
 
+### For External Users (Using dapy as a library)
+
+If you want to use `dapy` in your own Python project without modifying the dapy source code:
+
+1. **Install dapy** from GitHub (dapy is not yet published to PyPI):
+   
+   **Using uv (recommended):**
+   ```shell
+   uv add "dapy @ git+https://github.com/xdefago/dapy.git"
+   ```
+   
+   **Using pip:**
+   ```shell
+   pip install git+https://github.com/xdefago/dapy.git
+   ```
+   
+   **Using poetry:**
+   ```shell
+   poetry add git+https://github.com/xdefago/dapy.git
+   ```
+
+2. **In your Python code**, import and use dapy components:
+   ```python
+   from dapy.core import Pid, System, Ring, Asynchronous, Algorithm, State, Event
+   from dapy.sim import Simulator, Settings
+   from dataclasses import dataclass
+   
+   # Define your algorithm by subclassing Algorithm
+   @dataclass(frozen=True)
+   class MyAlgorithm(Algorithm[MyState]):
+       # ... implement your algorithm
+       pass
+   
+   # Create and run a simulation
+   system = System(topology=Ring.of_size(4), synchrony=Asynchronous())
+   algorithm = MyAlgorithm(system)
+   sim = Simulator.from_system(system, algorithm)
+   sim.start()
+   sim.run_to_completion()
+   ```
+
+3. **See the documentation** for detailed examples:
+   - [How to write an algorithm](https://xdefago.github.io/dapy/sample-algorithm.html)
+   - [How to define an execution](https://xdefago.github.io/dapy/sample-execution.html)
+   - [API documentation](https://xdefago.github.io/dapy/api)
+
+### For Development / Contributing
+
+If you want to modify the dapy framework itself:
+
 The project is currently under active development with many changes to come in the near future.
-Therefore, it is not yet recommended to install it as a fixed module.
+Therefore, it is not yet recommended to rely on a fixed version during this period.
 
 ### Requirements
 
-It is recommended to use [uv](https://docs.astral.sh/uv/) for dependency management and building.
-The project requires Python 3.13 or higher which is installed in a virtual environment by `uv` automatically _(i.e., you have nothing to do if using `uv`)_.
+Python 3.13 or higher is required.
 
-### Setup: Initial steps
+**For external users:** A standard Python package manager (pip, uv, poetry, etc.) is sufficient.
 
-To use the environment, please follow the following steps:
+**For development:** It is recommended to use [uv](https://docs.astral.sh/uv/) for dependency management and building.
 
-1. Clone this repository.
+### Setup: For Development
+
+To set up a development environment to contribute to dapy:
+
+1. Clone this repository:
+    ```shell
+    git clone https://github.com/xdefago/dapy.git
+    cd dapy
+    ```
+
 2. Install `uv` if you haven't already:
     ```shell
     brew install uv # on Mac
@@ -36,7 +94,8 @@ To use the environment, please follow the following steps:
     ```shell
     uv sync --all-groups
     ```
-4. Check if the install worked properly by running an example:
+
+4. Verify the setup by running an example:
     ```shell
     uv run python examples/example.py
     ```
@@ -44,29 +103,54 @@ To use the environment, please follow the following steps:
 
 ### Getting Started
 
-Look at the two parts annotated example that explains:
-* [How to write an algorithm](docs/sample-algorithm.md)
-* [How to define an execution](docs/sample-execution.md)
+For a comprehensive tutorial on using dapy, see the annotated examples:
 
-You can also check the following code template:
-* [`examples/template.py`](examples/template.py)
+* **[Quickstart Guide](QUICKSTART.md)** - Get up and running in 5 minutes (recommended for new users)
+* **[Part 1: How to write an algorithm](docs/sample-algorithm.md)** - Learn how to define the state, messages/signals, and algorithm logic
+* **[Part 2: How to define an execution](docs/sample-execution.md)** - Learn how to set up and run simulations
+* **[Template](examples/template.py)** - A complete code template to start your own algorithm
+* **[API Documentation](https://xdefago.github.io/dapy/api)** - Full API reference for all dapy classes
 
-### Optional dependencies
+### Core Concepts & API Reference
 
-Some additional features are available optionally:
+**Core Modules:**
+- **`dapy.core`** - Core abstractions (State, Algorithm, Event, Message, Signal, Pid, ProcessSet, ChannelSet, System, Topology)
+- **`dapy.sim`** - Simulation engine (Simulator, Trace, Configuration, Settings)
+- **`dapy.algo`** - Built-in algorithms (e.g., LearnGraphAlgorithm for topology learning)
 
-* `json` enables serialization/deserialization of `Trace` objects to/from JSON strings using the `dump_json()` and `load_json()` methods.
+**Key Classes:**
+- `Algorithm[StateT]` - Base class for distributed algorithms. Subclass this with your state type and implement:
+  - `initial_state(pid: Pid) -> StateT` - Create initial state
+  - `on_event(old_state: StateT, event: Event) -> tuple[StateT, Sequence[Event]]` - Handle events
+- `System` - Defines network topology and synchrony model
+- `Simulator` - Runs the simulation and collects execution traces
+- `State` - Base class for process states (must be immutable, frozen dataclass)
+- `Event`, `Message`, `Signal` - Event types for inter-process communication
 
-To use optional features in a user installation, install `dapy` with the optional dependencies:
+### Optional Dependencies
+
+Additional features are available through optional dependencies:
+
+* **`json`** - Enables serialization/deserialization of `Trace` objects to/from JSON strings using `dump_json()` and `load_json()` methods.
+
+To install dapy with optional dependencies:
+
+**Using uv:**
 ```shell
-uv pip install -e ".[json]"
+uv add "dapy[json] @ git+https://github.com/xdefago/dapy.git"
 ```
 
-**Note**: During development, the `json` dependency is included in the dev group, so `uv sync --all-groups` will automatically install it for testing.
+**Using pip:**
+```shell
+pip install "git+https://github.com/xdefago/dapy.git#egg=dapy[json]"
+```
 
-### Development
+**Using poetry:**
+```shell
+poetry add dapy[json] @ git+https://github.com/xdefago/dapy.git
+```
 
-To contribute to the project:
+### Contributing to dapy Development
 
 1. Sync all dependencies including dev tools:
     ```shell
