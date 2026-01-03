@@ -20,6 +20,13 @@ class Algorithm(ABC, Generic[StateT]):
     This class defines the interface for distributed algorithms that can be
     simulated using the dapy framework.
     
+    Algorithm Naming and Description:
+        Subclasses can override class variables `algorithm_name` and `algorithm_description`
+        to provide metadata that appears in traces and the viewer UI:
+        - If `algorithm_name` is None, the class name is used (via the `name` property)
+        - If `algorithm_description` is None or empty, it's extracted from the class
+          docstring, excluding API documentation sections (via the `description` property)
+    
     Class Variables:
         algorithm_name: Optional name for the algorithm. If None, the class name is used.
         algorithm_description: Optional description. If None, extracted from docstring.

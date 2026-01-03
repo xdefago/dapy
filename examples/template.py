@@ -41,11 +41,16 @@ class MySignal(Signal):
 #
 @dataclass(frozen=True)
 class MyAlgorithm(Algorithm[MyState]):
-    """
-    This algorithm does something.
+    """Brief description of what this algorithm does.
+    
+    The description is automatically extracted from this docstring.
     """
     # inherited from Algorithm
     #   system: System
+    
+    # Optional class variables for metadata (appear in traces and viewer)
+    # algorithm_name: Optional[str] = "My Algorithm"  # defaults to class name if not set
+    # algorithm_description: Optional[str] = None  # defaults to the description in docstring if not set
     
     #
     # Mandatory method: given a process id, create and return the initial state of that process.
@@ -79,13 +84,6 @@ class MyAlgorithm(Algorithm[MyState]):
     #
     # Optional methods
     #
-    
-    @property
-    def name(self) -> str:
-        """
-        Return the name of the algorithm.
-        """
-        return "My Algorithm"
     
     def on_start(self, init_state: MyState) -> tuple[MyState, Sequence[Event]]:
         """Given the initial state of a process, return a modified state and a sequence of events to be scheduled.

@@ -67,12 +67,13 @@ class Trace:
     
     A trace records both the events (messages and signals) exchanged between
     processes and the system configurations at various time points during
-    the simulation.
+    the simulation. Trace files are self-documenting with algorithm metadata,
+    allowing viewing without access to the original algorithm implementation.
     
     Attributes:
         system: The distributed system being simulated.
-        algorithm_name: The name of the algorithm being executed.
-        algorithm_description: Description of the algorithm.
+        algorithm_name: The name of the algorithm (from Algorithm.name property).
+        algorithm_description: Description of the algorithm (from Algorithm.description property).
         synchrony_model_name: Name of the synchrony model used.
         synchrony_model_params: Parameters of the synchrony model.
         trace_format_version: Version of the trace format (for compatibility).

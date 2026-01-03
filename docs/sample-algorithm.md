@@ -78,7 +78,7 @@ This is done by defining a subclass of `Algorithm` with at least two methods def
 
 The base class `Algorithm` defines a field `system` that holds information about the system (or at least where a process can find the information that is implicitly known, such as its neighbors).
 
-The base class defines a property function `name` that can be optionally overridden to give a name to the algorithm (the class name is used by default).
+The base class defines properties `name` and `description` that use class variables `algorithm_name` and `algorithm_description` if set, or fall back to the class name and docstring respectively. Subclasses can optionally set these class variables for metadata that appears in traces and the viewer.
 
 The base class defines also a function `on_start` that can be optionally overridden to be called with the initial state and that can optionally issue some events initially. By default, the method does nothing.
 
@@ -86,7 +86,7 @@ To get back to the concrete example of Learn the Topology algorithm,
 
 ```python
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Optional, Sequence
 
 from dapy.core import ProcessSet, Event, Pid
 from dapy.core import ProcessSet, ChannelSet, Channel
@@ -97,16 +97,14 @@ from dapy.core import Algorithm
 # 
 @dataclass(frozen=True)
 class LearnGraphAlgorithm(Algorithm[LearnState]):
-    """
-    This algorithm learns the topology of the network.
-    """
+    """Algorithm for distributed learning of the network topology.
     
-    @property
-    def name(self) -> str:
-        """
-        Return the name of the algorithm.
-        """
-        return "Learn the Topology"
+    This algorithm enables each process to learn the complete network topology
+    by having processes exchange their known neighbors.
+    """
+    # Optional: set algorithm name (defaults to class name if not set)
+    algorithm_name: Optional[str] = "Learn the Topology"
+    # algorithm_description is automatically extracted from docstring if not set
     
     #
     # Mandatory method: given a process id, create and return the initial state of that process.

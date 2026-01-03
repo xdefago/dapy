@@ -43,6 +43,8 @@ If you want to use `dapy` in your own Python project without modifying the dapy 
    # Define your algorithm by subclassing Algorithm
    @dataclass(frozen=True)
    class MyAlgorithm(Algorithm[MyState]):
+       """Brief description of the algorithm."""
+       algorithm_name: str = "My Algorithm"  # Optional: defaults to class name
        # ... implement your algorithm
        pass
    
