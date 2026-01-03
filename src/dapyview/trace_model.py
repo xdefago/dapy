@@ -5,7 +5,7 @@ from typing import Optional
 
 import networkx as nx
 from dapy.core import Pid
-from dapy.core.event import Message
+from dapy.core.event import Message, Event
 from dapy.sim import Trace
 
 
@@ -97,6 +97,7 @@ class TraceModel:
         temp_events: list[tuple[EventNode, float]] = []  # (event, send_time for messages)
         
         for idx, (start, end, event, orig_idx) in enumerate(raw_events):
+            assert isinstance(event, Event), "Only Event instances are supported in trace."
             is_message = isinstance(event, Message)
             sender = event.sender if is_message else None
             target = event.target
