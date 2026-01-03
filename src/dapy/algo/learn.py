@@ -6,7 +6,7 @@ This module implements the "Learn the Topology" algorithm, from the .
 """
 
 from dataclasses import dataclass, field
-from typing import Sequence
+from typing import Optional, Sequence
 
 from ..core import Algorithm, Channel, ChannelSet, Event, Message, Pid, ProcessSet, Signal, State
 
@@ -74,16 +74,11 @@ class LearnGraphAlgorithm(Algorithm[LearnState]):
     Attributes:
         is_verbose: Enable verbose output of algorithm events. Defaults to False.
     """
-    is_verbose: bool = False
+    # Class-level metadata
+    algorithm_name: Optional[str] = "Learn the Topology"
+    # algorithm_description is intentionally not set - will be extracted from docstring
     
-    @property
-    def name(self) -> str:
-        """Get the name of the algorithm.
-        
-        Returns:
-            The string "Learn the Topology".
-        """
-        return "Learn the Topology"
+    is_verbose: bool = False
     
     #
     # Mandatory method: given a process id, create and return the initial state of that process.

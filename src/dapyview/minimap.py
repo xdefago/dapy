@@ -133,6 +133,24 @@ class MinimapWidget(QWidget):
         
         # Draw nodes
         self._draw_nodes(painter)
+        
+        # Draw synchrony model label at bottom
+        self._draw_synchrony_label(painter)
+    
+    def _draw_synchrony_label(self, painter: QPainter) -> None:
+        """Draw synchrony model label at the bottom of the minimap."""
+        font = QFont("Arial", 8)
+        painter.setFont(font)
+        painter.setPen(QPen(QColor(60, 60, 60)))
+        
+        # Get synchrony model name
+        sync_name = self.model.synchrony_model_name
+        
+        # Draw centered at bottom
+        text_rect = painter.fontMetrics().boundingRect(sync_name)
+        x = (self.width() - text_rect.width()) // 2
+        y = self.height() - 8
+        painter.drawText(x, y, sync_name)
     
     def _draw_drag_handle(self, painter: QPainter) -> None:
         """Draw a small drag handle in the corner to indicate draggability."""

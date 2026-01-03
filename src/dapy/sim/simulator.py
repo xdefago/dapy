@@ -46,7 +46,29 @@ class Simulator:
         Sets up tracing if enabled in the settings.
         """
         if self.settings.enable_trace:
-            self.trace = Trace(system=self.system, algorithm_name=self.algorithm.name)
+            # Extract synchrony model information
+            sync_model = self.system.synchrony
+            sync_name = type(sync_model).__name__
+            sync_params = {}
+            
+            # Extract parameters based on synchrony model type
+            if hasattr(sync_model, 'fixed_delay'):
+                sync_params['fixed_delay'] = str(sync_model.fixed_delay)
+            if hasattr(sync_model, 'max_delay'):
+                sync_params['max_delay'] = str(sync_model.max_delay)
+            if hasattr(sync_model, 'delta_t'):
+                sync_params['delta_t'] = str(sync_model.delta_t)
+            if hasattr(sync_model, 'min_delay'):
+                sync_params['min_delay'] = str(sync_model.min_delay)
+            
+            self.trace = Trace(
+                system=self.system,
+                algorithm_name=self.algorithm.name,
+                algorithm_description=self.algorithm.description,
+                synchrony_model_name=sync_name,
+                synchrony_model_params=sync_params,
+                trace_format_version="1.0"
+            )
     
     @classmethod
     def from_system(cls,

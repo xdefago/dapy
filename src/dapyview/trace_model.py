@@ -50,6 +50,13 @@ class TraceModel:
         """
         self.trace = trace
         
+        # Metadata from trace
+        self.algorithm_name = trace.algorithm_name
+        self.algorithm_description = trace.algorithm_description if hasattr(trace, 'algorithm_description') else ""
+        self.synchrony_model_name = trace.synchrony_model_name if hasattr(trace, 'synchrony_model_name') else "Unknown"
+        self.synchrony_model_params = trace.synchrony_model_params if hasattr(trace, 'synchrony_model_params') else {}
+        self.trace_format_version = trace.trace_format_version if hasattr(trace, 'trace_format_version') else "1.0"
+        
         # Extract processes
         self.processes: set[Pid] = set()
         

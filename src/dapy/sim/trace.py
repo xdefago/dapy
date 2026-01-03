@@ -72,11 +72,19 @@ class Trace:
     Attributes:
         system: The distributed system being simulated.
         algorithm_name: The name of the algorithm being executed.
+        algorithm_description: Description of the algorithm.
+        synchrony_model_name: Name of the synchrony model used.
+        synchrony_model_params: Parameters of the synchrony model.
+        trace_format_version: Version of the trace format (for compatibility).
         history: List of system configurations at specific time points.
         events_list: List of timed events during the simulation.
     """
     system: System
     algorithm_name: str
+    algorithm_description: str = ""
+    synchrony_model_name: str = ""
+    synchrony_model_params: dict[str, str] = field(default_factory=dict)
+    trace_format_version: str = "1.0"
     
     history: list[TimedConfiguration] = field(default_factory=list)
     events_list: list[LocalTimedEvent] = field(default_factory=list)

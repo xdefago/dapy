@@ -55,6 +55,20 @@ class TraceToolbar(QToolBar):
         self.ruler_button = QPushButton("Add Ruler")
         self.ruler_button.clicked.connect(self.ruler_requested.emit)
         self.addWidget(self.ruler_button)
+        
+        self.addSeparator()
+        
+        # Algorithm name label (will be set later)
+        self.algorithm_label = QLabel("")
+        self.addWidget(self.algorithm_label)
+    
+    def set_algorithm_name(self, name: str) -> None:
+        """Set the algorithm name to display in the toolbar.
+        
+        Args:
+            name: The name of the algorithm.
+        """
+        self.algorithm_label.setText(name)
     
     def _on_time_mode_changed(self, state: int) -> None:
         """Handle time mode checkbox change."""

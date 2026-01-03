@@ -145,6 +145,7 @@ class TraceWindow(QMainWindow):
         
         # Add toolbar
         self.toolbar = TraceToolbar()
+        self.toolbar.set_algorithm_name(self.model.algorithm_name)
         layout.addWidget(self.toolbar)
         
         # Main trace canvas (fills remaining space)
