@@ -3,6 +3,8 @@
 # Windows thumbnail cache files
 Thumbs.db
 
+tmp/
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
