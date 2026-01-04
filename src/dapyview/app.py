@@ -10,7 +10,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QFileDialog, QMainWindow, QMdiArea, QMenuBar, QMessageBox
 
-from .trace_window import TraceWindow
+from dapyview.trace_window import TraceWindow
 
 
 class TraceViewerApp(QMainWindow):

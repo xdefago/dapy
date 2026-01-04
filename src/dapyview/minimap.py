@@ -13,7 +13,7 @@ from PySide6.QtWidgets import QWidget
 import networkx as nx
 from dapy.core import Pid
 
-from .trace_model import TraceModel
+from dapyview.trace_model import TraceModel
 
 
 class Corner(Enum):

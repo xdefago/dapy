@@ -3,8 +3,13 @@
 
 """Package initialization for dapyview."""
 
-__version__ = "0.1.0"
+try:
+    from importlib.metadata import version
+    __version__ = version("dapy")  # Read version from pyproject.toml
+except Exception:
+    __version__ = "0.0.0"  # Fallback if not installed
+
 __all__ = ["TraceViewerApp", "TraceWindow"]
 
-from .app import TraceViewerApp
-from .trace_window import TraceWindow
+from dapyview.app import TraceViewerApp
+from dapyview.trace_window import TraceWindow

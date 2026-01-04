@@ -19,10 +19,10 @@ try:
 except ImportError:
     pass  # Module might not be available
 
-from .trace_model import TraceModel
-from .trace_canvas import TraceCanvas
-from .minimap import MinimapWidget, Corner
-from .toolbar import TraceToolbar
+from dapyview.trace_model import TraceModel
+from dapyview.trace_canvas import TraceCanvas
+from dapyview.minimap import MinimapWidget, Corner
+from dapyview.toolbar import TraceToolbar
 
 
 class TraceWindow(QMainWindow):

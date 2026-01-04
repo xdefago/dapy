@@ -10,7 +10,7 @@ from pathlib import Path
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMessageBox
 
-from .trace_window import TraceWindow
+from dapyview.trace_window import TraceWindow
 
 
 def main() -> int:
@@ -20,11 +20,11 @@ def main() -> int:
         Exit code (0 for success, non-zero for error).
     """
     # Enable high DPI scaling for Retina displays
+    # Note: AA_EnableHighDpiScaling and AA_UseHighDpiPixmaps are deprecated in Qt6
+    # High DPI scaling is now enabled by default
     QApplication.setHighDpiScaleFactorRoundingPolicy(
         Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
     )
-    QApplication.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
-    QApplication.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
     
     parser = argparse.ArgumentParser(
         prog='dapyview',

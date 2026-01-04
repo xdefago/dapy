@@ -39,6 +39,7 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+!dapyview.spec  # But keep our custom spec file
 
 # Installer logs
 pip-log.txt

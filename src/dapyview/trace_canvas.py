@@ -12,7 +12,7 @@ from PySide6.QtWidgets import QWidget, QScrollArea, QVBoxLayout, QToolTip, QSize
 
 from dapy.core import Pid
 
-from .trace_model import TraceModel, EventNode, MessageEdge
+from dapyview.trace_model import TraceModel, EventNode, MessageEdge
 
 # ============================================================================
 # Color Constants
