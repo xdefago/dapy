@@ -4,18 +4,25 @@
 """Canvas widget for rendering time-space diagram."""
 
 import math
-from typing import Optional, Set, List
+from typing import List, Optional, Set
 
-from PySide6.QtCore import Qt, QPointF, Signal, QSize
+from PySide6.QtCore import QPointF, QSize, Qt, Signal
 from PySide6.QtGui import (
-    QPainter, QPen, QBrush, QColor, QPainterPath, QFont, QFontMetrics,
-    QPaintEvent, QResizeEvent, QMouseEvent
+    QBrush,
+    QColor,
+    QFont,
+    QFontMetrics,
+    QMouseEvent,
+    QPainter,
+    QPainterPath,
+    QPaintEvent,
+    QPen,
+    QResizeEvent,
 )
-from PySide6.QtWidgets import QWidget, QScrollArea, QToolTip, QSizePolicy
+from PySide6.QtWidgets import QScrollArea, QSizePolicy, QToolTip, QWidget
 
 from dapy.core import Pid
-
-from dapyview.trace_model import TraceModel, EventNode, MessageEdge
+from dapyview.trace_model import EventNode, MessageEdge, TraceModel
 
 # ============================================================================
 # Color Constants

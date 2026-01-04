@@ -9,7 +9,7 @@ Or: uv run python -m my_algo.run_my_algo
 """
 
 
-from dapy.core import System, Ring, Asynchronous
+from dapy.core import Asynchronous, Ring, System
 from dapy.sim import Settings
 
 # Import your algorithm components
@@ -17,7 +17,7 @@ from dapy.sim import Settings
 # from .algorithm import MyAlgorithm, MySignal
 
 
-def main():
+def main() -> None:
     """Run your algorithm simulation."""
     
     # ========================================================================

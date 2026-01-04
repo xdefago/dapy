@@ -19,8 +19,6 @@ Using this library consists of two main steps:
 2. Simulating the algorithm using the simulation framework.
 """
 
-from . import core
-from . import algo
-from . import sim
+from . import algo, core, sim
 
 __all__ = ['algo', 'core', 'sim']

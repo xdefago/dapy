@@ -8,13 +8,13 @@ Or: uv run python -m broadcast.run_bcast
 from datetime import timedelta
 from pathlib import Path
 
-from dapy.core import System, Ring, Asynchronous, Pid
-from dapy.sim import Simulator, Settings
+from dapy.core import Asynchronous, Pid, Ring, System
+from dapy.sim import Settings, Simulator
 
 from .algo.algorithm import BroadcastAlgorithm, Start
 
 
-def main():
+def main() -> None:
     """Run the broadcast algorithm simulation."""
     
     # ========================================================================

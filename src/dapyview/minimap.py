@@ -3,17 +3,15 @@
 
 """Minimap widget showing network topology."""
 
-from typing import Dict, Set, Optional
 from enum import Enum
-
-from PySide6.QtCore import Qt, QPointF, Signal, QPoint
-from PySide6.QtGui import QMouseEvent
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPaintEvent
-from PySide6.QtWidgets import QWidget
+from typing import Dict, Optional, Set
 
 import networkx as nx
-from dapy.core import Pid
+from PySide6.QtCore import QPoint, QPointF, Qt, Signal
+from PySide6.QtGui import QBrush, QColor, QFont, QMouseEvent, QPainter, QPaintEvent, QPen
+from PySide6.QtWidgets import QWidget
 
+from dapy.core import Pid
 from dapyview.trace_model import TraceModel
 
 

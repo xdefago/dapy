@@ -3,11 +3,11 @@
 
 """Test suite for network topology implementations."""
 
-import pytest
 from typing import Optional
 
-from dapy.core.topology import Pid, ProcessSet, Channel, NetworkTopology, CompleteGraph, Ring, Star, Arbitrary
+import pytest
 
+from dapy.core.topology import Arbitrary, Channel, CompleteGraph, NetworkTopology, Pid, ProcessSet, Ring, Star
 
 # Helper functions for topology validation
 

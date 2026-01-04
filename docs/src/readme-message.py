@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: MIT
 
 from dataclasses import dataclass, field
-from dapy.core import Pid, ProcessSet, Message, Signal
+
+from dapy.core import Message, Pid, ProcessSet, Signal
+
 
 #
 # Messages and signals used in the algorithm.

@@ -1,8 +1,9 @@
 """Test loading the trace file."""
 
 import sys
-from dapy.sim import Trace
 from pathlib import Path
+
+from dapy.sim import Trace
 
 trace_file = Path('examples/sample_trace.json')
 print(f'Loading: {trace_file}')

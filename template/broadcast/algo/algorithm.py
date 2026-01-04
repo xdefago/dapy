@@ -8,6 +8,7 @@ broadcasts a value to all processes in the network.
 
 from dataclasses import dataclass, field
 from typing import Sequence
+
 from dapy.core import (
     Algorithm,
     Event,
@@ -16,7 +17,6 @@ from dapy.core import (
     Signal,
     State,
 )
-
 
 # ============================================================================
 # State Definition

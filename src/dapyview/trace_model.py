@@ -7,8 +7,9 @@ from dataclasses import dataclass, field
 from typing import Optional, Self
 
 import networkx as nx
+
 from dapy.core import Pid
-from dapy.core.event import Message, Event
+from dapy.core.event import Event, Message
 from dapy.sim import Trace
 
 

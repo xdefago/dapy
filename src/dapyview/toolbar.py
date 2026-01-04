@@ -3,11 +3,14 @@
 
 """Toolbar widget for trace viewer controls."""
 
-from PySide6.QtCore import Signal
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
-    QToolBar, QLabel, QSlider, QPushButton, QCheckBox,
+    QCheckBox,
+    QLabel,
+    QPushButton,
+    QSlider,
+    QToolBar,
 )
-from PySide6.QtCore import Qt
 
 
 class TraceToolbar(QToolBar):

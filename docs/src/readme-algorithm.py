@@ -4,9 +4,9 @@
 from dataclasses import dataclass
 from typing import Sequence
 
-from dapy.core import ProcessSet, ChannelSet, Channel, Pid
-from dapy.core import Algorithm, Event
-from dapy.algo.learn import Start, PositionMsg, GraphIsKnown, LearnState
+from dapy.algo.learn import GraphIsKnown, LearnState, PositionMsg, Start
+from dapy.core import Algorithm, Channel, ChannelSet, Event, Pid, ProcessSet
+
 
 #
 # The algorithm itself.

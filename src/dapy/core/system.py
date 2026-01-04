@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import random
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import time, timedelta

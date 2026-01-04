@@ -4,12 +4,13 @@ Tests for the broadcast algorithm
 Run with: uv run pytest
 """
 
-from dapy.core import System, Ring, Asynchronous, Pid
-from dapy.sim import Simulator, Settings
-from broadcast.algo.algorithm import BroadcastAlgorithm, Start, BroadcastState
+from broadcast.algo.algorithm import BroadcastAlgorithm, BroadcastState, Start
+
+from dapy.core import Asynchronous, Pid, Ring, System
+from dapy.sim import Settings, Simulator
 
 
-def test_broadcast_reaches_all_processes():
+def test_broadcast_reaches_all_processes() -> None:
     """Test that broadcast value reaches all processes in a ring."""
     # Setup
     system = System(topology=Ring.of_size(5), synchrony=Asynchronous())
@@ -34,7 +35,7 @@ def test_broadcast_reaches_all_processes():
         assert state.value == 42, f"Process {pid} should have value 42"
 
 
-def test_initial_state():
+def test_initial_state() -> None:
     """Test that initial state is correctly set."""
     system = System(topology=Ring.of_size(3), synchrony=Asynchronous())
     algorithm = BroadcastAlgorithm(system)
@@ -47,7 +48,7 @@ def test_initial_state():
     assert len(initial.received_from) == 0
 
 
-def test_algorithm_name():
+def test_algorithm_name() -> None:
     """Test that algorithm has correct name."""
     system = System(topology=Ring.of_size(3), synchrony=Asynchronous())
     algorithm = BroadcastAlgorithm(system)

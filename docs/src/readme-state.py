@@ -2,7 +2,9 @@
 # SPDX-License-Identifier: MIT
 
 from dataclasses import dataclass, field
-from dapy.core import State, ProcessSet, ChannelSet
+
+from dapy.core import ChannelSet, ProcessSet, State
+
 
 #
 # State of a process in the algorithm.

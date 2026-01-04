@@ -3,11 +3,12 @@
 
 """Generate a sample trace file for testing the dapyview GUI."""
 
-from dapy.core import Pid, System, Ring, Asynchronous
-from dapy.algo.learn import LearnGraphAlgorithm, Start
-from dapy.sim import Simulator, Settings
 from datetime import timedelta
 from pathlib import Path
+
+from dapy.algo.learn import LearnGraphAlgorithm, Start
+from dapy.core import Asynchronous, Pid, Ring, System
+from dapy.sim import Settings, Simulator
 
 # Enable trace collection
 settings = Settings(enable_trace=True)

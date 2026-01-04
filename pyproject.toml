@@ -80,7 +80,9 @@ select = [
     "RUF", # ruff-specific rules
 ]
 fixable = ["ALL"]
-ignore = ["ANN201", "ANN202", "ANN204", "I001", "RUF003"]
+ignore = [
+    "RUF003",  # Allow mathematical Unicode symbols (e.g., ∪ for set union) in pseudocode comments
+]
 
 [tool.isort]
 known_first_party = ["dapy"]

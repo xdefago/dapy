@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import ClassVar
 
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QAction, QResizeEvent, QCloseEvent
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFileDialog, QMessageBox
+from PySide6.QtGui import QAction, QCloseEvent, QResizeEvent
+from PySide6.QtWidgets import QFileDialog, QMainWindow, QMessageBox, QVBoxLayout, QWidget
 
 from dapy.sim import Trace
 
@@ -19,10 +19,10 @@ try:
 except ImportError:
     pass  # Module might not be available
 
-from dapyview.trace_model import TraceModel
-from dapyview.trace_canvas import TraceCanvas
-from dapyview.minimap import MinimapWidget, Corner
+from dapyview.minimap import Corner, MinimapWidget
 from dapyview.toolbar import TraceToolbar
+from dapyview.trace_canvas import TraceCanvas
+from dapyview.trace_model import TraceModel
 
 
 class TraceWindow(QMainWindow):

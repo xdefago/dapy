@@ -3,13 +3,14 @@
 
 """Shared pytest fixtures and configuration for dapy tests."""
 
-import pytest
 from datetime import timedelta
 from typing import Optional
 
-from dapy.core import Pid, System, Ring, Synchronous
+import pytest
+
 from dapy.algo.learn import LearnGraphAlgorithm, Start
-from dapy.sim import Simulator, Settings, Trace
+from dapy.core import Pid, Ring, Synchronous, System
+from dapy.sim import Settings, Simulator, Trace
 
 
 @pytest.fixture

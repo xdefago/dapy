@@ -3,13 +3,13 @@
 
 """Dapy Trace Viewer - Main Application Entry Point."""
 
-import sys
 import argparse
+import sys
 from pathlib import Path
 from typing import List
 
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QMessageBox, QFileDialog
+from PySide6.QtWidgets import QApplication, QFileDialog, QMessageBox
 
 from dapyview.trace_window import TraceWindow
 

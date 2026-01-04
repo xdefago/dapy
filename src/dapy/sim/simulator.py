@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: MIT
 
 import heapq
-
 from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Optional, Self
