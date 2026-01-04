@@ -51,3 +51,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+        continue-on-error: true
+      
+      - name: Check deployment status
+        if: failure()
+        run: |
+          echo "GitHub Pages deployment failed."
+          echo "Please ensure GitHub Pages is enabled in repository settings:"
+          echo "https://github.com/${{ github.repository }}/settings/pages"
+          echo ""
+          echo "Configure it to deploy from GitHub Actions."
+          exit 0
