@@ -5,6 +5,13 @@ Thumbs.db
 
 tmp/
 
+# Traces
+traces/*.json
+traces/*.pkl
+traces/*.pickle
+!traces/.gitkeep
+
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/

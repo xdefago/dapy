@@ -30,10 +30,10 @@ sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
 sim.run_to_completion()
 assert sim.trace is not None
 
-# Save the trace to a pickle file
-trace_file = Path(__file__).parent.parent / "traces" / "sample_trace.pkl"
-trace_data = sim.trace.dump_pickle()
-trace_file.write_bytes(trace_data)
+# Save the trace to a JSON file
+trace_file = Path(__file__).parent.parent / "traces" / "sample_trace.json"
+trace_json = sim.trace.dump_json()
+trace_file.write_text(trace_json)
 
 print(f"Trace saved to: {trace_file}")
 print(f"Events: {len(sim.trace.events_list)}")
