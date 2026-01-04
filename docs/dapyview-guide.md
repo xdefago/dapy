@@ -17,16 +17,17 @@
 
 ## Quick Start
 
-**For users who have dapy already installed:**
+**Prerequisites**: Dapy installed from GitHub (includes dapyview):
 
-1. **Install dapyview** (if not already installed):
-   ```bash
-   uv add "dapy[ui] @ git+https://github.com/xdefago/dapy.git"
-   # or using pip:
-   pip install "git+https://github.com/xdefago/dapy.git#egg=dapy[ui]"
-   ```
+```bash
+pip install "git+https://github.com/xdefago/dapy.git"
+```
 
-2. **Run your algorithm and save a trace:**
+**Or** download standalone dapyview from [GitHub Releases](https://github.com/xdefago/dapy/releases) (no Python needed).
+
+---
+
+1. **Run your algorithm and save a trace:**
    ```python
    from dapy.sim import Simulator
    # ... create your system and algorithm ...
@@ -36,7 +37,7 @@
    sim.save_trace("my_trace.json")
    ```
 
-3. **Launch the viewer:**
+2. **Launch the viewer:**
    ```bash
    dapyview my_trace.json
    ```
@@ -47,26 +48,27 @@
 
 ### Prerequisites
 
-- Python 3.13 or higher
-- A package manager: `uv` (recommended), `pip`, or `poetry`
+- Python 3.11 or higher
 
-### Installing Dapyview
-
-Dapyview is part of the Dapy framework and requires the `ui` optional dependencies.
-
-**Using uv (recommended):**
-```bash
-uv add "dapy[ui] @ git+https://github.com/xdefago/dapy.git"
-```
+### Installing Dapy (includes Dapyview)
 
 **Using pip:**
 ```bash
-pip install "git+https://github.com/xdefago/dapy.git#egg=dapy[ui]"
+pip install "git+https://github.com/xdefago/dapy.git"
 ```
 
-**Using poetry:**
+**Using uv (recommended):**
 ```bash
-poetry add "dapy[ui] @ git+https://github.com/xdefago/dapy.git"
+uv add "dapy @ git+https://github.com/xdefago/dapy.git"
+```
+
+This installs both the dapy framework and dapyview GUI viewer. The `dapyview` command will be available in your environment.
+
+**For developers** modifying dapy itself:
+```bash
+git clone https://github.com/xdefago/dapy.git
+cd dapy
+pip install --editable .
 ```
 
 **For development:**
@@ -491,10 +493,16 @@ Contributions welcome at: https://github.com/xdefago/dapy
 
 **Problem**: `dapyview` command not found
 ```bash
-# Solution: Ensure dapy[ui] is installed
-pip install "git+https://github.com/xdefago/dapy.git#egg=dapy[ui]"
-# Or verify installation path
+# Solution 1: Install dapy from GitHub
+pip install "git+https://github.com/xdefago/dapy.git"
+
+# Solution 2: Use standalone executable
+# Download from: https://github.com/xdefago/dapy/releases
+# No Python installation required
+
+# Verify installation
 which dapyview
+dapyview --version
 ```
 
 **Problem**: Qt/PySide6 errors

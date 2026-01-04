@@ -31,13 +31,49 @@ Dapy is split into two independent parts:
 
 ### Installation
 
-```bash
-# Install dapy (framework only)
-uv add dapy
+Dapy is currently under active development and not yet published on PyPI.
 
-# Install dapy with visualization support
-uv add "dapy[ui]"
+**Recommended: Use the Template Repository**
+
+The fastest way to get started is using our project template:
+
+1. **Get the template**:
+   - [Download the template](https://github.com/xdefago/dapy/tree/main/template) or copy it from the dapy repository
+   - It includes pre-configured project structure, example algorithm, and ready-to-use setup
+
+2. **Install dependencies**:
+   ```bash
+   cd my-algorithm-project
+   uv sync
+   ```
+
+3. **Run the example**:
+   ```bash
+   python -m src.my_algo.run
+   dapyview traces/broadcast_trace.json
+   ```
+
+See the [template README](https://github.com/xdefago/dapy/blob/main/template/README.md) for complete instructions.
+
+**Alternative: Install dapy as a dependency**
+
+For existing projects, install dapy directly from GitHub:
+
+```bash
+# Using uv (recommended)
+uv add "dapy @ git+https://github.com/xdefago/dapy.git"
+
+# Or using pip
+pip install "git+https://github.com/xdefago/dapy.git"
 ```
+
+This installs:
+- The `dapy` library for writing and simulating distributed algorithms
+- The `dapyview` GUI viewer (included automatically)
+
+**For dapy developers** who want to modify dapy itself:
+
+See the [Developer Documentation](DEVELOPERS.md) for setup with editable install.
 
 ### Your First Algorithm
 

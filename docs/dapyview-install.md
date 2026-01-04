@@ -79,17 +79,18 @@ sudo dnf install xcb-util-cursor
 
 ---
 
-## Option 2: Install with pip (For Algorithm Development + Viewing)
+## Option 2: Install from GitHub with pip (For Algorithm Development + Viewing)
 
-If you have Python 3.13+ installed and want to both **create algorithms and view traces**:
+If you have Python 3.11+ installed and want to both **create algorithms and view traces**:
 
 ```bash
-pip install "git+https://github.com/xdefago/dapy.git#egg=dapy[ui]"
+pip install "git+https://github.com/xdefago/dapy.git"
 ```
 
 This installs:
 - The `dapy` library for writing distributed algorithms
 - The `dapyview` command for viewing traces
+- All dependencies (including PySide6 for the GUI)
 
 Then run:
 ```bash
@@ -98,20 +99,35 @@ dapyview trace.json
 
 ---
 
-## Option 3: Install with uv (Recommended for Algorithm Development + Viewing)
+## Option 3: Install from GitHub with uv (Recommended for Algorithm Development + Viewing)
 
 ```bash
-uv add "dapy[ui] @ git+https://github.com/xdefago/dapy.git"
+uv add "dapy @ git+https://github.com/xdefago/dapy.git"
 ```
 
 This installs:
 - The `dapy` library for writing distributed algorithms  
 - The `dapyview` command for viewing traces
+- All dependencies (including PySide6 for the GUI)
 
 Then run:
 ```bash
 dapyview trace.json
 ```
+
+---
+
+## Option 4: Clone Repository (For Dapy Developers)
+
+If you want to **modify dapy itself** or contribute to development:
+
+```bash
+git clone https://github.com/xdefago/dapy.git
+cd dapy
+pip install --editable .
+```
+
+The `--editable` flag means changes to the source code are immediately reflected without reinstalling.
 
 ---
 

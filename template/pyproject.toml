@@ -1,0 +1,16 @@
+[project]
+name = "my-distributed-algorithm"
+version = "0.1.0"
+description = "A distributed algorithm project using dapy"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "dapy @ git+https://github.com/xdefago/dapy.git",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+dev-dependencies = []
