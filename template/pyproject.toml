@@ -8,6 +8,11 @@ dependencies = [
     "dapy @ git+https://github.com/xdefago/dapy.git",
 ]
 
+[project.optional-dependencies]
+json = [
+    "dapy[json] @ git+https://github.com/xdefago/dapy.git",
+]
+
 [project.scripts]
 run-bcast = "broadcast.run_bcast:main"
 run-my-algo = "my_algo.run_my_algo:main"

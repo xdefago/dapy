@@ -50,6 +50,7 @@ The fastest way to get started is using our project template:
 3. **Run the example**:
    ```bash
    uv run run-bcast
+   dapyview              # Opens file selector, or:
    dapyview traces/broadcast_trace.pkl
    ```
 
@@ -99,10 +100,11 @@ class SimpleAlgorithm(Algorithm):
 
 ### Visualize Your Trace
 
-1. Run your algorithm and save a trace (pickle format is default - compact and fast)
+1. Run your algorithm and save a trace
 2. Open the trace with **Dapyview**:
    ```bash
-   dapyview trace.pkl  # Also accepts .json format
+   dapyview              # Opens file selector
+   dapyview trace.pkl    # Opens specific file
    ```
 3. Explore message flows, causality relationships, and timing
 

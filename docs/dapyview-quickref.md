@@ -3,7 +3,8 @@
 ## Launch
 
 ```bash
-dapyview trace.json
+dapyview               # Open file selector
+dapyview trace.pkl     # Open specific file
 ```
 
 ## Time Modes

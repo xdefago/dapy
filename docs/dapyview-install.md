@@ -27,7 +27,8 @@ Dapyview is a GUI tool for visualizing execution traces of distributed algorithm
 4. **Optional** - Install to PATH for easy access:
    ```bash
    sudo mv dapyview-v0.2.0-macos-arm64 /usr/local/bin/dapyview
-   # Now you can just run: dapyview trace.json
+   # Now you can just run: dapyview (opens file selector)
+   # Or: dapyview trace.pkl
    ```
 
 **Note**: macOS may show a security warning for downloaded apps. If you see "cannot be opened because it is from an unidentified developer":
@@ -94,7 +95,8 @@ This installs:
 
 Then run:
 ```bash
-dapyview trace.json
+dapyview              # Open file selector
+dapyview trace.pkl    # Open specific file
 ```
 
 ---
@@ -112,7 +114,8 @@ This installs:
 
 Then run:
 ```bash
-dapyview trace.json
+dapyview              # Open file selector
+dapyview trace.pkl    # Open specific file
 ```
 
 ---

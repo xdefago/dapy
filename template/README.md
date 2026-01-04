@@ -66,7 +66,7 @@ uv run run-bcast
 
 This will:
 - Run a simple broadcast algorithm simulation
-- Save a trace file to `traces/broadcast_trace.pkl` (pickle format)
+- Save a trace file to `traces/broadcast_trace.pkl`
 - Print simulation results
 
 ### 2. Visualize the Trace
@@ -75,7 +75,7 @@ This will:
 dapyview traces/broadcast_trace.pkl
 ```
 
-Note: dapyview automatically detects pickle or JSON format.
+Or simply run `dapyview` without arguments to open a file selector.
 
 ### 3. Modify the Template
 
