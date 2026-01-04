@@ -6,3 +6,10 @@ description: "This python package is aims at prototyping distributed algorithms
     and to provide a context for experimenting with such algorithms."
 
 baseurl: "/dapy"
+
+# Jekyll configuration
+markdown: kramdown
+theme: jekyll-theme-slate
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
