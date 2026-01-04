@@ -14,6 +14,54 @@ from dapy.core import Pid
 
 from .trace_model import TraceModel, EventNode, MessageEdge
 
+# ============================================================================
+# Color Constants
+# ============================================================================
+
+# Background and basic UI
+COLOR_BACKGROUND = QColor(50, 50, 50)
+COLOR_PROCESS_LINE = QColor(180, 180, 180)
+COLOR_PROCESS_LINE_SELECTED = QColor(255, 165, 0)
+COLOR_PROCESS_LABEL = QColor(220, 220, 220)
+
+# Events
+COLOR_EVENT_SEND = QColor(0, 0, 0)  # Black
+COLOR_EVENT_RECEIVE = QColor(0, 0, 0)  # Black
+COLOR_EVENT_LOCAL = QColor(100, 100, 100)  # Gray
+COLOR_EVENT_SELECTED = QColor(255, 0, 0)  # Red
+COLOR_EVENT_PAST = QColor(100, 200, 255)  # Light blue
+COLOR_EVENT_FUTURE = QColor(255, 180, 100)  # Light orange
+COLOR_EVENT_HIGHLIGHTED = QColor(255, 165, 0)  # Orange
+COLOR_EVENT_BORDER = QColor(0, 0, 0)  # Black border
+
+# Messages/Lines
+COLOR_MESSAGE_LINE = QColor(150, 150, 150)
+COLOR_MESSAGE_LINE_SELECTED = QColor(255, 165, 0)  # Orange when selected
+COLOR_MESSAGE_LABEL = QColor(200, 200, 200)
+
+# Rulers
+COLOR_RULER_LINE = QColor(200, 50, 50)  # Red
+COLOR_RULER_LABEL = QColor(200, 50, 50)  # Red
+
+# ============================================================================
+# Font Constants
+# ============================================================================
+
+FONT_PROCESS_LABEL = QFont("Arial", 14, QFont.Weight.Bold)
+FONT_MESSAGE_LABEL = QFont("Arial", 10)
+FONT_RULER_LABEL = QFont("Arial", 9)
+
+# ============================================================================
+# Line width/size Constants
+# ============================================================================
+
+PEN_WIDTH_PROCESS_LINE = 2
+PEN_WIDTH_PROCESS_LINE_SELECTED = 3
+PEN_WIDTH_MESSAGE_LINE = 2
+PEN_WIDTH_MESSAGE_LINE_SELECTED = 3
+PEN_WIDTH_RULER_LINE = 2
+PEN_WIDTH_EVENT_BORDER = 1
+PEN_STYLE_RULER = Qt.PenStyle.DashLine
 
 class TimeSpaceDiagram(QWidget):
     """Widget that draws the time-space diagram."""
@@ -73,7 +121,7 @@ class TimeSpaceDiagram(QWidget):
         # Set background color
         self.setAutoFillBackground(True)
         palette = self.palette()
-        palette.setColor(self.backgroundRole(), QColor(50, 50, 50))
+        palette.setColor(self.backgroundRole(), COLOR_BACKGROUND)
         self.setPalette(palette)
         
         # Calculate initial size
@@ -296,7 +344,7 @@ class TimeSpaceDiagram(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         
         # Draw background
-        painter.fillRect(self.rect(), QColor(50, 50, 50))
+        painter.fillRect(self.rect(), COLOR_BACKGROUND)
         
         # Draw rulers (behind everything)
         self._draw_rulers(painter)
@@ -328,17 +376,16 @@ class TimeSpaceDiagram(QWidget):
             
             # Highlight if selected
             if pid in self.highlighted_processes or pid == self.selected_process:
-                pen = QPen(QColor(255, 165, 0), 3)  # Orange, thicker
+                pen = QPen(COLOR_PROCESS_LINE_SELECTED, PEN_WIDTH_PROCESS_LINE_SELECTED)
             else:
-                pen = QPen(QColor(180, 180, 180), 2)
+                pen = QPen(COLOR_PROCESS_LINE, PEN_WIDTH_PROCESS_LINE)
             
             painter.setPen(pen)
             painter.drawLine(int(x_start), int(y), int(x_end), int(y))
             
             # Draw process label - positioned closer to line start
-            font = QFont("Arial", 14, QFont.Weight.Bold)
-            painter.setFont(font)
-            painter.setPen(QPen(QColor(220, 220, 220)))
+            painter.setFont(FONT_PROCESS_LABEL)
+            painter.setPen(QPen(COLOR_PROCESS_LABEL))
             
             # Position label just to the left of the line start
             label_x = int(x_start - 55)
@@ -358,29 +405,29 @@ class TimeSpaceDiagram(QWidget):
             
             # Determine color based on selection/highlighting
             if event.index == self.selected_event:
-                color = QColor(255, 0, 0)  # Red for selected
+                color = COLOR_EVENT_SELECTED
                 radius = 10
             elif event.index in self._causal_past:
-                color = QColor(100, 200, 255)  # Light blue for causal past
+                color = COLOR_EVENT_PAST
                 radius = 9
             elif event.index in self._causal_future:
-                color = QColor(255, 180, 100)  # Light orange for causal future
+                color = COLOR_EVENT_FUTURE
                 radius = 9
             elif event.index in self.highlighted_events:
-                color = QColor(255, 165, 0)  # Orange for highlighted
+                color = COLOR_EVENT_HIGHLIGHTED
                 radius = 8
             else:
-                # Different colors for different event types
+                # Default colors for concurrent or non-highlighted events
                 if event.is_receive:
-                    color = QColor(0, 180, 0)  # Green for message receives
+                    color = COLOR_EVENT_RECEIVE    
                 elif event.is_send:
-                    color = QColor(0, 100, 255)  # Blue for send events
+                    color = COLOR_EVENT_SEND
                 else:
-                    color = QColor(100, 100, 100)  # Gray for local events
+                    color = COLOR_EVENT_LOCAL
                 radius = self.event_radius
             
             painter.setBrush(QBrush(color))
-            painter.setPen(QPen(Qt.GlobalColor.black, 1))
+            painter.setPen(QPen(COLOR_EVENT_BORDER, PEN_WIDTH_EVENT_BORDER))
             painter.drawEllipse(QPointF(x, y), radius, radius)
     
     def _draw_messages(self, painter: QPainter) -> None:
@@ -405,9 +452,9 @@ class TimeSpaceDiagram(QWidget):
         
         # Highlight if selected
         if index == self.selected_message or index in self.highlighted_messages:
-            pen = QPen(QColor(255, 165, 0), 3)
+            pen = QPen(COLOR_MESSAGE_LINE_SELECTED, PEN_WIDTH_MESSAGE_LINE_SELECTED)
         else:
-            pen = QPen(QColor(150, 150, 150), 2)
+            pen = QPen(COLOR_MESSAGE_LINE, PEN_WIDTH_MESSAGE_LINE)
         
         painter.setPen(pen)
         painter.drawLine(int(x1), int(y1), int(x2), int(y2))
@@ -431,9 +478,8 @@ class TimeSpaceDiagram(QWidget):
         elif angle_deg < -90:
             angle_deg += 180
         
-        font = QFont("Arial", 10)
-        painter.setFont(font)
-        painter.setPen(QPen(QColor(200, 200, 200)))
+        painter.setFont(FONT_MESSAGE_LABEL)
+        painter.setPen(QPen(COLOR_MESSAGE_LABEL))
         
         # Save painter state, translate and rotate for text
         painter.save()
@@ -441,7 +487,7 @@ class TimeSpaceDiagram(QWidget):
         painter.rotate(angle_deg)
         
         # Draw text slightly above the line
-        fm = QFontMetrics(font)
+        fm = QFontMetrics(FONT_MESSAGE_LABEL)
         text_width = fm.horizontalAdvance(msg.message_type)
         painter.drawText(int(-text_width / 2), -8, msg.message_type)
         
@@ -474,7 +520,7 @@ class TimeSpaceDiagram(QWidget):
     
     def _draw_rulers(self, painter: QPainter) -> None:
         """Draw vertical rulers."""
-        pen = QPen(QColor(200, 50, 50), 2, Qt.PenStyle.DashLine)
+        pen = QPen(COLOR_RULER_LINE, PEN_WIDTH_RULER_LINE, PEN_STYLE_RULER)
         painter.setPen(pen)
         
         for time in self.rulers:
@@ -482,9 +528,8 @@ class TimeSpaceDiagram(QWidget):
             painter.drawLine(int(x), 0, int(x), self.height())
             
             # Draw time label at top
-            font = QFont("Arial", 9)
-            painter.setFont(font)
-            painter.setPen(QPen(QColor(200, 50, 50)))
+            painter.setFont(FONT_RULER_LABEL)
+            painter.setPen(QPen(COLOR_RULER_LABEL))
             if self.use_logical_time:
                 label = f"t={int(time)}"
             else:

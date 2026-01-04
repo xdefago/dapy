@@ -1,0 +1,251 @@
+name: Build and Release Dapyview
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v0.2.0
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  build-macos:
+    name: Build macOS Executable
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      
+      - name: Install dependencies
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv sync --all-groups
+      
+      - name: Build executable with PyInstaller
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv run pyinstaller dapyview.spec
+      
+      - name: Rename executable
+        run: |
+          ARCH=$(uname -m)
+          mv dist/dapyview dist/dapyview-${{ github.ref_name }}-macos-${ARCH}
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dapyview-macos
+          path: dist/dapyview-*
+          retention-days: 7
+
+  build-linux:
+    name: Build Linux Executable
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libxcb-xinerama0 \
+            libxcb-cursor0 \
+            libxkbcommon-x11-0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-shape0
+      
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      
+      - name: Install dependencies
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv sync --all-groups
+      
+      - name: Build executable with PyInstaller
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv run pyinstaller dapyview.spec
+      
+      - name: Rename executable
+        run: |
+          mv dist/dapyview dist/dapyview-${{ github.ref_name }}-linux-x86_64
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dapyview-linux
+          path: dist/dapyview-*
+          retention-days: 7
+
+  build-windows:
+    name: Build Windows Executable
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install uv
+        run: irm https://astral.sh/uv/install.ps1 | iex
+        shell: powershell
+      
+      - name: Install dependencies
+        run: |
+          $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
+          uv sync --all-groups
+        shell: powershell
+      
+      - name: Build executable with PyInstaller
+        run: |
+          $env:Path = "$env:USERPROFILE\.cargo\bin;$env:Path"
+          uv run pyinstaller dapyview.spec
+        shell: powershell
+      
+      - name: Rename executable
+        run: |
+          move dist\dapyview.exe dist\dapyview-${{ github.ref_name }}-windows-x86_64.exe
+        shell: powershell
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dapyview-windows
+          path: dist/dapyview-*
+          retention-days: 7
+
+  build-wheel:
+    name: Build Python Wheel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
+      
+      - name: Build wheel
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          uv build
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-wheel
+          path: dist/*.whl
+          retention-days: 7
+
+  create-release:
+    name: Create GitHub Release
+    needs: [build-macos, build-linux, build-windows, build-wheel]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      
+      - name: Prepare release assets
+        run: |
+          mkdir -p release-assets
+          find artifacts -type f -exec cp {} release-assets/ \;
+          ls -lh release-assets/
+      
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          cat > release-notes.md << 'EOF'
+          ## Dapyview ${{ github.ref_name }}
+          
+          Standalone executables for visualizing distributed algorithm traces.
+          
+          ### Downloads
+          
+          Choose the executable for your platform:
+          
+          **macOS**:
+          - `dapyview-${{ github.ref_name }}-macos-arm64` (Apple Silicon M1/M2/M3)
+          - `dapyview-${{ github.ref_name }}-macos-x86_64` (Intel)
+          
+          **Linux**:
+          - `dapyview-${{ github.ref_name }}-linux-x86_64`
+          
+          **Windows**:
+          - `dapyview-${{ github.ref_name }}-windows-x86_64.exe`
+          
+          **Python Wheel** (requires Python 3.13+):
+          - Install: `pip install dapy-*.whl[ui]`
+          
+          ### Installation
+          
+          **macOS/Linux**:
+          ```bash
+          # Download the file
+          chmod +x dapyview-*
+          ./dapyview-* trace.json
+          
+          # Optional: Install to PATH
+          sudo mv dapyview-* /usr/local/bin/dapyview
+          ```
+          
+          **Windows**:
+          ```powershell
+          # Just run the .exe
+          .\dapyview-*.exe trace.json
+          ```
+          
+          ### Documentation
+          
+          - [User Guide](https://github.com/xdefago/dapy/blob/main/docs/dapyview-guide.md)
+          - [Quick Reference](https://github.com/xdefago/dapy/blob/main/docs/dapyview-quickref.md)
+          
+          ### What's New
+          
+          - Time-space diagram visualization
+          - Physical and logical time modes
+          - Causality highlighting with vector clocks
+          - Interactive minimap and zoom controls
+          - Vertical rulers for measurements
+          EOF
+          cat release-notes.md
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release-assets/*
+          body_path: release-notes.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

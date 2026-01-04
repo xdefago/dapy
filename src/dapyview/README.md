@@ -107,9 +107,9 @@ dapyview trace.json
 The main visualization shows:
 
 - **Horizontal Lines**: Each line represents a process's timeline
-- **Blue Dots**: Events occurring at processes
-- **Gray Arrows**: Messages sent between processes
-- **Red Crosses**: Lost messages (if any)
+- **Black Dots**: Send/receive events occurring at processes
+- **Gray Dots**: Local events (no message)
+- **Black Arrows**: Messages sent between processes
 - **Labels**: Process IDs on the left, message types on arrows
 
 ### Minimap

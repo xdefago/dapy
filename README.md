@@ -138,9 +138,15 @@ Additional features are available through optional dependencies:
 * **`ui`** - Installs the **dapyview** GUI trace viewer for interactive visualization of execution traces:
   - Time-space diagrams showing process timelines, events, and messages
   - Toggle between physical time and logical time (Lamport clocks)
+  - Causality highlighting based on vector clocks
   - Interactive network topology minimap
-  - Zoom, rulers, and highlighting features
-  - See [src/dapyview/README.md](src/dapyview/README.md) for details
+  - Zoom, rulers, and navigation features
+  - See [docs/dapyview-guide.md](docs/dapyview-guide.md) for complete user guide
+
+Launch the viewer:
+```shell
+dapyview trace.json
+```
 
 To install dapy with optional dependencies:
 

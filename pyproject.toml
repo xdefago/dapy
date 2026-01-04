@@ -41,6 +41,7 @@ dev = [
     "pdoc>=16.0",         # Documentation generator
     #
     "dapy[json]",  # For testing with JSON serialization
+    "pyinstaller>=6.17.0", # For building standalone executables (dapyview)
 ]
 ui = [
     "PySide6 >= 6.10",
