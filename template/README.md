@@ -41,34 +41,41 @@ A template project for developing distributed algorithms using the [dapy](https:
 ├── README.md           # This file
 ├── pyproject.toml      # Project configuration and dependencies
 ├── requirements.txt    # Generated dependencies (for pip)
-├── src/
-│   └── my_algo/       # Your algorithm package
+├── broadcast/          # Example: Broadcast algorithm
+│   ├── __init__.py
+│   ├── run_bcast.py        # Simulation runner
+│   └── algo/
 │       ├── __init__.py
-│       ├── algorithm.py    # Algorithm implementation
-│       └── run.py          # Simulation runner
-├── tests/             # Unit tests (optional)
+│       └── algorithm.py    # Algorithm implementation
+├── my_algo/            # Template for your algorithm
+│   ├── __init__.py
+│   ├── algorithm.py        # Your algorithm (template)
+│   └── run_my_algo.py      # Your simulation runner
+├── tests/              # Unit tests
 │   └── test_algorithm.py
-└── traces/            # Directory for trace outputs
+└── traces/             # Directory for trace outputs
 ```
 
 ## Quick Start
 
-### 1. Run the Template Algorithm
+### 1. Run the Example Broadcast Algorithm
 
 ```bash
-python -m src.my_algo.run
+uv run run-bcast
 ```
 
 This will:
 - Run a simple broadcast algorithm simulation
-- Save a trace file to `traces/broadcast_trace.json`
+- Save a trace file to `traces/broadcast_trace.pkl` (pickle format)
 - Print simulation results
 
 ### 2. Visualize the Trace
 
 ```bash
-dapyview traces/broadcast_trace.json
+dapyview traces/broadcast_trace.pkl
 ```
+
+Note: dapyview automatically detects pickle or JSON format.
 
 ### 3. Modify the Template
 
@@ -76,16 +83,26 @@ Edit files in `src/my_algo/`:
 - `algorithm.py` - Define your state, messages, and algorithm logic
 - `run.py` - Configure topology and run simulations
 
-## Template Algorithm
+## What's Included
 
-The template includes a flooding broadcast algorithm demonstrating:
+### 1. Working Example: Broadcast Algorithm (`broadcast/`)
+
+A complete flooding broadcast implementation demonstrating:
 - State definition with frozen dataclasses
 - Message and signal types
 - Algorithm implementation with `initial_state` and `on_event`
 - System topology creation (Ring of 5 processes)
-- Running simulations and saving traces
+- Running simulations and saving traces (pickle format by default)
 
-Modify this template to build your own algorithms!
+### 2. Template for Your Algorithm (`my_algo/`)
+
+A starter template with:
+- Comprehensive comments explaining each component
+- Placeholder classes for State, Messages, Signals
+- Pattern matching examples in `on_event()`
+- Detailed simulation runner with configuration options
+
+Study the broadcast example, then implement your own algorithm in `my_algo/`!
 
 ## Documentation
 

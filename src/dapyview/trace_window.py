@@ -41,10 +41,8 @@ class TraceWindow(QMainWindow):
         
         self.trace_file = trace_file
         
-        # Load trace
-        with open(trace_file, 'r') as f:
-            trace_json = f.read()
-        self.trace = Trace.load_json(trace_json)
+        # Load trace (supports both pickle and JSON formats)
+        self.trace = self._load_trace_file(trace_file)
         
         # Create trace model
         self.model = TraceModel(self.trace)
@@ -63,6 +61,52 @@ class TraceWindow(QMainWindow):
         
         # Track this window
         TraceWindow._open_windows.append(self)
+    
+    def _load_trace_file(self, trace_file: Path) -> Trace:
+        """Load a trace from either pickle or JSON format.
+        
+        Args:
+            trace_file: Path to the trace file (.pkl, .pickle, or .json).
+        
+        Returns:
+            The loaded Trace object.
+        
+        Raises:
+            ValueError: If file format is not recognized.
+            FileNotFoundError: If trace file doesn't exist.
+        """
+        if not trace_file.exists():
+            raise FileNotFoundError(f"Trace file not found: {trace_file}")
+        
+        # Determine format by extension
+        suffix = trace_file.suffix.lower()
+        
+        if suffix in ['.pkl', '.pickle']:
+            # Load pickle format (default)
+            with open(trace_file, 'rb') as f:
+                return Trace.load_pickle(f.read())
+        elif suffix == '.json':
+            # Load JSON format
+            with open(trace_file, 'r', encoding='utf-8') as f:
+                return Trace.load_json(f.read())
+        else:
+            # Try to auto-detect format
+            # First, try as pickle (most common)
+            try:
+                with open(trace_file, 'rb') as f:
+                    return Trace.load_pickle(f.read())
+            except Exception:
+                pass
+            
+            # If pickle fails, try as JSON
+            try:
+                with open(trace_file, 'r', encoding='utf-8') as f:
+                    return Trace.load_json(f.read())
+            except Exception as e:
+                raise ValueError(
+                    f"Could not load trace file as pickle or JSON: {trace_file}\n"
+                    f"Error: {e}"
+                )
     
     def _create_menus(self) -> None:
         """Create window menus."""
@@ -101,7 +145,7 @@ class TraceWindow(QMainWindow):
             self,
             "Open Trace File",
             "",
-            "JSON Files (*.json);;All Files (*)"
+            "Trace Files (*.pkl *.pickle *.json);;Pickle Files (*.pkl *.pickle);;JSON Files (*.json);;All Files (*)"
         )
         
         if file_path:

@@ -1,7 +1,8 @@
 """
 Simulation runner for the broadcast algorithm
 
-Run with: python -m src.my_algo.run
+Run with: uv run run-bcast
+Or: uv run python -m broadcast.run_bcast
 """
 
 from datetime import timedelta
@@ -10,7 +11,7 @@ from pathlib import Path
 from dapy.core import System, Ring, Asynchronous, Pid
 from dapy.sim import Simulator, Settings
 
-from .algorithm import BroadcastAlgorithm, Start
+from .algo.algorithm import BroadcastAlgorithm, Start
 
 
 def main():
@@ -85,11 +86,12 @@ def main():
     traces_dir = Path("traces")
     traces_dir.mkdir(exist_ok=True)
     
-    trace_file = traces_dir / "broadcast_trace.json"
+    trace_file = traces_dir / "broadcast_trace.pkl"
     
-    # Save trace as JSON
-    with open(trace_file, 'w') as f:
-        f.write(sim.trace.dump_json())
+    # Save trace as pickle (default format - compact and fast)
+    with open(trace_file, 'wb') as f:
+        assert sim.trace is not None
+        f.write(sim.trace.dump_pickle())
     
     print("=" * 60)
     print("Simulation Complete!")

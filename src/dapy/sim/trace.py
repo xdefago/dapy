@@ -111,14 +111,41 @@ class Trace:
         """
         self.history.extend(TimedConfiguration(time, configuration) for time, configuration in history)
 
+    def dump(self) -> bytes:
+        """Serialize the trace to pickle format (default).
+        
+        This is the recommended serialization method. Pickle format is compact,
+        fast, and doesn't require access to algorithm implementation classes.
+        
+        Returns:
+            The serialized trace as bytes.
+        """
+        return self.dump_pickle()
+    
+    @classmethod
+    def load(cls, data: bytes) -> Self:
+        """Deserialize a trace from pickle format (default).
+        
+        Args:
+            data: The serialized trace as bytes.
+        
+        Returns:
+            A Trace instance deserialized from the byte string.
+        """
+        return cls.load_pickle(data)
+
     def dump_pickle(self) -> bytes:
         """Serialize the trace to a pickle byte string.
+        
+        Uses pickle protocol 4 which allows deserialization without access to
+        the original algorithm, message, signal, or state classes. The trace
+        remains fully self-contained and can be loaded and visualized anywhere.
         
         Returns:
             The serialized trace as bytes.
         """
         import pickle
-        return pickle.dumps(self)
+        return pickle.dumps(self, protocol=4)
     
     @classmethod
     def load_pickle(cls, data: bytes) -> Self:
@@ -140,10 +167,13 @@ class Trace:
         return obj
 
     def dump_json(self) -> str:
-        """Serialize the trace to a JSON string.
+        """Serialize the trace to a prettified, indented JSON string.
+        
+        Produces human-readable JSON with 2-space indentation. JSON traces are
+        larger than pickle but can be inspected with text editors.
         
         Returns:
-            The serialized trace as a JSON string.
+            The serialized trace as a formatted JSON string.
         
         Raises:
             ImportError: If classifiedjson is not installed. Install with:
@@ -162,7 +192,7 @@ class Trace:
                 return NotImplemented
             return repr(obj)
         
-        return dumps(self, custom_hooks=[_timedelta_serialize])
+        return dumps(self, custom_hooks=[_timedelta_serialize], indent=2)
 
     @classmethod
     def load_json(cls, data: str) -> Self:

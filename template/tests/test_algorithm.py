@@ -6,7 +6,7 @@ Run with: uv run pytest
 
 from dapy.core import System, Ring, Asynchronous, Pid
 from dapy.sim import Simulator, Settings
-from src.my_algo.algorithm import BroadcastAlgorithm, Start, BroadcastState
+from broadcast.algo.algorithm import BroadcastAlgorithm, Start, BroadcastState
 
 
 def test_broadcast_reaches_all_processes():
@@ -28,7 +28,7 @@ def test_broadcast_reaches_all_processes():
     
     # Verify all processes received the value
     for pid in range(5):
-        state = sim.configuration.state(Pid(pid))
+        state = sim.current_configuration[Pid(pid)]
         assert isinstance(state, BroadcastState)
         assert state.has_sent, f"Process {pid} should have participated"
         assert state.value == 42, f"Process {pid} should have value 42"

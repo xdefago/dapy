@@ -49,8 +49,8 @@ The fastest way to get started is using our project template:
 
 3. **Run the example**:
    ```bash
-   python -m src.my_algo.run
-   dapyview traces/broadcast_trace.json
+   uv run run-bcast
+   dapyview traces/broadcast_trace.pkl
    ```
 
 See the [template README](https://github.com/xdefago/dapy/blob/main/template/README.md) for complete instructions.
@@ -99,10 +99,10 @@ class SimpleAlgorithm(Algorithm):
 
 ### Visualize Your Trace
 
-1. Run your algorithm and save a trace
+1. Run your algorithm and save a trace (pickle format is default - compact and fast)
 2. Open the trace with **Dapyview**:
    ```bash
-   dapyview trace.json
+   dapyview trace.pkl  # Also accepts .json format
    ```
 3. Explore message flows, causality relationships, and timing
 

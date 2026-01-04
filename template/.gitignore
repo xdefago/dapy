@@ -43,6 +43,8 @@ htmlcov/
 
 # Traces
 traces/*.json
+traces/*.pkl
+traces/*.pickle
 !traces/.gitkeep
 
 # OS

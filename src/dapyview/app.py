@@ -81,7 +81,7 @@ class TraceViewerApp(QMainWindow):
             self,
             "Open Trace File",
             "",
-            "JSON Files (*.json);;All Files (*)"
+            "Trace Files (*.pkl *.pickle *.json);;Pickle Files (*.pkl *.pickle);;JSON Files (*.json);;All Files (*)"
         )
         
         if file_path:

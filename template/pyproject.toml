@@ -8,9 +8,13 @@ dependencies = [
     "dapy @ git+https://github.com/xdefago/dapy.git",
 ]
 
+[project.scripts]
+run-bcast = "broadcast.run_bcast:main"
+run-my-algo = "my_algo.run_my_algo:main"
+
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.9.5,<0.10.0"]
+build-backend = "uv_build"
 
 [tool.uv]
 dev-dependencies = []

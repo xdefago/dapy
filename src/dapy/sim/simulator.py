@@ -194,6 +194,42 @@ class Simulator:
         """
         return len(self.scheduled_events) == 0
 
+    def save_trace(self, filename: str, format: str = 'pickle') -> None:
+        """Save the simulation trace to a file.
+        
+        Convenience method to save trace without manually calling dump methods.
+        Automatically determines binary vs text mode based on format.
+        
+        Args:
+            filename: Path to the output file. Extension is not enforced but
+                     .pkl recommended for pickle, .json for JSON.
+            format: Serialization format - 'pickle' (default, compact and fast)
+                   or 'json' (human-readable, requires dapy[json]).
+        
+        Raises:
+            ValueError: If trace is not enabled or format is invalid.
+            ImportError: If JSON format is requested but classifiedjson not installed.
+        """
+        if self.trace is None:
+            raise ValueError(
+                "No trace available. Enable tracing by setting enable_trace=True "
+                "in Settings when creating the simulator."
+            )
+        
+        from pathlib import Path
+        path = Path(filename)
+        
+        if format == 'pickle':
+            # Binary mode for pickle
+            with open(path, 'wb') as f:
+                f.write(self.trace.dump_pickle())
+        elif format == 'json':
+            # Text mode for JSON
+            with open(path, 'w', encoding='utf-8') as f:
+                f.write(self.trace.dump_json())
+        else:
+            raise ValueError(f"Invalid format '{format}'. Use 'pickle' or 'json'.")
+
     def __str__(self) -> str:
         """Get a string representation of the simulator state.
         

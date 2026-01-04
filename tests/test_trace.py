@@ -64,3 +64,34 @@ class TestTraceSerialization:
         assert pickle_trace == original_trace
         # And equal to each other
         assert json_trace == pickle_trace
+
+    def test_trace_default_dump_load(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test that dump() and load() default to pickle format."""
+        original_trace = trace_from_learn_algorithm
+        assert original_trace is not None
+        
+        # dump() should return bytes (pickle format)
+        trace_data = original_trace.dump()
+        assert isinstance(trace_data, bytes)
+        
+        # load() should deserialize pickle
+        restored_trace = Trace.load(trace_data)
+        assert restored_trace == original_trace
+        
+        # dump() should be equivalent to dump_pickle()
+        assert trace_data == original_trace.dump_pickle()
+
+    def test_trace_json_is_prettified(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
+        """Test that dump_json() produces indented, human-readable JSON."""
+        original_trace = trace_from_learn_algorithm
+        assert original_trace is not None
+        
+        trace_json = original_trace.dump_json()
+        
+        # Check for indentation (pretty print with 2 spaces)
+        assert '\n' in trace_json  # Has newlines
+        assert '  ' in trace_json  # Has 2-space indentation
+        
+        # Should still deserialize correctly
+        restored_trace = Trace.load_json(trace_json)
+        assert restored_trace == original_trace
