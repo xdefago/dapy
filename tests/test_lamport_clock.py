@@ -3,7 +3,6 @@
 
 """Tests for LamportClock implementation."""
 
-import pytest
 from dapyview.trace_model import LamportClock
 
 

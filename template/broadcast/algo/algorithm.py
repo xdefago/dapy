@@ -166,7 +166,7 @@ class BroadcastAlgorithm(Algorithm):
                     value=value
                 )
                 
-                return new_state, messages + [complete_signal]
+                return new_state, [*messages, complete_signal]
             
             # ----------------------------------------------------------------
             # Broadcast complete: Just log (optional)

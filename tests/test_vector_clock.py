@@ -3,7 +3,6 @@
 
 """Tests for VectorClock implementation."""
 
-import pytest
 from dapy.core import Pid
 from dapyview.trace_model import VectorClock
 

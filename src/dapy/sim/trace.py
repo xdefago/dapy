@@ -180,7 +180,7 @@ class Trace:
                         uv pip install dapy[json]
         """
         try:
-            from classifiedjson import dumps, loads, is_exact_match
+            from classifiedjson import dumps, is_exact_match
         except ImportError:
             raise ImportError("classifiedjson is not installed. Please re-install dapy with the json feature.")
         

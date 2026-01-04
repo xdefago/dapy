@@ -31,7 +31,7 @@ def main():
     print("=" * 60)
     print("Distributed Algorithm Simulation")
     print("=" * 60)
-    print(f"Topology: Ring of 5 processes")
+    print("Topology: Ring of 5 processes")
     print(f"Synchrony: {type(system.synchrony).__name__}")
     print()
     

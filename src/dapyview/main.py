@@ -109,7 +109,7 @@ def main() -> int:
             window.show()
             windows.append(window)
         except Exception as e:
-            errors.append(f"{trace_file.name}: {str(e)}")
+            errors.append(f"{trace_file.name}: {e!s}")
     
     # Show errors if any
     if errors:

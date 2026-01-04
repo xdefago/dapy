@@ -6,8 +6,9 @@
 from typing import Dict, Set, Optional
 from enum import Enum
 
-from PySide6.QtCore import Qt, QPointF, QRectF, Signal, QPoint
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QMouseEvent
+from PySide6.QtCore import Qt, QPointF, Signal, QPoint
+from PySide6.QtGui import QMouseEvent
+from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QFont, QPaintEvent
 from PySide6.QtWidgets import QWidget
 
 import networkx as nx
@@ -113,7 +114,7 @@ class MinimapWidget(QWidget):
         self.highlighted_edges.clear()
         self.update()
     
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Paint the minimap."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -237,7 +238,7 @@ class MinimapWidget(QWidget):
         
         return sx, sy
     
-    def mousePressEvent(self, event) -> None:
+    def mousePressEvent(self, event: QMouseEvent) -> None:
         """Handle mouse clicks to select processes or edges, or start dragging."""
         if event.button() == Qt.MouseButton.LeftButton:
             click_x = event.position().x()
@@ -274,7 +275,7 @@ class MinimapWidget(QWidget):
             self.setCursor(Qt.CursorShape.ClosedHandCursor)
             return
     
-    def mouseMoveEvent(self, event) -> None:
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Handle mouse movement for dragging and cursor changes."""
         if self._dragging and self._drag_start_pos is not None:
             # Actually move the widget during drag
@@ -297,7 +298,7 @@ class MinimapWidget(QWidget):
             # Update cursor based on position - entire widget is draggable
             self.setCursor(Qt.CursorShape.OpenHandCursor)
     
-    def mouseReleaseEvent(self, event) -> None:
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         """Handle mouse release to snap to nearest corner."""
         if event.button() == Qt.MouseButton.LeftButton and self._dragging:
             self._dragging = False

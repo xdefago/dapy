@@ -4,18 +4,18 @@
 """Trace window displaying time-space diagram visualization."""
 
 from pathlib import Path
-from typing import Optional
+from typing import ClassVar
 
-from PySide6.QtCore import Qt, QTimer
-from PySide6.QtGui import QAction, QColor, QResizeEvent
-from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QSizePolicy, QFileDialog, QMessageBox
+from PySide6.QtCore import QTimer
+from PySide6.QtGui import QAction, QResizeEvent, QCloseEvent
+from PySide6.QtWidgets import QMainWindow, QVBoxLayout, QWidget, QFileDialog, QMessageBox
 
 from dapy.sim import Trace
 
 # Import common algorithm modules so classifiedjson can deserialize them
 # Users may need to import their custom algorithm modules before loading traces
 try:
-    import dapy.algo.learn  # For LearnGraphAlgorithm traces
+    import dapy.algo.learn  # For LearnGraphAlgorithm traces  # noqa: F401
 except ImportError:
     pass  # Module might not be available
 
@@ -29,7 +29,7 @@ class TraceWindow(QMainWindow):
     """Native window displaying a single trace visualization."""
     
     # Class variable to track all open windows
-    _open_windows: list['TraceWindow'] = []
+    _open_windows: ClassVar[list['TraceWindow']] = []
     
     def __init__(self, trace_file: Path) -> None:
         """Initialize trace window.
@@ -156,7 +156,7 @@ class TraceWindow(QMainWindow):
                 QMessageBox.critical(
                     self,
                     "Error Opening Trace",
-                    f"Failed to open trace file:\n{file_path}\n\nError: {str(e)}"
+                    f"Failed to open trace file:\n{file_path}\n\nError: {e!s}"
                 )
     
     def _quit_app(self) -> None:
@@ -260,7 +260,7 @@ class TraceWindow(QMainWindow):
         """Add a ruler to the canvas."""
         self.canvas.add_ruler()
     
-    def _on_edge_selected(self, sender, receiver) -> None:
+    def _on_edge_selected(self, sender: int, receiver: int) -> None:
         """Handle edge selection in minimap by highlighting related messages."""
         # Highlight all messages between these two processes
         self.canvas.diagram.clear_highlights()
@@ -275,7 +275,7 @@ class TraceWindow(QMainWindow):
         super().resizeEvent(event)
         self._position_minimap()
     
-    def closeEvent(self, event) -> None:
+    def closeEvent(self, event: QCloseEvent) -> None:
         """Handle window close to track open windows."""
         if self in TraceWindow._open_windows:
             TraceWindow._open_windows.remove(self)

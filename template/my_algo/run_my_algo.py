@@ -8,11 +8,9 @@ Run with: uv run run-my-algo
 Or: uv run python -m my_algo.run_my_algo
 """
 
-from datetime import timedelta
-from pathlib import Path
 
-from dapy.core import System, Ring, Asynchronous, Pid
-from dapy.sim import Simulator, Settings
+from dapy.core import System, Ring, Asynchronous
+from dapy.sim import Settings
 
 # Import your algorithm components
 # Uncomment and modify after implementing your algorithm
@@ -66,7 +64,7 @@ def main():
     # ========================================================================
     
     # Settings control trace collection and other simulation behavior
-    settings = Settings(
+    _ = Settings(
         enable_trace=True,  # Set to True to save execution trace for visualization
     )
     

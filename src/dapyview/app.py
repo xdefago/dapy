@@ -6,9 +6,8 @@
 from pathlib import Path
 from typing import Optional
 
-from PySide6.QtCore import Qt
 from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QFileDialog, QMainWindow, QMdiArea, QMenuBar, QMessageBox
+from PySide6.QtWidgets import QFileDialog, QMainWindow, QMdiArea, QMessageBox
 
 from dapyview.trace_window import TraceWindow
 
@@ -115,7 +114,7 @@ class TraceViewerApp(QMainWindow):
             QMessageBox.critical(
                 self,
                 "Error Opening Trace",
-                f"Failed to open trace file:\n{file_path}\n\nError: {str(e)}"
+                f"Failed to open trace file:\n{file_path}\n\nError: {e!s}"
             )
             return None
     

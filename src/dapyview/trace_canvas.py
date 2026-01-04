@@ -4,11 +4,14 @@
 """Canvas widget for rendering time-space diagram."""
 
 import math
-from typing import Optional, Set, List, Tuple
+from typing import Optional, Set, List
 
-from PySide6.QtCore import Qt, QPointF, QRectF, Signal, QSize
-from PySide6.QtGui import QPainter, QPen, QBrush, QColor, QPainterPath, QFont, QFontMetrics
-from PySide6.QtWidgets import QWidget, QScrollArea, QVBoxLayout, QToolTip, QSizePolicy
+from PySide6.QtCore import Qt, QPointF, Signal, QSize
+from PySide6.QtGui import (
+    QPainter, QPen, QBrush, QColor, QPainterPath, QFont, QFontMetrics,
+    QPaintEvent, QResizeEvent, QMouseEvent
+)
+from PySide6.QtWidgets import QWidget, QScrollArea, QToolTip, QSizePolicy
 
 from dapy.core import Pid
 
@@ -135,7 +138,7 @@ class TimeSpaceDiagram(QWidget):
         """Return the minimum size for the widget."""
         return QSize(400, 300)
     
-    def resizeEvent(self, event) -> None:
+    def resizeEvent(self, event: QResizeEvent) -> None:
         """Handle resize events - update content width to match viewport."""
         super().resizeEvent(event)
         # When widget is resized (e.g., by scroll area), update our understanding
@@ -338,7 +341,7 @@ class TimeSpaceDiagram(QWidget):
             return processes[index]
         return None
     
-    def paintEvent(self, event) -> None:
+    def paintEvent(self, event: QPaintEvent) -> None:
         """Paint the time-space diagram."""
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -537,7 +540,7 @@ class TimeSpaceDiagram(QWidget):
             painter.drawText(int(x + 3), 15, label)
             painter.setPen(pen)
     
-    def mousePressEvent(self, event) -> None:
+    def mousePressEvent(self, event: QMouseEvent) -> None:
         """Handle mouse press events for selection and ruler dragging."""
         x = event.position().x()
         y = event.position().y()
@@ -558,8 +561,6 @@ class TimeSpaceDiagram(QWidget):
             self._dragging_ruler_idx = ruler_idx
             self._ruler_drag_offset = x - self._time_to_x(self.rulers[ruler_idx])
             return
-        
-        time = self._x_to_time(x)
         
         # Check if clicked on an event
         clicked_event = self._find_event_at(x, y)
@@ -607,7 +608,7 @@ class TimeSpaceDiagram(QWidget):
         # Click on empty area - clear highlights
         self.clear_highlights()
     
-    def mouseReleaseEvent(self, event) -> None:
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
         """Handle mouse release events."""
         if event.button() == Qt.MouseButton.LeftButton:
             self._dragging_ruler_idx = None
@@ -666,7 +667,7 @@ class TimeSpaceDiagram(QWidget):
         
         return math.sqrt((px - proj_x) ** 2 + (py - proj_y) ** 2)
     
-    def mouseMoveEvent(self, event) -> None:
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
         """Handle mouse move for tooltips and ruler dragging."""
         x = event.position().x()
         y = event.position().y()
