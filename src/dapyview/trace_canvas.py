@@ -80,7 +80,7 @@ class TimeSpaceDiagram(QWidget):
         super().__init__()
         
         self.model = model
-        self.use_logical_time = False
+        self.use_logical_time = True  # Default to logical time mode
         self.zoom_factor = 1.0
         
         # Highlighting - start with empty sets (no initial highlights)
@@ -102,7 +102,7 @@ class TimeSpaceDiagram(QWidget):
         
         # Layout parameters
         self.process_spacing = 120  # Vertical spacing between processes
-        self.time_scale = 300  # Pixels per time unit
+        self.time_scale = 63  # Pixels per time unit (calibrated so 100% zoom matches good visual spacing)
         self.margin_left = 100
         self.margin_top = 80
         self.margin_right = 100

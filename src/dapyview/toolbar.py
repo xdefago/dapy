@@ -27,7 +27,7 @@ class TraceToolbar(QToolBar):
         # Time mode toggle
         self.addWidget(QLabel("Time Mode:"))
         self.time_mode_checkbox = QCheckBox("Logical Time")
-        self.time_mode_checkbox.setChecked(False)
+        self.time_mode_checkbox.setChecked(True)  # Default to logical time
         self.time_mode_checkbox.stateChanged.connect(self._on_time_mode_changed)
         self.addWidget(self.time_mode_checkbox)
         
