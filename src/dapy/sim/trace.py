@@ -180,7 +180,7 @@ class Trace:
                         uv pip install dapy[json]
         """
         try:
-            from classifiedjson import dumps, is_exact_match
+            from classifiedjson import dumps, loads, is_exact_match
         except ImportError:
             raise ImportError("classifiedjson is not installed. Please re-install dapy with the json feature.")
         
@@ -192,7 +192,13 @@ class Trace:
                 return NotImplemented
             return repr(obj)
         
-        return dumps(self, custom_hooks=[_timedelta_serialize], indent=2)
+        # First serialize with classifiedjson
+        json_str = dumps(self, custom_hooks=[_timedelta_serialize])
+        
+        # Then prettify with standard json module
+        import json
+        obj = json.loads(json_str)
+        return json.dumps(obj, indent=2)
 
     @classmethod
     def load_json(cls, data: str) -> Self:
