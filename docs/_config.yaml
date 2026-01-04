@@ -1,15 +1,19 @@
-title: "Dapy: a simple framework for simulating distributed algorithms in python."
+title: "Dapy: distributed algorithms in Python"
 
-description: "This python package is aims at prototyping distributed algorithms
-    and execute them in a simulated environment. The main (and only) intended aim
-    of this framework is as a support for teaching classes on distributed algorithms
-    and to provide a context for experimenting with such algorithms."
+description: "Simulate, prototype, and visualize distributed algorithms."
 
 baseurl: "/dapy"
 
 # Jekyll configuration
 markdown: kramdown
+highlighter: rouge
 theme: jekyll-theme-slate
 plugins:
   - jekyll-seo-tag
   - jekyll-feed
+
+# Syntax highlighting
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight

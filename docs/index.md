@@ -18,6 +18,13 @@ Dapy provides:
 
 Whether you're teaching distributed computing or exploring new algorithms, Dapy streamlines the prototyping process.
 
+### Two Components
+
+Dapy is split into two independent parts:
+
+- **[dapy library](https://github.com/xdefago/dapy)** - The core framework for defining and simulating algorithms. Install with `uv add dapy`.
+- **[dapyview](dapyview-guide.md)** - An optional GUI trace viewer for visualizing execution traces. Install with `uv add "dapy[ui]"`.
+
 ---
 
 ## 🎯 Quick Start
