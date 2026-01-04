@@ -7,7 +7,7 @@
   
   /* Override inherited colors - must be explicit for Safari */
   code {
-    color: #24292f;
+    color: #24292f !important;
     background: transparent;
     
     /* Token styles - nested under code for Safari specificity */
@@ -17,7 +17,7 @@
     .kp,   /* Keyword.Pseudo */
     .kr,   /* Keyword.Reserved */
     .kt    /* Keyword.Type */ {
-      color: #cf222e;
+      color: #cf222e !important;
       font-weight: bold;
     }
     
@@ -30,7 +30,7 @@
     .nf,   /* Name.Function */
     .nl,   /* Name.Label */
     .nn    /* Name.Namespace */ {
-      color: #8250df;
+      color: #8250df !important;
     }
     
     .s,    /* String */
@@ -44,7 +44,7 @@
     .sx,   /* String.Other */
     .sr,   /* String.Regex */
     .ss    /* String.Symbol */ {
-      color: #0a3069;
+      color: #0a3069 !important;
     }
     
     .m,    /* Number */
@@ -54,7 +54,7 @@
     .il,   /* Number.Integer.Long */
     .mo,   /* Number.Oct */
     .mb    /* Number.Bin */ {
-      color: #0550ae;
+      color: #0550ae !important;
     }
     
     .c,    /* Comment */
@@ -62,17 +62,17 @@
     .cm,   /* Comment.Multiline */
     .cp,   /* Comment.Preproc */
     .cs    /* Comment.Special */ {
-      color: #6e7781;
+      color: #6e7781 !important;
       font-style: italic;
     }
     
     .o,    /* Operator */
     .ow    /* Operator.Word */ {
-      color: #cf222e;
+      color: #cf222e !important;
     }
     
     .p     /* Punctuation */ {
-      color: #24292f;
+      color: #24292f !important;
     }
     
     .na,   /* Name.Attribute */
@@ -80,25 +80,25 @@
     .vc,   /* Name.Variable.Class */
     .vg,   /* Name.Variable.Global */
     .vi    /* Name.Variable.Instance */ {
-      color: #953800;
+      color: #953800 !important;
     }
     
     .nt    /* Name.Tag */ {
-      color: #116329;
+      color: #116329 !important;
     }
     
     .se    /* String.Escape */ {
-      color: #0550ae;
+      color: #0550ae !important;
       font-weight: bold;
     }
     
     .err   /* Error */ {
-      color: #f6f8fa;
-      background-color: #82071e;
+      color: #f6f8fa !important;
+      background-color: #82071e !important;
     }
     
     .w     /* Whitespace */ {
-      color: #6e7781;
+      color: #6e7781 !important;
     }
   }
 }
