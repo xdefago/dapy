@@ -109,7 +109,7 @@ class Simulator:
             self.current_configuration = self.current_configuration.updated([initial_state])
             for event in events:
                 at_time = self._arrival_time_for(event)
-                self.schedule_event(at_time, event)
+                self.schedule(event, at_time)
     
     def _arrival_time_for(self, event: Event) -> timedelta:
         """Calculate the arrival time for a given event based on the synchrony model.
@@ -126,7 +126,7 @@ class Simulator:
         else:
             return self.current_time
         
-    def schedule_event(self, at: timedelta, event: Event) -> None:
+    def schedule(self, event: Event, at: timedelta = timedelta(seconds=0)) -> None:
         """Schedule an event to be processed at a specific time.
         
         Args:
@@ -158,7 +158,7 @@ class Simulator:
         self.current_configuration = self.current_configuration.updated([new_state])
         for new_event in new_events:
             at_time = self._arrival_time_for(new_event)
-            self.schedule_event(at_time, new_event)
+            self.schedule(new_event, at_time)
         
     def advance_step(self) -> None:
         """Advance the simulation by processing one scheduled event.

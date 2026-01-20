@@ -32,7 +32,7 @@ def trace_from_learn_algorithm(simple_ring_system: System) -> Optional[Trace]:
 
     # Run the simulation
     sim.start()
-    sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
+    sim.schedule(event=Start(target=Pid(1)), at=timedelta(seconds=0))
     sim.run_to_completion()
 
     return sim.trace

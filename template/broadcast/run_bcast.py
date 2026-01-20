@@ -67,7 +67,7 @@ def main() -> None:
     initial_event = Start(target=initiator)
     
     print(f"Initiating broadcast from process {initiator}")
-    sim.schedule_event(timedelta(seconds=0), initial_event)
+    sim.schedule(event=initial_event, at=timedelta(seconds=0))
     print()
     
     # ========================================================================

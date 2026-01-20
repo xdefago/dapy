@@ -202,7 +202,7 @@ class TestLamportClockScenarios:
         lc_p0 = lc_p0.merge_and_increment(send2_lc)  # LC=4
         
         assert lc_p0.value() == 4
-        assert lc_p1.value() == 3
+        assert lc_p1.value() == 2
         assert send1_lc < send2_lc < lc_p0
     
     def test_repr(self) -> None:

@@ -183,7 +183,7 @@ class MyAlgorithm(Algorithm[MyState]):
         2. Schedule initial events (e.g., a Start signal for a designated initiator)
         
         If you don't need initial events, you can schedule them externally using
-        sim.schedule_event() instead of implementing this method.
+        sim.schedule() instead of implementing this method.
         
         Args:
             init_state: The initial state from initial_state().

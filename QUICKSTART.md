@@ -101,7 +101,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 sim.start()
 
 # Schedule initial events
-sim.schedule_event(timedelta(seconds=0), MySignal(target=Pid(0)))
+sim.schedule(timedelta(seconds=0), MySignal(target=Pid(0)))
 
 # Run until no more events
 sim.run_to_completion()
@@ -164,7 +164,7 @@ Defines the network topology and synchrony model:
 ```python
 system = System(
     topology=Ring.of_size(4),        # or CompleteGraph, Star, Arbitrary
-    synchrony=Asynchronous(),         # or Synchronous, PartiallySynchronous
+    synchrony=Asynchronous(),        # or Synchronous, PartiallySynchronous
 )
 ```
 
@@ -175,7 +175,7 @@ Runs the simulation:
 ```python
 sim = Simulator.from_system(system, algorithm, settings=Settings(enable_trace=True))
 sim.start()                          # Initialize all processes
-sim.schedule_event(...)              # Schedule initial events
+sim.schedule(...)                    # Schedule initial events
 sim.run_to_completion()              # Run until no more events
 ```
 

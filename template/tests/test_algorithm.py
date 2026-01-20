@@ -22,7 +22,7 @@ def test_broadcast_reaches_all_processes() -> None:
     
     # Initiate broadcast from process 0
     from datetime import timedelta
-    sim.schedule_event(timedelta(seconds=0), Start(target=Pid(0)))
+    sim.schedule(event=Start(target=Pid(0)))
     
     # Run simulation
     sim.run_to_completion()

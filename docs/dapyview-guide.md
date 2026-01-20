@@ -170,7 +170,7 @@ sim.start()
 # Schedule initial event (process p1 initiates)
 from dapy.core import Pid
 initial_msg = MyMessage(target=Pid(1), sender=Pid(1), value=42)
-sim.schedule_event(initial_msg, delay=0.0)
+sim.schedule(initial_msg, delay=0.0)
 
 # Run to completion
 sim.run_to_completion()

@@ -83,7 +83,7 @@ def main() -> None:
     # Schedule any initial events to kick off the algorithm.
     # For example, if process 0 should start the protocol:
     # initiator = Pid(0)
-    # sim.schedule_event(timedelta(seconds=0), MySignal(target=initiator))
+    # sim.schedule(event=MySignal(target=initiator), at=timedelta(seconds=0))
     # print(f"Scheduled initial event for process {initiator}")
     # print()
     

@@ -46,7 +46,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 # Start the simulation; all processes are initialized to their initial state 
 sim.start()
 # Schedule some initial event to start the algorithm (here we start process 1)
-sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)))
 # Run the algorithm until completion
 # - this will run the algorithm until the system has no pending events (one can specify a step limit)
 sim.run_to_completion()

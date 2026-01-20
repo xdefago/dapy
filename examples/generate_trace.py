@@ -27,7 +27,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 
 # Run the simulation
 sim.start()
-sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)))
 sim.run_to_completion()
 assert sim.trace is not None
 

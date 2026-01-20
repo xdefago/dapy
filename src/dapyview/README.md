@@ -80,7 +80,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 
 # Run simulation
 sim.start()
-sim.schedule_event(timedelta(seconds=0), Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)))
 sim.run_to_completion()
 
 # Save trace
