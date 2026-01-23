@@ -13,6 +13,15 @@ This is a simple (simplistic) programming framework to simulate the execution of
 
 ## How to begin
 
+### Recommended: Start from the template repository
+
+If you are starting a new project, use the template repository and follow its README:
+
+- Template repo: https://github.com/xdefago/dapy-template
+- Template README (setup, examples, and workflow): https://github.com/xdefago/dapy-template#readme
+
+This gives you a ready-to-run project layout (including dapyview) and a working example.
+
 ### For External Users (Using dapy as a library)
 
 If you want to use `dapy` in your own Python project without modifying the dapy source code:

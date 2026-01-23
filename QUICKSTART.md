@@ -2,6 +2,15 @@
 
 This guide helps you get started using dapy to simulate distributed algorithms in your Python project.
 
+## Recommended: Start from the template
+
+If you are starting a new project, use the template repository and follow its README:
+
+- Template repo: https://github.com/xdefago/dapy-template
+- Template README (setup, examples, and workflow): https://github.com/xdefago/dapy-template#readme
+
+The template includes a ready-to-run project layout (with dapyview) and a working example.
+
 ## Installation
 
 Since dapy is not yet published to PyPI, install it directly from GitHub:
