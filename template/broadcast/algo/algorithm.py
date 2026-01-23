@@ -9,14 +9,7 @@ broadcasts a value to all processes in the network.
 from dataclasses import dataclass, field
 from typing import Sequence
 
-from dapy.core import (
-    Algorithm,
-    Event,
-    Message,
-    Pid,
-    Signal,
-    State,
-)
+from dapy.core import Algorithm, Event, Message, Pid, Signal, State
 
 # ============================================================================
 # State Definition

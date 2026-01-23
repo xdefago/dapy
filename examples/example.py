@@ -1,8 +1,6 @@
 # Copyright (c) 2025-2026 Xavier Defago
 # SPDX-License-Identifier: MIT
 
-from datetime import timedelta
-
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.core import Asynchronous, Pid, Ring, System
 from dapy.sim import Settings, Simulator

@@ -4,6 +4,7 @@
 """Canvas widget for rendering time-space diagram."""
 
 import math
+
 from typing import List, Optional, Set
 
 from PySide6.QtCore import QPointF, QSize, Qt, Signal

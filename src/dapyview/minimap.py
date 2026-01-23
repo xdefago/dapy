@@ -7,6 +7,7 @@ from enum import Enum
 from typing import Dict, Optional, Set
 
 import networkx as nx
+
 from PySide6.QtCore import QPoint, QPointF, Qt, Signal
 from PySide6.QtGui import QBrush, QColor, QFont, QMouseEvent, QPainter, QPaintEvent, QPen
 from PySide6.QtWidgets import QWidget
