@@ -1,6 +1,6 @@
 # Dapy: Distributed Algorithms in Python
 
-<img src="logo/dapy-logo.svg" alt="Dapy logo" width="200" />
+<img src="logo/dapy-logo.svg" alt="Dapy logo" width="100" />
 
 <p style="font-style:italic">
 IMPORTANT:

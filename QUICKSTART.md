@@ -2,7 +2,7 @@
 
 This guide helps you get started using dapy to simulate distributed algorithms in your Python project.
 
-<img src="logo/dapy-logo.svg" alt="Dapy logo" width="200" />
+<img src="logo/dapy-logo.svg" alt="Dapy logo" width="100" />
 
 ## Recommended: Start from the template
 
