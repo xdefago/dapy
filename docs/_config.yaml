@@ -2,6 +2,8 @@ title: "Dapy: distributed algorithms in Python"
 
 description: "Simulate, prototype, and visualize distributed algorithms."
 
+logo: "/logo/dapy-logo.svg"
+
 baseurl: "/dapy"
 
 # Jekyll configuration

@@ -2,6 +2,8 @@
 
 This guide helps you get started using dapy to simulate distributed algorithms in your Python project.
 
+![Dapy logo](logo/dapy-logo.svg)
+
 ## Recommended: Start from the template
 
 If you are starting a new project, use the template repository and follow its README:

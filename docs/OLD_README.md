@@ -27,7 +27,7 @@ uv pip install pdoc
 
 Generate the docs:
 ```shell
-uv run pdoc -o docs/api -d google src/dapy
+uv run pdoc -o docs/api -d google --logo ../logo/dapy-logo.svg --logo-link .. src/dapy
 ```
 
 Open the docs (using open command on Mac terminal):

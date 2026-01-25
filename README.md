@@ -1,5 +1,7 @@
 # Dapy: Distributed Algorithms in Python
 
+![Dapy logo](logo/dapy-logo.svg)
+
 <p style="font-style:italic">
 IMPORTANT:
 This project is in a very early stage of development; use at your own risks.
