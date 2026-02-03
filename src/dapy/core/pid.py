@@ -72,14 +72,14 @@ class ProcessSet:
         else:
             raise TypeError("Cannot join ProcessSet with non-ProcessSet object")
         
-    @staticmethod
-    def empty() -> Self:
+    @classmethod
+    def empty(cls) -> Self:
         """Create an empty process set.
         
         Returns:
             An empty ProcessSet instance.
         """
-        return ProcessSet()
+        return cls()
 
 
 @dataclass(frozen=True, order=True)
