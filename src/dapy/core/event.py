@@ -44,6 +44,7 @@ class Event(ABC):
         """Check if this event is less than another event.
         
         Events are compared by their target process identifier.
+        Note: This implements a partial ordering by target only, not a total ordering.
         
         Args:
             other: The event to compare with.
@@ -58,26 +59,22 @@ class Event(ABC):
         return self.target < other.target
     
     def __gt__(self, other: Self) -> bool:
-        """
-        Compare two events.
+        """Check if this event is greater than another event.
+        
+        Events are compared by their target process identifier.
+        Note: This implements a partial ordering by target only, not a total ordering.
+        
+        Args:
+            other: The event to compare with.
+        
+        Returns:
+            True if this event's target is greater than the other event's target.
         """
         if not isinstance(other, Event):
             return NotImplemented
         if self == other:
             return False
         return self.target > other.target
-    
-    def __cmp__(self, other: Self) -> int:
-        """
-        Compare two events.
-        """
-        if not isinstance(other, Event):
-            return NotImplemented
-        if self == other:
-            return 0
-        if self.target == other.target:
-            return hash(self).__cmp__(hash(other))
-        return -1 if self.target < other.target else 1
     
 
 @dataclass(frozen=True)
