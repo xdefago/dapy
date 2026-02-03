@@ -23,6 +23,7 @@ The core components include:
     - `.state.State`: Abstract class to define the state of a process in the distributed system.
 - `.system`:
     - `.system.System`: Represents the distributed system model, including its topology and synchrony model.
+    - `.system.SimTime`: Type alias representing simulation time.
     - `.system.SynchronyModel`: Base class to represents a model of synchrony.
         - `.system.Synchronous`: Represents a **synchronous** model (fixed message delays).
         - `.system.Asynchronous`: Represents an **asynchronous** model (unpredictable delays).
@@ -85,6 +86,7 @@ from .pid import ProcessSet as ProcessSet
 from .state import State as State
 from .system import Asynchronous as Asynchronous
 from .system import PartiallySynchronous as PartiallySynchronous
+from .system import SimTime as SimTime
 from .system import StochasticExponential as StochasticExponential
 from .system import Synchronous as Synchronous
 from .system import SynchronyModel as SynchronyModel

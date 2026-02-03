@@ -5,11 +5,15 @@ import random
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import time, timedelta
-from typing import Iterable
+from datetime import datetime, timedelta
+from typing import Iterable, NewType
 
 from .pid import Pid, ProcessSet
 from .topology import NetworkTopology
+
+
+# Type alias for simulation time
+SimTime = NewType('SimTime', timedelta)
 
 
 @dataclass(frozen=True)
@@ -20,7 +24,7 @@ class SynchronyModel(ABC):
             raise ValueError("Minimum delay must be strictly positive.")
         
     @abstractmethod
-    def arrival_time_for(self, sent_at: time) -> time:
+    def arrival_time_for(self, sent_at: SimTime) -> SimTime:
         """Calculate the arrival time for a message based on the synchrony model.
         
         Args:
@@ -48,8 +52,8 @@ class Synchronous(SynchronyModel):
         if self.fixed_delay < self.min_delay:
             raise ValueError("The fixed delay must be at least as great as the minimum delay.")
     
-    def arrival_time_for(self, sent_at: time) -> time:
-        return sent_at + self.fixed_delay
+    def arrival_time_for(self, sent_at: SimTime) -> SimTime:
+        return SimTime(sent_at + self.fixed_delay)
 
 
 @dataclass(frozen=True)
@@ -69,8 +73,8 @@ class Asynchronous(SynchronyModel):
         if self.base_delay < self.min_delay:
             raise ValueError("Base delay must be at least as great as the minimum delay.")
     
-    def arrival_time_for(self, sent_at: time) -> time:
-        return sent_at + self.min_delay + self.base_delay * (random.expovariate(lambd=2) + random.uniform(0, 1))
+    def arrival_time_for(self, sent_at: SimTime) -> SimTime:
+        return SimTime(sent_at + self.min_delay + self.base_delay * (random.expovariate(lambd=2) + random.uniform(0, 1)))
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -84,34 +88,34 @@ class PartiallySynchronous(Synchronous):
     Attributes:
         gst: The global synchronization time after which message bounds apply.
     """
-    gst: time
+    gst: SimTime
 
     def __post_init__(self) -> None:
         super().__post_init__()
-        if self.gst < timedelta.resolution:
+        if self.gst <= timedelta.resolution:
             raise ValueError("Global synchronization time (GST) must be a positive time.")
     
-    def arrival_time_for(self, sent_at: time) -> time:
+    def arrival_time_for(self, sent_at: SimTime) -> SimTime:
         if sent_at < self.gst:
             # If the message is sent before the global synchronization time (GST),
             match random.choice(["short", "long", "long", "long", "long", "near lost", "near lost", "lost", "lucky"]):
                 case "short":
-                    return sent_at + timedelta(microseconds=0.001) + self.fixed_delay * random.uniform(0, 2)
+                    return SimTime(sent_at + timedelta(microseconds=0.001) + self.fixed_delay * random.uniform(0, 2))
                 case "long":
-                    return (
+                    return SimTime(
                         sent_at
                         + timedelta(microseconds=0.001)
                         + self.fixed_delay
                             * (1 + random.uniform(0, 1) + random.expovariate(lambd=1/10))
                     )
                 case "near lost":
-                    return (
+                    return SimTime(
                         self.gst
                         + timedelta(microseconds=0.001)
                         + self.fixed_delay * (1_000_000 + random.expovariate(lambd=1/1_000_000))
                     )
                 case "lost":
-                    return max(self.gst, timedelta(days=999_999))
+                    return SimTime(max(self.gst, self.gst + timedelta(days=999_999)))
                 case "lucky":
                     # occasionally, behave synchronously
                     return super().arrival_time_for(sent_at)
@@ -137,8 +141,8 @@ class StochasticExponential(SynchronyModel):
         if self.delta_t < timedelta.resolution:
             raise ValueError("Delta time must be strictly positive.")
     
-    def arrival_time_for(self, sent_at: time) -> time:
-        return sent_at + self.min_delay + self.delta_t * random.expovariate(lambd=1)
+    def arrival_time_for(self, sent_at: SimTime) -> SimTime:
+        return SimTime(sent_at + self.min_delay + self.delta_t * random.expovariate(lambd=1))
 
 
 @dataclass(frozen=True)

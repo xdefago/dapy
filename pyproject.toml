@@ -34,13 +34,13 @@ repository = "https://github.com/xdefago/dapy.git"
 [dependency-groups]
 dev = [
     "pytest>=9.0",        # Testing framework
-    "black>=25.12",       # Code formatter
+    "black>=26.1",       # Code formatter
     "isort>=7.0",         # Import sorter
-    "ruff>=0.14",         # Fast Python linter (Rust-based)
+    "ruff>=0.14.14",         # Fast Python linter (Rust-based)
     "pdoc>=16.0",         # Documentation generator
     #
     "dapy[json]",  # For testing with JSON serialization
-    "pyinstaller>=6.17.0", # For building standalone executables (dapyview)
+    "pyinstaller>=6.18", # For building standalone executables (dapyview)
 ]
 ui = [
     "PySide6 >= 6.10",
