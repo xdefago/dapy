@@ -1,0 +1,6 @@
+{
+  "python.analysis.typeCheckingMode": "basic",
+  "[python]": {
+    "python.analysis.reportIncompatibleMethodOverride": false
+  }
+}
