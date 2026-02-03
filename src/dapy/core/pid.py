@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from typing import Iterable, Iterator, Self
 
 
-@dataclass(frozen=True, order=True)
+@dataclass(frozen=True, order=True, init=False)
 class Pid:
     """Represents a unique process identifier in a distributed system.
     
@@ -14,6 +14,13 @@ class Pid:
     """
     id: int
     
+    def __init__(self, id: int | Self) -> None:
+        if isinstance(id, Pid):
+            id = id.id
+        if id < 0:
+            raise ValueError("Process ID must be a non-negative integer")
+        object.__setattr__(self, 'id', id)
+
     def __str__(self) -> str:
         return f"p{self.id}"
     
