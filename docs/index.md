@@ -8,7 +8,7 @@ permalink: /
 
 # 🚀 Dapy: Simulating Distributed Algorithms in Python
 
-![Dapy logo](../logo/dapy-logo.svg)
+![Dapy logo](assets/logo/dapy-logo.svg)
 
 **Dapy** is a lightweight Python framework for prototyping, simulating, and visualizing distributed algorithms in a controlled environment. Perfect for education, research, and experimentation with distributed computing concepts.
 

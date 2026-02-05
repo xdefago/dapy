@@ -1,6 +1,6 @@
 title: "Dapy: Distributed Algorithm Simulator"
 description: "Simulate, prototype, and visualize distributed algorithms."
-logo: "/dapy/logo/dapy-logo.svg"
+logo: "/dapy/assets/logo/dapy-logo.svg"
 baseurl: "/dapy"
 
 # Theme
