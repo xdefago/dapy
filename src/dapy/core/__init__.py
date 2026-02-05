@@ -87,6 +87,7 @@ from .state import State as State
 from .system import Asynchronous as Asynchronous
 from .system import PartiallySynchronous as PartiallySynchronous
 from .system import SimTime as SimTime
+from .system import simtime as simtime
 from .system import StochasticExponential as StochasticExponential
 from .system import Synchronous as Synchronous
 from .system import SynchronyModel as SynchronyModel

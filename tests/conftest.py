@@ -3,13 +3,13 @@
 
 """Shared pytest fixtures and configuration for dapy tests."""
 
-from datetime import timedelta
 from typing import Optional
 
 import pytest
 
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.core import Pid, Ring, Synchronous, System
+from dapy.core.system import simtime
 from dapy.sim import Settings, Simulator, Trace
 
 
@@ -18,7 +18,7 @@ def simple_ring_system() -> System:
     """Create a simple Ring system with 3 processes for testing."""
     return System(
         topology=Ring.of_size(3),
-        synchrony=Synchronous(fixed_delay=timedelta(seconds=1)),
+        synchrony=Synchronous(fixed_delay=simtime(seconds=1)),
     )
 
 
@@ -32,7 +32,7 @@ def trace_from_learn_algorithm(simple_ring_system: System) -> Optional[Trace]:
 
     # Run the simulation
     sim.start()
-    sim.schedule(event=Start(target=Pid(1)), at=timedelta(seconds=0))
+    sim.schedule(event=Start(target=Pid(1)), at=simtime(seconds=0))
     sim.run_to_completion()
 
     return sim.trace

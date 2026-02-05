@@ -63,7 +63,6 @@ from dapy.sim import Simulator, Settings
 from dapy.core import System, Ring, Asynchronous
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.core import Pid
-from datetime import timedelta
 
 # Enable trace collection
 settings = Settings(enable_trace=True)
@@ -79,8 +78,9 @@ algorithm = LearnGraphAlgorithm(system)
 sim = Simulator.from_system(system, algorithm, settings=settings)
 
 # Run simulation
+from dapy.core import simtime
 sim.start()
-sim.schedule(event=Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)), at=simtime())
 sim.run_to_completion()
 
 # Save trace

@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import timedelta
 
 import random
 
@@ -28,6 +27,7 @@ from dapy.core import (
     StochasticExponential,
     Synchronous,
     System,
+    simtime,
 )
 
 
@@ -168,35 +168,35 @@ def test_algorithm_name_and_description() -> None:
 
 
 def test_synchrony_models_deterministic(monkeypatch: pytest.MonkeyPatch) -> None:
-    sent_at = timedelta(seconds=1)
+    sent_at = simtime(seconds=1)
 
-    sync = Synchronous(fixed_delay=timedelta(milliseconds=2))
-    assert sync.arrival_time_for(sent_at) == sent_at + timedelta(milliseconds=2)
+    sync = Synchronous(fixed_delay=simtime(milliseconds=2))
+    assert sync.arrival_time_for(sent_at) == sent_at + simtime(milliseconds=2)
 
-    async_model = Asynchronous(base_delay=timedelta(seconds=2))
+    async_model = Asynchronous(base_delay=simtime(seconds=2))
     monkeypatch.setattr(random, "expovariate", lambda _lambd=None, **_kwargs: 0.0)
     monkeypatch.setattr(random, "uniform", lambda _a, _b: 0.0)
     assert async_model.arrival_time_for(sent_at) == sent_at + async_model.min_delay
 
-    stochastic = StochasticExponential(delta_t=timedelta(milliseconds=10))
+    stochastic = StochasticExponential(delta_t=simtime(milliseconds=10))
     monkeypatch.setattr(random, "expovariate", lambda _lambd=None, **_kwargs: 1.5)
-    assert stochastic.arrival_time_for(sent_at) == sent_at + stochastic.min_delay + timedelta(milliseconds=15)
+    assert stochastic.arrival_time_for(sent_at) == sent_at + stochastic.min_delay + simtime(milliseconds=15)
 
 
 def test_partially_synchronous_lucky_path(monkeypatch: pytest.MonkeyPatch) -> None:
-    sent_at = timedelta(seconds=1)
-    model = PartiallySynchronous(gst=timedelta(seconds=10), fixed_delay=timedelta(milliseconds=3))
+    sent_at = simtime(seconds=1)
+    model = PartiallySynchronous(gst=simtime(seconds=10), fixed_delay=simtime(milliseconds=3))
     monkeypatch.setattr(random, "choice", lambda _choices: "lucky")
-    assert model.arrival_time_for(sent_at) == sent_at + timedelta(milliseconds=3)
+    assert model.arrival_time_for(sent_at) == sent_at + simtime(milliseconds=3)
 
 
 def test_synchrony_model_validation() -> None:
     with pytest.raises(ValueError):
-        _ = Synchronous(min_delay=timedelta(0))
+        _ = Synchronous(min_delay=simtime(seconds=0))
     with pytest.raises(ValueError):
-        _ = Asynchronous(min_delay=timedelta(0))
+        _ = Asynchronous(min_delay=simtime(seconds=0))
     with pytest.raises(ValueError):
-        _ = StochasticExponential(delta_t=timedelta(0))
+        _ = StochasticExponential(delta_t=simtime(seconds=0))
 
 
 def test_system_processes_and_neighbors() -> None:

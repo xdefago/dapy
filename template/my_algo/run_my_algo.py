@@ -9,7 +9,7 @@ Or: uv run python -m my_algo.run_my_algo
 """
 
 
-from dapy.core import Asynchronous, Ring, System
+from dapy.core import Asynchronous, Ring, System, simtime
 from dapy.sim import Settings
 
 # Import your algorithm components
@@ -83,7 +83,7 @@ def main() -> None:
     # Schedule any initial events to kick off the algorithm.
     # For example, if process 0 should start the protocol:
     # initiator = Pid(0)
-    # sim.schedule(event=MySignal(target=initiator), at=timedelta(seconds=0))
+    # sim.schedule(event=MySignal(target=initiator), at=simtime())
     # print(f"Scheduled initial event for process {initiator}")
     # print()
     

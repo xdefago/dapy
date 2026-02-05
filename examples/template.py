@@ -132,7 +132,7 @@ if __name__ == "__main__":
     # Start the simulation; all processes are initialized to their initial state 
     sim.start()
     # Possibly schedule some initial event(s)
-    sim.schedule(event=..., at=...)  # e.g., sim.schedule(event=MySignal(target=Pid(1)), at=timedelta(seconds=0))
+    sim.schedule(event=..., at=...)  # e.g., sim.schedule(event=MySignal(target=Pid(1)), at=simtime(seconds=0))
     # Run the algorithm until completion
     sim.run_to_completion()
 

@@ -5,7 +5,7 @@ import random
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import timedelta
 from typing import Iterable, NewType
 
 from .pid import Pid, ProcessSet
@@ -16,11 +16,46 @@ from .topology import NetworkTopology
 SimTime = NewType('SimTime', timedelta)
 
 
+def simtime(hours: float = 0, minutes: float = 0, seconds: float = 0,
+            milliseconds: float = 0, microseconds: float = 0, nanoseconds: int = 0,
+            weeks: float = 0, days: float = 0) -> SimTime:
+    """Create a SimTime value from time components.
+    
+    Provides a convenient factory function to create simulation time values
+    without exposing the underlying timedelta implementation.
+    
+    Args:
+        weeks: Number of weeks. Defaults to 0.
+        days: Number of days. Defaults to 0.
+        hours: Number of hours. Defaults to 0.
+        minutes: Number of minutes. Defaults to 0.
+        seconds: Number of seconds. Defaults to 0.
+        milliseconds: Number of milliseconds. Defaults to 0.
+        microseconds: Number of microseconds. Defaults to 0.
+        nanoseconds: Number of nanoseconds. Defaults to 0.
+    Returns:
+        A SimTime value representing the specified duration.
+    
+    Examples:
+        >>> simtime(seconds=5)
+        datetime.timedelta(seconds=5)
+        >>> simtime(milliseconds=100)
+        datetime.timedelta(milliseconds=100)
+        >>> simtime(minutes=1, seconds=30)
+        datetime.timedelta(seconds=90)
+    """
+    return SimTime(timedelta(days=days, seconds=seconds, microseconds=microseconds + nanoseconds / 1000,
+                             milliseconds=milliseconds, minutes=minutes, hours=hours, weeks=weeks))
+
+
+SIMTIME_EPSILON = simtime(nanoseconds=1) # Smallest distinguishable time unit
+
+
 @dataclass(frozen=True)
 class SynchronyModel(ABC):
-    min_delay: timedelta = field(default=timedelta.resolution)
+    min_delay: SimTime = field(default=simtime(nanoseconds=1))
     def __post_init__(self) -> None:
-        if self.min_delay < timedelta.resolution:
+        if self.min_delay < SIMTIME_EPSILON:
             raise ValueError("Minimum delay must be strictly positive.")
         
     @abstractmethod
@@ -45,7 +80,7 @@ class Synchronous(SynchronyModel):
     Attributes:
         fixed_delay: The maximum delay for all message deliveries. Defaults to 1 millisecond.
     """
-    fixed_delay: timedelta = field(default=timedelta(milliseconds=1))
+    fixed_delay: SimTime = field(default_factory=lambda: simtime(milliseconds=1))
     
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -66,7 +101,7 @@ class Asynchronous(SynchronyModel):
     Attributes:
         base_delay: The base delay for message deliveries. Defaults to 1 second.
     """
-    base_delay: timedelta = field(default=timedelta(seconds=1))
+    base_delay: SimTime = field(default_factory=lambda: simtime(seconds=1))
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -92,7 +127,7 @@ class PartiallySynchronous(Synchronous):
 
     def __post_init__(self) -> None:
         super().__post_init__()
-        if self.gst <= timedelta.resolution:
+        if self.gst <= SIMTIME_EPSILON:
             raise ValueError("Global synchronization time (GST) must be a positive time.")
     
     def arrival_time_for(self, sent_at: SimTime) -> SimTime:
@@ -100,22 +135,22 @@ class PartiallySynchronous(Synchronous):
             # If the message is sent before the global synchronization time (GST),
             match random.choice(["short", "long", "long", "long", "long", "near lost", "near lost", "lost", "lucky"]):
                 case "short":
-                    return SimTime(sent_at + timedelta(microseconds=0.001) + self.fixed_delay * random.uniform(0, 2))
+                    return SimTime(sent_at + simtime(nanoseconds=1) + self.fixed_delay * random.uniform(0, 2))
                 case "long":
                     return SimTime(
                         sent_at
-                        + timedelta(microseconds=0.001)
+                        + SIMTIME_EPSILON
                         + self.fixed_delay
                             * (1 + random.uniform(0, 1) + random.expovariate(lambd=1/10))
                     )
                 case "near lost":
                     return SimTime(
                         self.gst
-                        + timedelta(microseconds=0.001)
+                        + SIMTIME_EPSILON
                         + self.fixed_delay * (1_000_000 + random.expovariate(lambd=1/1_000_000))
                     )
                 case "lost":
-                    return SimTime(max(self.gst, self.gst + timedelta(days=999_999)))
+                    return SimTime(max(self.gst, self.gst + simtime(days=999_999)))
                 case "lucky":
                     # occasionally, behave synchronously
                     return super().arrival_time_for(sent_at)
@@ -134,11 +169,11 @@ class StochasticExponential(SynchronyModel):
         delta_t: The time scale parameter for the exponential distribution.
                  Defaults to 1 millisecond.
     """
-    delta_t: timedelta = field(default=timedelta(milliseconds=1))
+    delta_t: SimTime = field(default=simtime(milliseconds=1))
     
     def __post_init__(self) -> None:
         super().__post_init__()
-        if self.delta_t < timedelta.resolution:
+        if self.delta_t < SIMTIME_EPSILON:
             raise ValueError("Delta time must be strictly positive.")
     
     def arrival_time_for(self, sent_at: SimTime) -> SimTime:

@@ -207,10 +207,8 @@ class Arbitrary(NetworkTopology):
             else:
                 if isinstance(entry, Channel):
                     s, r = entry.as_tuple()
-                elif isinstance(entry, tuple) and isinstance(entry[0], int) and isinstance(entry[1], int):
-                    s, r = Pid(entry[0]), Pid(entry[1])
                 else:
-                    s, r = entry
+                    s, r = Pid(entry[0]), Pid(entry[1])
                 neighbors.setdefault(s, ProcessSet())
                 neighbors[s] = neighbors[s] + r
                 if not directed:

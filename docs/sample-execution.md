@@ -13,7 +13,7 @@ There are three main components necessary to define an execution:
 The example below is configured to generate a trace of the execution. The trace contains all subsequent configurations from the initial configuration until the end of the execution. A configuration is a collection of states; one for each process. The trace also keeps track of all events generated during the execution, with the creation time (simulation time) of the event and the time to be scheduled. These times are identical in the case of signals, but correspond to the sending and receive time in the case of messages.
 
 ```python
-from dapy.core import Pid, System, Ring, Asynchronous
+from dapy.core import Pid, System, Ring, Asynchronous, simtime
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.sim import Simulator, Settings
 from datetime import timedelta
@@ -57,7 +57,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 # Start the simulation; all processes are initialized to their initial state 
 sim.start()
 # Schedule some initial event to start the algorithm (here we start process 1)
-sim.schedule(event=Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)), at=simtime())
 # Run the algorithm until completion
 # - this will run the algorithm until the system has no pending events (one can specify a step limit)
 sim.run_to_completion()

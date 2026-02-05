@@ -3,7 +3,6 @@
 
 """Test suite for trace generation and serialization."""
 
-from datetime import timedelta
 from typing import Optional
 
 from dapy.sim import Trace
@@ -14,14 +13,15 @@ class TestTraceGeneration:
 
     def test_trace_properties(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
         """Test that generated trace has expected properties."""
+        from dapy.core import simtime
         trace = trace_from_learn_algorithm
         assert trace is not None
         assert trace.algorithm_name == "Learn the Topology"
         assert len(trace.history) == 16
         assert len(trace.events_list) == 16
         assert len(trace.history[0].configuration) == 3
-        assert trace.history[0].time == timedelta(seconds=0)
-        assert trace.history[-1].time == timedelta(seconds=3)
+        assert trace.history[0].time == simtime()
+        assert trace.history[-1].time == simtime(seconds=3)
 
 
 class TestTraceSerialization:

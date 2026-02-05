@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 from dapy.algo.learn import LearnGraphAlgorithm, Start
-from dapy.core import Asynchronous, Pid, Ring, System
+from dapy.core import Asynchronous, Pid, Ring, System, simtime
 from dapy.sim import Settings, Simulator
 
 # This example demonstrates how to use the dapy library to simulate a distributed algorithm
@@ -44,7 +44,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 # Start the simulation; all processes are initialized to their initial state 
 sim.start()
 # Schedule some initial event to start the algorithm (here we start process 1)
-sim.schedule(event=Start(target=Pid(1)))
+sim.schedule(event=Start(target=Pid(1)), at=simtime())
 # Run the algorithm until completion
 # - this will run the algorithm until the system has no pending events (one can specify a step limit)
 sim.run_to_completion()
@@ -52,6 +52,7 @@ sim.run_to_completion()
 #
 # Display the execution based on the trace
 #
+assert sim.trace is not None
 
 # Display the configurations
 print("\n----[ Trace ]---- configuration history")

@@ -5,10 +5,10 @@ Run with: uv run run-bcast
 Or: uv run python -m broadcast.run_bcast
 """
 
-from datetime import timedelta
 from pathlib import Path
 
 from dapy.core import Asynchronous, Pid, Ring, System
+from dapy.core.system import simtime
 from dapy.sim import Settings, Simulator
 
 from .algo.algorithm import BroadcastAlgorithm, Start
@@ -67,7 +67,7 @@ def main() -> None:
     initial_event = Start(target=initiator)
     
     print(f"Initiating broadcast from process {initiator}")
-    sim.schedule(event=initial_event, at=timedelta(seconds=0))
+    sim.schedule(event=initial_event, at=simtime(seconds=0))
     print()
     
     # ========================================================================

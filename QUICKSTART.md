@@ -90,7 +90,7 @@ class MyAlgorithm(Algorithm[MyState]):
 Create a Python file to run your simulation (e.g., `run_simulation.py`):
 
 ```python
-from dapy.core import Pid, System, Ring, Asynchronous
+from dapy.core import Pid, System, Ring, Asynchronous, simtime
 from dapy.sim import Simulator, Settings
 from datetime import timedelta
 from my_algorithm import MyAlgorithm, MySignal
@@ -112,7 +112,7 @@ sim = Simulator.from_system(system, algorithm, settings=settings)
 sim.start()
 
 # Schedule initial events
-sim.schedule(timedelta(seconds=0), MySignal(target=Pid(0)))
+sim.schedule(event=MySignal(target=Pid(0)), at=simtime())
 
 # Run until no more events
 sim.run_to_completion()

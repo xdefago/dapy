@@ -5,7 +5,9 @@ from dataclasses import dataclass, field
 from datetime import timedelta
 from typing import Iterable, Self
 
-from ..core import Event, Message, Pid, Signal, System
+from dapy.core.system import simtime
+
+from ..core import Event, Message, Pid, Signal, System, SimTime
 from .configuration import Configuration
 from .timed import TimedConfiguration
 
@@ -22,8 +24,8 @@ class LocalTimedEvent:
         end: The time when the event arrived at its destination.
         event: The event object (Message or Signal).
     """
-    start: timedelta
-    end: timedelta
+    start: SimTime
+    end: SimTime
     event: Event
     
     def is_message(self) -> bool:
@@ -90,7 +92,7 @@ class Trace:
     history: list[TimedConfiguration] = field(default_factory=list)
     events_list: list[LocalTimedEvent] = field(default_factory=list)
 
-    def add_events(self, events: Iterable[tuple[timedelta, timedelta, Event]]) -> None:
+    def add_events(self, events: Iterable[tuple[SimTime, SimTime, Event]]) -> None:
         """Add timed events to the trace.
         
         Message events require two timestamps: one for the send time at the sender
@@ -102,7 +104,7 @@ class Trace:
         """
         self.events_list.extend(LocalTimedEvent(start, end, event) for start, end, event in events)
 
-    def add_history(self, history: Iterable[tuple[timedelta, Configuration]]) -> None:
+    def add_history(self, history: Iterable[tuple[SimTime, Configuration]]) -> None:
         """Add system configurations at specific time points to the trace.
         
         Args:
@@ -184,9 +186,9 @@ class Trace:
         except ImportError:
             raise ImportError("classifiedjson is not installed. Please re-install dapy with the json feature.")
         
-        def _timedelta_serialize(obj: timedelta) -> str:
+        def _timedelta_serialize(obj: SimTime) -> str:
             """
-            Serialize a timedelta object to a string.
+            Serialize a SimTime object to a string.
             """
             if not is_exact_match(obj, timedelta):
                 return NotImplemented
@@ -231,7 +233,7 @@ class Trace:
 
 
 
-def _parse_timedelta(timedelta_str: str) -> timedelta:
+def _parse_timedelta(timedelta_str: str) -> SimTime:
     """
     Parse a string to create a timedelta object.
     """
@@ -243,7 +245,7 @@ def _parse_timedelta(timedelta_str: str) -> timedelta:
     args = match.group("args").split(",")
     kwargs = {}
     if args == ["0"]:
-        return timedelta(0)
+        return simtime(0)
     
     for arg in args:
         if "=" in arg:
@@ -252,7 +254,7 @@ def _parse_timedelta(timedelta_str: str) -> timedelta:
         else:
             kwargs[arg.strip()] = None
     
-    return timedelta(**kwargs)
+    return simtime(**kwargs)
 
 
 

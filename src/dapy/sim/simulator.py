@@ -4,10 +4,9 @@
 import heapq
 
 from dataclasses import dataclass, field
-from datetime import timedelta
 from typing import Optional, Self
 
-from ..core import Algorithm, Event, Message, System
+from ..core import Algorithm, Event, Message, System, SimTime, simtime
 from .configuration import Configuration
 from .settings import Settings
 from .timed import TimedEvent
@@ -34,7 +33,7 @@ class Simulator:
     system: System
     algorithm: Algorithm
     current_configuration: Configuration
-    current_time: timedelta = field(default=timedelta(seconds=0))
+    current_time: SimTime = field(default=simtime())
     settings: Settings = field(default_factory=Settings)
     trace: Optional[Trace] = field(default=None)
     scheduled_events: list[TimedEvent] = field(default_factory=list, init=False)
@@ -53,13 +52,12 @@ class Simulator:
             
             # Extract parameters based on synchrony model type
             if hasattr(sync_model, 'fixed_delay'):
-                sync_params['fixed_delay'] = str(sync_model.fixed_delay)
+                sync_params['fixed_delay'] = str(sync_model.__getattribute__('fixed_delay'))
             if hasattr(sync_model, 'max_delay'):
-                sync_params['max_delay'] = str(sync_model.max_delay)
+                sync_params['max_delay'] = str(sync_model.__getattribute__('max_delay'))
             if hasattr(sync_model, 'delta_t'):
-                sync_params['delta_t'] = str(sync_model.delta_t)
-            if hasattr(sync_model, 'min_delay'):
-                sync_params['min_delay'] = str(sync_model.min_delay)
+                sync_params['delta_t'] = str(sync_model.__getattribute__('delta_t'))
+            sync_params['min_delay'] = sync_model.min_delay
             
             self.trace = Trace(
                 system=self.system,
@@ -74,7 +72,7 @@ class Simulator:
     def from_system(cls,
                     system: System,
                     algorithm: Algorithm,
-                    starting_time: timedelta = timedelta(seconds=0),
+                    starting_time: SimTime = simtime(),
                     settings: Settings = Settings()
     ) -> Self:
         """Create a simulator instance from a system and algorithm.
@@ -104,7 +102,7 @@ class Simulator:
         Resets the simulation time to 0 and invokes the algorithm's on_start
         handler for each process to generate initial events.
         """
-        self.current_time = timedelta(seconds=0)
+        self.current_time = simtime()
         for pid in self.system.processes():
             initial_state, events = self.algorithm.on_start(self.current_configuration[pid])
             self.current_configuration = self.current_configuration.updated([initial_state])
@@ -112,7 +110,7 @@ class Simulator:
                 at_time = self._arrival_time_for(event)
                 self.schedule(event, at_time)
     
-    def _arrival_time_for(self, event: Event) -> timedelta:
+    def _arrival_time_for(self, event: Event) -> SimTime:
         """Calculate the arrival time for a given event based on the synchrony model.
         
         Args:
@@ -127,7 +125,7 @@ class Simulator:
         else:
             return self.current_time
         
-    def schedule(self, event: Event, at: timedelta = timedelta(seconds=0)) -> None:
+    def schedule(self, event: Event, at: SimTime = simtime()) -> None:
         """Schedule an event to be processed at a specific time.
         
         Args:
@@ -238,7 +236,7 @@ class Simulator:
             algorithm name, and scheduled events.
         """
         scheduled = '\n'.join( f"  {timed_event.time}: {timed_event.event}" for timed_event in self.scheduled_events )
-        return f"""Simulator ({self.algorithm.name()}) @{self.current_time}:
+        return f"""Simulator ({self.algorithm.name}) @{self.current_time}:
 {self.current_configuration}
 Scheduled Events:
 {scheduled}"""

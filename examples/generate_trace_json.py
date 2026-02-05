@@ -3,7 +3,6 @@
 
 """Generate a sample trace file for testing the dapyview GUI."""
 
-from datetime import timedelta
 from pathlib import Path
 
 from dapy.algo.learn import LearnGraphAlgorithm, Start

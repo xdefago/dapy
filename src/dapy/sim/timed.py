@@ -3,8 +3,9 @@
 
 from abc import ABC
 from dataclasses import dataclass, field
-from datetime import timedelta
 from itertools import count
+
+from dapy.core import SimTime
 
 from ..core import Event
 from .configuration import Configuration
@@ -20,7 +21,7 @@ class Timed(ABC):
     Attributes:
         time: The timestamp associated with this object.
     """
-    time: timedelta
+    time: SimTime
 
 
 @dataclass(frozen=True, order=True)
