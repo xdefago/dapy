@@ -1,0 +1,50 @@
+// Custom styles for Just the Docs theme
+// Place any custom CSS here
+
+// Syntax highlighting
+// Just the Docs uses the jekyll-rouge-highlight plugin
+// Code blocks are automatically highlighted with rouge
+
+// Improve code block appearance
+code {
+  background-color: #f6f7f8;
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+// Callout styling (if using callouts markdown extension)
+.note {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #4a90e2;
+  background-color: #f0f4ff;
+}
+
+.warning {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #f0ad4e;
+  background-color: #fffbf0;
+}
+
+.danger {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #d9534f;
+  background-color: #fff5f5;
+}
+
+// Improve table styling
+table {
+  margin: 1rem 0;
+}
+
+// Improve list styling
+ul, ol {
+  margin: 0.5rem 0;
+}
+
+// Better spacing for navigation
+.nav-list-item {
+  margin: 0.25rem 0;
+}

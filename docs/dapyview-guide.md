@@ -1,3 +1,10 @@
+---
+layout: default
+title: User Guide
+parent: Dapyview
+nav_order: 2
+---
+
 # Dapyview User Guide
 
 **Dapyview** is a graphical trace viewer for visualizing execution traces of distributed algorithms created with the Dapy framework. It displays time-space diagrams showing process timelines, message exchanges, and causality relationships.
@@ -34,12 +41,12 @@ pip install "git+https://github.com/xdefago/dapy.git"
    sim = Simulator.from_system(system, algorithm)
    sim.start()
    sim.run_to_completion()
-   sim.save_trace("my_trace.json")
+   sim.save_trace("my_trace.pkl")  # Pickle format (default)
    ```
 
 2. **Launch the viewer:**
    ```bash
-   dapyview my_trace.json
+   dapyview my_trace.pkl
    ```
 
 ---
@@ -52,7 +59,15 @@ pip install "git+https://github.com/xdefago/dapy.git"
 
 ### Installing Dapy (includes Dapyview)
 
-**Using pip:**
+The recommended way is to use the [template repository](https://github.com/xdefago/dapy-template):
+
+```bash
+git clone https://github.com/xdefago/dapy-template
+cd dapy-template
+uv sync
+```
+
+Alternatively, install directly via pip:
 ```bash
 pip install "git+https://github.com/xdefago/dapy.git"
 ```
@@ -540,7 +555,7 @@ pip install --force-reinstall PySide6
 **Problem**: "No module named dapyview"
 ```bash
 # Solution: Use correct invocation
-dapyview trace.json  # Not: python -m dapyview
+dapyview trace.pkl  # Not: python -m dapyview
 ```
 
 **Problem**: Trace won't load

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Packaging Guide
+parent: Development
+nav_order: 2
+---
+
 # Dapyview Packaging Guide
 
 This document provides recommendations for packaging **dapyview** (the GUI trace viewer) as a standalone executable that users can download and run without cloning the repository or installing Python dependencies.
@@ -50,11 +57,11 @@ The two components work together but can be used independently:
 3. **Test the executable**:
    ```bash
    # On macOS/Linux
-   ./dist/dapyview-macos-arm64 examples/sample_trace.json
-   # or: ./dist/dapyview-linux-x86_64 examples/sample_trace.json
+   ./dist/dapyview-macos-arm64 examples/sample_trace.pkl
+   # or: ./dist/dapyview-linux-x86_64 examples/sample_trace.pkl
    
    # On Windows
-   dist\dapyview-windows-x86_64.exe examples\sample_trace.json
+   dist\dapyview-windows-x86_64.exe examples\sample_trace.pkl
    ```
 
 4. **Distribute**:
@@ -471,7 +478,7 @@ curl -L -o dapyview https://github.com/xdefago/dapy/releases/download/v0.2.0/dap
 chmod +x dapyview
 
 # Run
-./dapyview trace.json
+./dapyview trace.pkl
 
 # Optional: Move to PATH
 sudo mv dapyview /usr/local/bin/
@@ -486,7 +493,7 @@ wget https://github.com/xdefago/dapy/releases/download/v0.2.0/dapyview-v0.2.0-li
 chmod +x dapyview-v0.2.0-linux-x86_64
 
 # Run
-./dapyview-v0.2.0-linux-x86_64 trace.json
+./dapyview-v0.2.0-linux-x86_64 trace.pkl
 ```
 
 **Windows**:
@@ -494,7 +501,7 @@ chmod +x dapyview-v0.2.0-linux-x86_64
 # Download from GitHub releases page
 
 # Run
-.\dapyview.exe trace.json
+.\dapyview.exe trace.pkl
 ```
 
 ---
@@ -510,4 +517,4 @@ This provides:
 - ✅ Cross-platform support
 - ✅ Reasonable file sizes (50-150 MB)
 
-Users can simply download the executable for their platform and run `dapyview trace.json` without any installation steps.
+Users can simply download the executable for their platform and run `dapyview trace.pkl` without any installation steps.

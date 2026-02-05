@@ -1,4 +1,11 @@
-# Example (Part 1)
+---
+layout: default
+title: Writing Algorithms
+parent: Dapy Library
+nav_order: 1
+---
+
+# Writing Algorithms
 
 * How to write an algorithm
 * [How to define an execution](sample-execution.md)

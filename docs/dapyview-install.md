@@ -1,3 +1,10 @@
+---
+layout: default
+title: Installation
+parent: Dapyview
+nav_order: 1
+---
+
 # Installing Dapyview
 
 Dapyview is a GUI tool for visualizing execution traces of distributed algorithms.
@@ -21,7 +28,7 @@ Dapyview is a GUI tool for visualizing execution traces of distributed algorithm
 
 3. **Run**:
    ```bash
-   ./dapyview-v0.2.0-macos-arm64 trace.json
+   ./dapyview-v0.2.0-macos-arm64 trace.pkl
    ```
 
 4. **Optional** - Install to PATH for easy access:
@@ -49,7 +56,7 @@ Dapyview is a GUI tool for visualizing execution traces of distributed algorithm
 
 3. **Run**:
    ```bash
-   ./dapyview-v0.2.0-linux-x86_64 trace.json
+   ./dapyview-v0.2.0-linux-x86_64 trace.pkl
    ```
 
 4. **Optional** - Install to PATH:
@@ -73,7 +80,7 @@ sudo dnf install xcb-util-cursor
 
 2. **Run**:
    ```powershell
-   .\dapyview-v0.2.0-windows-x86_64.exe trace.json
+   .\dapyview-v0.2.0-windows-x86_64.exe trace.pkl
    ```
 
 **Note**: Windows may show a SmartScreen warning. Click "More info" → "Run anyway"
@@ -159,10 +166,10 @@ dapyview --version
 
 ```bash
 # Basic usage
-dapyview path/to/trace.json
+dapyview path/to/trace.pkl
 
 # Example with sample trace
-dapyview examples/sample_trace.json
+dapyview examples/sample_trace.pkl
 ```
 
 ---

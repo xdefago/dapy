@@ -1,4 +1,11 @@
-# Example (Part 2)
+---
+layout: default
+title: Defining Executions
+parent: Dapy Library
+nav_order: 2
+---
+
+# Defining Executions
 
 * [How to write an algorithm](sample-algorithm.md)
 * How to define an execution
@@ -16,7 +23,6 @@ The example below is configured to generate a trace of the execution. The trace 
 from dapy.core import Pid, System, Ring, Asynchronous, simtime
 from dapy.algo.learn import LearnGraphAlgorithm, Start
 from dapy.sim import Simulator, Settings
-from datetime import timedelta
 
 # This example demonstrates how to use the dapy library to simulate a distributed algorithm
 # This runs a system of 4 processes in a ring topology emulating an asynchronous model, to execute

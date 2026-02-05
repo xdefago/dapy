@@ -1,6 +1,9 @@
 ---
 layout: default
-title: Dapy - Distributed Algorithm Simulator
+title: Home
+nav_order: 1
+description: "Dapy: Simulate, prototype, and visualize distributed algorithms in Python"
+permalink: /
 ---
 
 # 🚀 Dapy: Simulating Distributed Algorithms in Python
@@ -24,8 +27,8 @@ Whether you're teaching distributed computing or exploring new algorithms, Dapy 
 
 Dapy is split into two independent parts:
 
-- **[dapy library](https://github.com/xdefago/dapy)** - The core framework for defining and simulating algorithms.
-- **[dapyview](dapyview-guide.md)** - An optional GUI trace viewer for visualizing execution traces.
+- **[dapy library](dapy-library.md)** - The core framework for defining and simulating algorithms.
+- **[dapyview](dapyview.md)** - An optional GUI trace viewer for visualizing execution traces.
 
 ---
 
@@ -39,13 +42,15 @@ Dapy is currently under active development and not yet published on PyPI.
 
 The fastest way to get started is using our project template:
 
-1. **Get the template**:
-   - [Download the template](https://github.com/xdefago/dapy/tree/main/template) or copy it from the dapy repository
+1. **Use the GitHub template**:
+   - Go to https://github.com/xdefago/dapy-template
+   - Click **Use this template** to create your own repository
    - It includes pre-configured project structure, example algorithm, and ready-to-use setup
 
-2. **Install dependencies**:
+2. **Clone and install**:
    ```bash
-   cd my-algorithm-project
+   git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
+   cd YOUR-REPO-NAME
    uv sync
    ```
 
@@ -56,7 +61,7 @@ The fastest way to get started is using our project template:
    dapyview traces/broadcast_trace.pkl
    ```
 
-See the [template README](https://github.com/xdefago/dapy/blob/main/template/README.md) for complete instructions.
+See the [template README](https://github.com/xdefago/dapy-template) for complete instructions.
 
 **Alternative: Install dapy as a dependency**
 
@@ -134,7 +139,7 @@ class SimpleAlgorithm(Algorithm):
   - Running executions
   - Saving and loading traces
 
-- **[API Reference](api/)** - Complete API documentation
+- **[API Reference](api.md)** - Complete API documentation
   - Generated from source code docstrings
   - All public classes and functions
 
@@ -156,7 +161,7 @@ class SimpleAlgorithm(Algorithm):
 
 ```bash
 # Run dapyview with a trace file
-dapyview examples/sample_trace.json
+dapyview examples/sample_trace.pkl
 
 # Or start without a file (open via menu)
 dapyview

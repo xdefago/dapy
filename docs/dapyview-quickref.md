@@ -1,3 +1,10 @@
+---
+layout: default
+title: Quick Reference
+parent: Dapyview
+nav_order: 3
+---
+
 # Dapyview Quick Reference
 
 ## Launch

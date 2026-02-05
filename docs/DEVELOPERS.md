@@ -1,3 +1,10 @@
+---
+layout: default
+title: Developer Guide
+parent: Development
+nav_order: 1
+---
+
 # Developer Documentation
 
 This guide is for contributors and maintainers of the dapy project.
@@ -35,7 +42,7 @@ The dapy project consists of two main components:
 3. **Verify installation**:
    ```bash
    python example.py
-   uv run dapyview examples/sample_trace.json
+   uv run dapyview examples/sample_trace.pkl
    ```
 
 ### Alternative: Using pip
@@ -70,13 +77,13 @@ This creates platform-specific executables in `dist/`:
 
 ```bash
 # macOS
-./dist/dapyview-macos-arm64 examples/sample_trace.json
+./dist/dapyview-macos-arm64 examples/sample_trace.pkl
 
 # Linux
-./dist/dapyview-linux-x86_64 examples/sample_trace.json
+./dist/dapyview-linux-x86_64 examples/sample_trace.pkl
 
 # Windows
-dist\dapyview-windows-x86_64.exe examples\sample_trace.json
+dist\dapyview-windows-x86_64.exe examples\sample_trace.pkl
 ```
 
 ## Release Process

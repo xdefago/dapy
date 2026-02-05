@@ -130,85 +130,82 @@
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this event is less than another event.</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">        </span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="sd">        Events are compared by their target process identifier.</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">        </span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">        Args:</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">            other: The event to compare with.</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">        </span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">        Returns:</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">            True if this event&#39;s target is less than the other event&#39;s target.</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    
-</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="sd">        Compare two events.</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        Compare two events.</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>            <span class="k">return</span> <span class="mi">0</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span><span class="p">:</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__cmp__</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span> <span class="k">else</span> <span class="mi">1</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>    
-</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Signal</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">    Class to represent a signal event.</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    </span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">    A signal is an event that occurs internally with respect to a process.</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    A signal can also be generated externally (with respect to the algorithm)</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">    and is typically issued at some processes at the initialization of the system.</span>
-</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    </span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    Signals are defined by creating subclasses of this class.</span>
-</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
-</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">    attributes that are relevant to the signal.</span>
-</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    </span>
-</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">    A signal can hold additional information in its attributes, but it is not mandatory.</span>
-</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">    Typically, for a given algorithm, it is possible (and encouraged) to define multiple</span>
-</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">    signals, each with an explicit name that makes its purpose clear. This makes it easy</span>
-</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    to discriminate between different signals in the algorithm using structural pattern</span>
-</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">    matching (`match` statement).</span>
-</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">    </span>
-</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    Attributes:</span>
-</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">        target: Pid</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">            The process identifier (PID) of the process that the signal targets.</span>
-</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
-</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
-</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">    Class to represent a send/receive event.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">        Note: This implements a partial ordering by target only, not a total ordering.</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a><span class="sd">        </span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a><span class="sd">        Args:</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a><span class="sd">            other: The event to compare with.</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">        </span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="sd">        Returns:</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a><span class="sd">            True if this event&#39;s target is less than the other event&#39;s target.</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this event is greater than another event.</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="sd">        </span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a><span class="sd">        Events are compared by their target process identifier.</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd">        Note: This implements a partial ordering by target only, not a total ordering.</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a><span class="sd">        </span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">        Args:</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a><span class="sd">            other: The event to compare with.</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">        </span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="sd">        Returns:</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="sd">            True if this event&#39;s target is greater than the other event&#39;s target.</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Signal</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a><span class="sd">    Class to represent a signal event.</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a><span class="sd">    </span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="sd">    A signal is an event that occurs internally with respect to a process.</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="sd">    A signal can also be generated externally (with respect to the algorithm)</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a><span class="sd">    and is typically issued at some processes at the initialization of the system.</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a><span class="sd">    </span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a><span class="sd">    Signals are defined by creating subclasses of this class.</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a><span class="sd">    attributes that are relevant to the signal.</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="sd">    </span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a><span class="sd">    A signal can hold additional information in its attributes, but it is not mandatory.</span>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a><span class="sd">    Typically, for a given algorithm, it is possible (and encouraged) to define multiple</span>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="sd">    signals, each with an explicit name that makes its purpose clear. This makes it easy</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="sd">    to discriminate between different signals in the algorithm using structural pattern</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a><span class="sd">    matching (`match` statement).</span>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a><span class="sd">    </span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="sd">    Attributes:</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a><span class="sd">        target: Pid</span>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">            The process identifier (PID) of the process that the signal targets.</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">    Class to represent a send/receive event.</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a><span class="sd">    </span>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a><span class="sd">    A message is an event that occurs between two processes.</span>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="sd">    The sender and the receiver (target) are both specified.</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a><span class="sd">    </span>
-</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    A message is an event that occurs between two processes.</span>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">    The sender and the receiver (target) are both specified.</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">    </span>
-</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">    Messages are defined by creating subclasses of this class.</span>
-</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
-</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">    attributes that are relevant to the message.</span>
-</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">    </span>
-</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">    Attributes:</span>
-</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">        target: Pid</span>
-</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">            The process identifier (PID) of the process that __receives__ the message (i.e, that the message targets).</span>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="sd">        sender: Pid</span>
-</span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="sd">            The process identifier (PID) of the process that __sends__ the message.</span>
-</span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a>    <span class="n">sender</span><span class="p">:</span> <span class="n">Pid</span>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a><span class="sd">    Messages are defined by creating subclasses of this class.</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="sd">    attributes that are relevant to the message.</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="sd">    </span>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">    Attributes:</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">        target: Pid</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a><span class="sd">            The process identifier (PID) of the process that __receives__ the message (i.e, that the message targets).</span>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">        sender: Pid</span>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="sd">            The process identifier (PID) of the process that __sends__ the message.</span>
+</span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a>    <span class="n">sender</span><span class="p">:</span> <span class="n">Pid</span>
 </span></pre></div>
 
 
@@ -261,40 +258,37 @@
 </span><span id="Event-45"><a href="#Event-45"><span class="linenos">45</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this event is less than another event.</span>
 </span><span id="Event-46"><a href="#Event-46"><span class="linenos">46</span></a><span class="sd">        </span>
 </span><span id="Event-47"><a href="#Event-47"><span class="linenos">47</span></a><span class="sd">        Events are compared by their target process identifier.</span>
-</span><span id="Event-48"><a href="#Event-48"><span class="linenos">48</span></a><span class="sd">        </span>
-</span><span id="Event-49"><a href="#Event-49"><span class="linenos">49</span></a><span class="sd">        Args:</span>
-</span><span id="Event-50"><a href="#Event-50"><span class="linenos">50</span></a><span class="sd">            other: The event to compare with.</span>
-</span><span id="Event-51"><a href="#Event-51"><span class="linenos">51</span></a><span class="sd">        </span>
-</span><span id="Event-52"><a href="#Event-52"><span class="linenos">52</span></a><span class="sd">        Returns:</span>
-</span><span id="Event-53"><a href="#Event-53"><span class="linenos">53</span></a><span class="sd">            True if this event&#39;s target is less than the other event&#39;s target.</span>
-</span><span id="Event-54"><a href="#Event-54"><span class="linenos">54</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Event-55"><a href="#Event-55"><span class="linenos">55</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="Event-56"><a href="#Event-56"><span class="linenos">56</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="Event-57"><a href="#Event-57"><span class="linenos">57</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="Event-58"><a href="#Event-58"><span class="linenos">58</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="Event-59"><a href="#Event-59"><span class="linenos">59</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
-</span><span id="Event-60"><a href="#Event-60"><span class="linenos">60</span></a>    
-</span><span id="Event-61"><a href="#Event-61"><span class="linenos">61</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-</span><span id="Event-62"><a href="#Event-62"><span class="linenos">62</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Event-63"><a href="#Event-63"><span class="linenos">63</span></a><span class="sd">        Compare two events.</span>
-</span><span id="Event-64"><a href="#Event-64"><span class="linenos">64</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Event-65"><a href="#Event-65"><span class="linenos">65</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="Event-66"><a href="#Event-66"><span class="linenos">66</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="Event-67"><a href="#Event-67"><span class="linenos">67</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="Event-68"><a href="#Event-68"><span class="linenos">68</span></a>            <span class="k">return</span> <span class="kc">False</span>
-</span><span id="Event-69"><a href="#Event-69"><span class="linenos">69</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
-</span><span id="Event-70"><a href="#Event-70"><span class="linenos">70</span></a>    
-</span><span id="Event-71"><a href="#Event-71"><span class="linenos">71</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__cmp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-</span><span id="Event-72"><a href="#Event-72"><span class="linenos">72</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Event-73"><a href="#Event-73"><span class="linenos">73</span></a><span class="sd">        Compare two events.</span>
-</span><span id="Event-74"><a href="#Event-74"><span class="linenos">74</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Event-75"><a href="#Event-75"><span class="linenos">75</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
-</span><span id="Event-76"><a href="#Event-76"><span class="linenos">76</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
-</span><span id="Event-77"><a href="#Event-77"><span class="linenos">77</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
-</span><span id="Event-78"><a href="#Event-78"><span class="linenos">78</span></a>            <span class="k">return</span> <span class="mi">0</span>
-</span><span id="Event-79"><a href="#Event-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span><span class="p">:</span>
-</span><span id="Event-80"><a href="#Event-80"><span class="linenos">80</span></a>            <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__cmp__</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="n">other</span><span class="p">))</span>
-</span><span id="Event-81"><a href="#Event-81"><span class="linenos">81</span></a>        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span> <span class="k">else</span> <span class="mi">1</span>
+</span><span id="Event-48"><a href="#Event-48"><span class="linenos">48</span></a><span class="sd">        Note: This implements a partial ordering by target only, not a total ordering.</span>
+</span><span id="Event-49"><a href="#Event-49"><span class="linenos">49</span></a><span class="sd">        </span>
+</span><span id="Event-50"><a href="#Event-50"><span class="linenos">50</span></a><span class="sd">        Args:</span>
+</span><span id="Event-51"><a href="#Event-51"><span class="linenos">51</span></a><span class="sd">            other: The event to compare with.</span>
+</span><span id="Event-52"><a href="#Event-52"><span class="linenos">52</span></a><span class="sd">        </span>
+</span><span id="Event-53"><a href="#Event-53"><span class="linenos">53</span></a><span class="sd">        Returns:</span>
+</span><span id="Event-54"><a href="#Event-54"><span class="linenos">54</span></a><span class="sd">            True if this event&#39;s target is less than the other event&#39;s target.</span>
+</span><span id="Event-55"><a href="#Event-55"><span class="linenos">55</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Event-56"><a href="#Event-56"><span class="linenos">56</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
+</span><span id="Event-57"><a href="#Event-57"><span class="linenos">57</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
+</span><span id="Event-58"><a href="#Event-58"><span class="linenos">58</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="Event-59"><a href="#Event-59"><span class="linenos">59</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="Event-60"><a href="#Event-60"><span class="linenos">60</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&lt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
+</span><span id="Event-61"><a href="#Event-61"><span class="linenos">61</span></a>    
+</span><span id="Event-62"><a href="#Event-62"><span class="linenos">62</span></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span id="Event-63"><a href="#Event-63"><span class="linenos">63</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this event is greater than another event.</span>
+</span><span id="Event-64"><a href="#Event-64"><span class="linenos">64</span></a><span class="sd">        </span>
+</span><span id="Event-65"><a href="#Event-65"><span class="linenos">65</span></a><span class="sd">        Events are compared by their target process identifier.</span>
+</span><span id="Event-66"><a href="#Event-66"><span class="linenos">66</span></a><span class="sd">        Note: This implements a partial ordering by target only, not a total ordering.</span>
+</span><span id="Event-67"><a href="#Event-67"><span class="linenos">67</span></a><span class="sd">        </span>
+</span><span id="Event-68"><a href="#Event-68"><span class="linenos">68</span></a><span class="sd">        Args:</span>
+</span><span id="Event-69"><a href="#Event-69"><span class="linenos">69</span></a><span class="sd">            other: The event to compare with.</span>
+</span><span id="Event-70"><a href="#Event-70"><span class="linenos">70</span></a><span class="sd">        </span>
+</span><span id="Event-71"><a href="#Event-71"><span class="linenos">71</span></a><span class="sd">        Returns:</span>
+</span><span id="Event-72"><a href="#Event-72"><span class="linenos">72</span></a><span class="sd">            True if this event&#39;s target is greater than the other event&#39;s target.</span>
+</span><span id="Event-73"><a href="#Event-73"><span class="linenos">73</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="Event-74"><a href="#Event-74"><span class="linenos">74</span></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Event</span><span class="p">):</span>
+</span><span id="Event-75"><a href="#Event-75"><span class="linenos">75</span></a>            <span class="k">return</span> <span class="bp">NotImplemented</span>
+</span><span id="Event-76"><a href="#Event-76"><span class="linenos">76</span></a>        <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span><span class="p">:</span>
+</span><span id="Event-77"><a href="#Event-77"><span class="linenos">77</span></a>            <span class="k">return</span> <span class="kc">False</span>
+</span><span id="Event-78"><a href="#Event-78"><span class="linenos">78</span></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">target</span>
 </span></pre></div>
 
 
@@ -353,29 +347,29 @@ by subclassing either one of the two subclasses.</p>
 
     </div>
     <a class="headerlink" href="#Signal"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Signal-84"><a href="#Signal-84"><span class="linenos"> 84</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="Signal-85"><a href="#Signal-85"><span class="linenos"> 85</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Signal</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
-</span><span id="Signal-86"><a href="#Signal-86"><span class="linenos"> 86</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Signal-87"><a href="#Signal-87"><span class="linenos"> 87</span></a><span class="sd">    Class to represent a signal event.</span>
-</span><span id="Signal-88"><a href="#Signal-88"><span class="linenos"> 88</span></a><span class="sd">    </span>
-</span><span id="Signal-89"><a href="#Signal-89"><span class="linenos"> 89</span></a><span class="sd">    A signal is an event that occurs internally with respect to a process.</span>
-</span><span id="Signal-90"><a href="#Signal-90"><span class="linenos"> 90</span></a><span class="sd">    A signal can also be generated externally (with respect to the algorithm)</span>
-</span><span id="Signal-91"><a href="#Signal-91"><span class="linenos"> 91</span></a><span class="sd">    and is typically issued at some processes at the initialization of the system.</span>
-</span><span id="Signal-92"><a href="#Signal-92"><span class="linenos"> 92</span></a><span class="sd">    </span>
-</span><span id="Signal-93"><a href="#Signal-93"><span class="linenos"> 93</span></a><span class="sd">    Signals are defined by creating subclasses of this class.</span>
-</span><span id="Signal-94"><a href="#Signal-94"><span class="linenos"> 94</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
-</span><span id="Signal-95"><a href="#Signal-95"><span class="linenos"> 95</span></a><span class="sd">    attributes that are relevant to the signal.</span>
-</span><span id="Signal-96"><a href="#Signal-96"><span class="linenos"> 96</span></a><span class="sd">    </span>
-</span><span id="Signal-97"><a href="#Signal-97"><span class="linenos"> 97</span></a><span class="sd">    A signal can hold additional information in its attributes, but it is not mandatory.</span>
-</span><span id="Signal-98"><a href="#Signal-98"><span class="linenos"> 98</span></a><span class="sd">    Typically, for a given algorithm, it is possible (and encouraged) to define multiple</span>
-</span><span id="Signal-99"><a href="#Signal-99"><span class="linenos"> 99</span></a><span class="sd">    signals, each with an explicit name that makes its purpose clear. This makes it easy</span>
-</span><span id="Signal-100"><a href="#Signal-100"><span class="linenos">100</span></a><span class="sd">    to discriminate between different signals in the algorithm using structural pattern</span>
-</span><span id="Signal-101"><a href="#Signal-101"><span class="linenos">101</span></a><span class="sd">    matching (`match` statement).</span>
-</span><span id="Signal-102"><a href="#Signal-102"><span class="linenos">102</span></a><span class="sd">    </span>
-</span><span id="Signal-103"><a href="#Signal-103"><span class="linenos">103</span></a><span class="sd">    Attributes:</span>
-</span><span id="Signal-104"><a href="#Signal-104"><span class="linenos">104</span></a><span class="sd">        target: Pid</span>
-</span><span id="Signal-105"><a href="#Signal-105"><span class="linenos">105</span></a><span class="sd">            The process identifier (PID) of the process that the signal targets.</span>
-</span><span id="Signal-106"><a href="#Signal-106"><span class="linenos">106</span></a><span class="sd">    &quot;&quot;&quot;</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Signal-81"><a href="#Signal-81"><span class="linenos"> 81</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Signal-82"><a href="#Signal-82"><span class="linenos"> 82</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Signal</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+</span><span id="Signal-83"><a href="#Signal-83"><span class="linenos"> 83</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Signal-84"><a href="#Signal-84"><span class="linenos"> 84</span></a><span class="sd">    Class to represent a signal event.</span>
+</span><span id="Signal-85"><a href="#Signal-85"><span class="linenos"> 85</span></a><span class="sd">    </span>
+</span><span id="Signal-86"><a href="#Signal-86"><span class="linenos"> 86</span></a><span class="sd">    A signal is an event that occurs internally with respect to a process.</span>
+</span><span id="Signal-87"><a href="#Signal-87"><span class="linenos"> 87</span></a><span class="sd">    A signal can also be generated externally (with respect to the algorithm)</span>
+</span><span id="Signal-88"><a href="#Signal-88"><span class="linenos"> 88</span></a><span class="sd">    and is typically issued at some processes at the initialization of the system.</span>
+</span><span id="Signal-89"><a href="#Signal-89"><span class="linenos"> 89</span></a><span class="sd">    </span>
+</span><span id="Signal-90"><a href="#Signal-90"><span class="linenos"> 90</span></a><span class="sd">    Signals are defined by creating subclasses of this class.</span>
+</span><span id="Signal-91"><a href="#Signal-91"><span class="linenos"> 91</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
+</span><span id="Signal-92"><a href="#Signal-92"><span class="linenos"> 92</span></a><span class="sd">    attributes that are relevant to the signal.</span>
+</span><span id="Signal-93"><a href="#Signal-93"><span class="linenos"> 93</span></a><span class="sd">    </span>
+</span><span id="Signal-94"><a href="#Signal-94"><span class="linenos"> 94</span></a><span class="sd">    A signal can hold additional information in its attributes, but it is not mandatory.</span>
+</span><span id="Signal-95"><a href="#Signal-95"><span class="linenos"> 95</span></a><span class="sd">    Typically, for a given algorithm, it is possible (and encouraged) to define multiple</span>
+</span><span id="Signal-96"><a href="#Signal-96"><span class="linenos"> 96</span></a><span class="sd">    signals, each with an explicit name that makes its purpose clear. This makes it easy</span>
+</span><span id="Signal-97"><a href="#Signal-97"><span class="linenos"> 97</span></a><span class="sd">    to discriminate between different signals in the algorithm using structural pattern</span>
+</span><span id="Signal-98"><a href="#Signal-98"><span class="linenos"> 98</span></a><span class="sd">    matching (`match` statement).</span>
+</span><span id="Signal-99"><a href="#Signal-99"><span class="linenos"> 99</span></a><span class="sd">    </span>
+</span><span id="Signal-100"><a href="#Signal-100"><span class="linenos">100</span></a><span class="sd">    Attributes:</span>
+</span><span id="Signal-101"><a href="#Signal-101"><span class="linenos">101</span></a><span class="sd">        target: Pid</span>
+</span><span id="Signal-102"><a href="#Signal-102"><span class="linenos">102</span></a><span class="sd">            The process identifier (PID) of the process that the signal targets.</span>
+</span><span id="Signal-103"><a href="#Signal-103"><span class="linenos">103</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span></pre></div>
 
 
@@ -435,25 +429,25 @@ matching (<code>match</code> statement).</p>
 
     </div>
     <a class="headerlink" href="#Message"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Message-108"><a href="#Message-108"><span class="linenos">108</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="Message-109"><a href="#Message-109"><span class="linenos">109</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
-</span><span id="Message-110"><a href="#Message-110"><span class="linenos">110</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="Message-111"><a href="#Message-111"><span class="linenos">111</span></a><span class="sd">    Class to represent a send/receive event.</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Message-105"><a href="#Message-105"><span class="linenos">105</span></a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="Message-106"><a href="#Message-106"><span class="linenos">106</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Message</span><span class="p">(</span><span class="n">Event</span><span class="p">):</span>
+</span><span id="Message-107"><a href="#Message-107"><span class="linenos">107</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="Message-108"><a href="#Message-108"><span class="linenos">108</span></a><span class="sd">    Class to represent a send/receive event.</span>
+</span><span id="Message-109"><a href="#Message-109"><span class="linenos">109</span></a><span class="sd">    </span>
+</span><span id="Message-110"><a href="#Message-110"><span class="linenos">110</span></a><span class="sd">    A message is an event that occurs between two processes.</span>
+</span><span id="Message-111"><a href="#Message-111"><span class="linenos">111</span></a><span class="sd">    The sender and the receiver (target) are both specified.</span>
 </span><span id="Message-112"><a href="#Message-112"><span class="linenos">112</span></a><span class="sd">    </span>
-</span><span id="Message-113"><a href="#Message-113"><span class="linenos">113</span></a><span class="sd">    A message is an event that occurs between two processes.</span>
-</span><span id="Message-114"><a href="#Message-114"><span class="linenos">114</span></a><span class="sd">    The sender and the receiver (target) are both specified.</span>
-</span><span id="Message-115"><a href="#Message-115"><span class="linenos">115</span></a><span class="sd">    </span>
-</span><span id="Message-116"><a href="#Message-116"><span class="linenos">116</span></a><span class="sd">    Messages are defined by creating subclasses of this class.</span>
-</span><span id="Message-117"><a href="#Message-117"><span class="linenos">117</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
-</span><span id="Message-118"><a href="#Message-118"><span class="linenos">118</span></a><span class="sd">    attributes that are relevant to the message.</span>
-</span><span id="Message-119"><a href="#Message-119"><span class="linenos">119</span></a><span class="sd">    </span>
-</span><span id="Message-120"><a href="#Message-120"><span class="linenos">120</span></a><span class="sd">    Attributes:</span>
-</span><span id="Message-121"><a href="#Message-121"><span class="linenos">121</span></a><span class="sd">        target: Pid</span>
-</span><span id="Message-122"><a href="#Message-122"><span class="linenos">122</span></a><span class="sd">            The process identifier (PID) of the process that __receives__ the message (i.e, that the message targets).</span>
-</span><span id="Message-123"><a href="#Message-123"><span class="linenos">123</span></a><span class="sd">        sender: Pid</span>
-</span><span id="Message-124"><a href="#Message-124"><span class="linenos">124</span></a><span class="sd">            The process identifier (PID) of the process that __sends__ the message.</span>
-</span><span id="Message-125"><a href="#Message-125"><span class="linenos">125</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="Message-126"><a href="#Message-126"><span class="linenos">126</span></a>    <span class="n">sender</span><span class="p">:</span> <span class="n">Pid</span>
+</span><span id="Message-113"><a href="#Message-113"><span class="linenos">113</span></a><span class="sd">    Messages are defined by creating subclasses of this class.</span>
+</span><span id="Message-114"><a href="#Message-114"><span class="linenos">114</span></a><span class="sd">    The subclass must be frozen (immutable) and can hold additional</span>
+</span><span id="Message-115"><a href="#Message-115"><span class="linenos">115</span></a><span class="sd">    attributes that are relevant to the message.</span>
+</span><span id="Message-116"><a href="#Message-116"><span class="linenos">116</span></a><span class="sd">    </span>
+</span><span id="Message-117"><a href="#Message-117"><span class="linenos">117</span></a><span class="sd">    Attributes:</span>
+</span><span id="Message-118"><a href="#Message-118"><span class="linenos">118</span></a><span class="sd">        target: Pid</span>
+</span><span id="Message-119"><a href="#Message-119"><span class="linenos">119</span></a><span class="sd">            The process identifier (PID) of the process that __receives__ the message (i.e, that the message targets).</span>
+</span><span id="Message-120"><a href="#Message-120"><span class="linenos">120</span></a><span class="sd">        sender: Pid</span>
+</span><span id="Message-121"><a href="#Message-121"><span class="linenos">121</span></a><span class="sd">            The process identifier (PID) of the process that __sends__ the message.</span>
+</span><span id="Message-122"><a href="#Message-122"><span class="linenos">122</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="Message-123"><a href="#Message-123"><span class="linenos">123</span></a>    <span class="n">sender</span><span class="p">:</span> <span class="n">Pid</span>
 </span></pre></div>
 
 
