@@ -1,1 +1,0 @@
-dapy @ git+https://github.com/xdefago/dapy.git
