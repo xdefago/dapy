@@ -1,6 +1,44 @@
-# Build Scripts
+# Build and Development Scripts
 
-This directory contains scripts for building and packaging dapyview.
+This directory contains scripts for building, packaging, and maintaining dapyview and dapy.
+
+## Code Formatting and Linting
+
+### Quick Format
+
+```bash
+./scripts/format-code.sh
+```
+
+This will automatically format and lint all code using:
+- **ruff check --fix** for linting and automatic fixes
+- **ruff format** for code formatting
+- **isort** for import sorting
+- **black** for additional code formatting
+
+All configuration is read from `pyproject.toml`:
+- Line length: 120
+- Quote style: double quotes
+- Import format: isort with `black` profile
+
+### Check Mode (No Modifications)
+
+```bash
+./scripts/format-code.sh --check
+```
+
+Run code quality checks without modifying files. Useful for CI/CD pipelines.
+
+### Verbose Output
+
+```bash
+./scripts/format-code.sh --verbose
+./scripts/format-code.sh --check --verbose
+```
+
+Show detailed output from each tool.
+
+## Building Dapyview Standalone Executable
 
 ## Building Dapyview Standalone Executable
 
