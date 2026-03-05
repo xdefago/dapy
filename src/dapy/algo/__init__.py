@@ -7,4 +7,4 @@ Module containing implementations of various distributed algorithms.
 
 from . import learn
 
-__all__ = ['learn']
+__all__ = ["learn"]

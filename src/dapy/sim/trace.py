@@ -7,7 +7,7 @@ from typing import Iterable, Self
 
 from dapy.core.system import simtime
 
-from ..core import Event, Message, Pid, Signal, System, SimTime
+from ..core import Event, Message, Pid, Signal, SimTime, System
 from .configuration import Configuration
 from .timed import TimedConfiguration
 
@@ -15,48 +15,49 @@ from .timed import TimedConfiguration
 @dataclass(frozen=True, order=True)
 class LocalTimedEvent:
     """Represents a timed event with transmission interval during simulation.
-    
+
     Records the start time when an event is sent and the end time when it arrives,
     useful for understanding message delays in the simulation.
-    
+
     Attributes:
         start: The time when the event was sent.
         end: The time when the event arrived at its destination.
         event: The event object (Message or Signal).
     """
+
     start: SimTime
     end: SimTime
     event: Event
-    
+
     def is_message(self) -> bool:
         """Check if this timed event represents a message transmission.
-        
+
         Returns:
             True if the event is a Message, False otherwise.
         """
         return isinstance(self.event, Message)
-    
+
     def is_signal(self) -> bool:
         """Check if this timed event represents a signal.
-        
+
         Returns:
             True if the event is a Signal, False otherwise.
         """
         return isinstance(self.event, Signal)
-    
+
     def sender(self) -> Pid:
         """Get the sender/initiator of this event.
-        
+
         For messages, returns the sender. For signals, returns the target.
-        
+
         Returns:
             The process identifier of the event's sender/initiator.
         """
         return self.event.sender if isinstance(self.event, Message) else self.event.target
-    
+
     def receiver(self) -> Pid:
         """Get the receiver of this event.
-        
+
         Returns:
             The process identifier of the event's target/receiver.
         """
@@ -66,12 +67,12 @@ class LocalTimedEvent:
 @dataclass
 class Trace:
     """Represents the execution trace of a distributed algorithm simulation.
-    
+
     A trace records both the events (messages and signals) exchanged between
     processes and the system configurations at various time points during
     the simulation. Trace files are self-documenting with algorithm metadata,
     allowing viewing without access to the original algorithm implementation.
-    
+
     Attributes:
         system: The distributed system being simulated.
         algorithm_name: The name of the algorithm (from Algorithm.name property).
@@ -82,22 +83,23 @@ class Trace:
         history: List of system configurations at specific time points.
         events_list: List of timed events during the simulation.
     """
+
     system: System
     algorithm_name: str
     algorithm_description: str = ""
     synchrony_model_name: str = ""
     synchrony_model_params: dict[str, str] = field(default_factory=dict)
     trace_format_version: str = "1.0"
-    
+
     history: list[TimedConfiguration] = field(default_factory=list)
     events_list: list[LocalTimedEvent] = field(default_factory=list)
 
     def add_events(self, events: Iterable[tuple[SimTime, SimTime, Event]]) -> None:
         """Add timed events to the trace.
-        
+
         Message events require two timestamps: one for the send time at the sender
         and one for the arrival time at the receiver.
-        
+
         Args:
             events: An iterable of (start_time, end_time, event) tuples where
                     start_time is when the event begins and end_time is when it completes.
@@ -106,7 +108,7 @@ class Trace:
 
     def add_history(self, history: Iterable[tuple[SimTime, Configuration]]) -> None:
         """Add system configurations at specific time points to the trace.
-        
+
         Args:
             history: An iterable of (time, configuration) tuples representing
                      the system state at each time point.
@@ -115,22 +117,22 @@ class Trace:
 
     def dump(self) -> bytes:
         """Serialize the trace to pickle format (default).
-        
+
         This is the recommended serialization method. Pickle format is compact,
         fast, and doesn't require access to algorithm implementation classes.
-        
+
         Returns:
             The serialized trace as bytes.
         """
         return self.dump_pickle()
-    
+
     @classmethod
     def load(cls, data: bytes) -> Self:
         """Deserialize a trace from pickle format (default).
-        
+
         Args:
             data: The serialized trace as bytes.
-        
+
         Returns:
             A Trace instance deserialized from the byte string.
         """
@@ -138,31 +140,33 @@ class Trace:
 
     def dump_pickle(self) -> bytes:
         """Serialize the trace to a pickle byte string.
-        
+
         Uses pickle protocol 4 which allows deserialization without access to
         the original algorithm, message, signal, or state classes. The trace
         remains fully self-contained and can be loaded and visualized anywhere.
-        
+
         Returns:
             The serialized trace as bytes.
         """
         import pickle
+
         return pickle.dumps(self, protocol=4)
-    
+
     @classmethod
     def load_pickle(cls, data: bytes) -> Self:
         """Deserialize a trace from a pickle byte string.
-        
+
         Args:
             data: The serialized trace as bytes.
-        
+
         Returns:
             A Trace instance deserialized from the byte string.
-        
+
         Raises:
             TypeError: If the deserialized object is not a Trace instance.
         """
         import pickle
+
         obj = pickle.loads(data)
         if not isinstance(obj, cls):
             raise TypeError(f"Expected Trace, got {type(obj)}")
@@ -170,13 +174,13 @@ class Trace:
 
     def dump_json(self) -> str:
         """Serialize the trace to a prettified, indented JSON string.
-        
+
         Produces human-readable JSON with 2-space indentation. JSON traces are
         larger than pickle but can be inspected with text editors.
-        
+
         Returns:
             The serialized trace as a formatted JSON string.
-        
+
         Raises:
             ImportError: If classifiedjson is not installed. Install with:
                         uv pip install dapy[json]
@@ -185,7 +189,7 @@ class Trace:
             from classifiedjson import dumps, is_exact_match
         except ImportError:
             raise ImportError("classifiedjson is not installed. Please re-install dapy with the json feature.")
-        
+
         def _timedelta_serialize(obj: SimTime) -> str:
             """
             Serialize a SimTime object to a string.
@@ -193,25 +197,26 @@ class Trace:
             if not is_exact_match(obj, timedelta):
                 return NotImplemented
             return repr(obj)
-        
+
         # First serialize with classifiedjson
         json_str = dumps(self, custom_hooks=[_timedelta_serialize])
-        
+
         # Then prettify with standard json module
         import json
+
         obj = json.loads(json_str)
         return json.dumps(obj, indent=2)
 
     @classmethod
     def load_json(cls, data: str) -> Self:
         """Deserialize a trace from a JSON string.
-        
+
         Args:
             data: The serialized trace as a JSON string.
-        
+
         Returns:
             A Trace instance deserialized from the JSON string.
-        
+
         Raises:
             ImportError: If classifiedjson is not installed. Install with:
                         uv pip install dapy[json]
@@ -220,7 +225,7 @@ class Trace:
             from classifiedjson import Factory, loads
         except ImportError:
             raise ImportError("classifiedjson is not installed. Please re-install dapy with the json feature.")
-        
+
         def _timedelta_deserialize(factory: Factory, obj: str) -> timedelta:
             """
             Deserialize a string to a timedelta object.
@@ -228,9 +233,8 @@ class Trace:
             if not factory.is_exact_match(timedelta):
                 return NotImplemented
             return _parse_timedelta(obj)
-        
-        return loads(data, custom_hooks=[_timedelta_deserialize])  # type: ignore
 
+        return loads(data, custom_hooks=[_timedelta_deserialize])  # type: ignore
 
 
 def _parse_timedelta(timedelta_str: str) -> SimTime:
@@ -238,23 +242,21 @@ def _parse_timedelta(timedelta_str: str) -> SimTime:
     Parse a string to create a timedelta object.
     """
     import re
+
     match = re.match(r"^datetime.timedelta\((?P<args>.*)\)$", timedelta_str)
     if not match:
         raise ValueError(f"Invalid timedelta string: {timedelta_str}")
-    
+
     args = match.group("args").split(",")
     kwargs = {}
     if args == ["0"]:
         return simtime(0)
-    
+
     for arg in args:
         if "=" in arg:
             key, value = arg.split("=")
             kwargs[key.strip()] = eval(value.strip())
         else:
             kwargs[arg.strip()] = None
-    
+
     return simtime(**kwargs)
-
-
-

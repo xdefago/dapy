@@ -11,15 +11,14 @@ This directory contains scripts for building, packaging, and maintaining dapyvie
 ```
 
 This will automatically format and lint all code using:
-- **ruff check --fix** for linting and automatic fixes
+- **ruff check --fix** for linting, automatic fixes, and import sorting
 - **ruff format** for code formatting
-- **isort** for import sorting
 - **black** for additional code formatting
 
 All configuration is read from `pyproject.toml`:
-- Line length: 120
+- Ruff line length: 120
 - Quote style: double quotes
-- Import format: isort with `black` profile
+- Import sorting: handled by ruff's `I` rule (equivalent to isort)
 
 ### Check Mode (No Modifications)
 

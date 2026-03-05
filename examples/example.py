@@ -41,7 +41,7 @@ print(algorithm)
 #
 sim = Simulator.from_system(system, algorithm, settings=settings)
 
-# Start the simulation; all processes are initialized to their initial state 
+# Start the simulation; all processes are initialized to their initial state
 sim.start()
 # Schedule some initial event to start the algorithm (here we start process 1)
 sim.schedule(event=Start(target=Pid(1)), at=simtime())
@@ -60,7 +60,7 @@ for event in sim.trace.history:
     time = event.time
     event = event.configuration
     print(f"{time} {event}")
-    
+
 # Display the events
 print("\n----[ Trace ]---- events")
 for timed_event in sim.trace.events_list:
@@ -71,9 +71,9 @@ for timed_event in sim.trace.events_list:
 
 # compare changes between consecutive configurations
 print("\n----[ Trace ]---- changes")
-for i in range(len(sim.trace.history)-1):
-    for p in sim.trace.history[i+1].configuration.changed_from(sim.trace.history[i].configuration):
-        print(f"+++ Process {p} changed from config {i} to {i+1}")
+for i in range(len(sim.trace.history) - 1):
+    for p in sim.trace.history[i + 1].configuration.changed_from(sim.trace.history[i].configuration):
+        print(f"+++ Process {p} changed from config {i} to {i + 1}")
 
 #
 # NOTE:

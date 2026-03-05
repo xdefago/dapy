@@ -5,9 +5,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import random
+from dataclasses import dataclass
 
 import pytest
 
@@ -54,7 +53,7 @@ def test_process_set_operations() -> None:
     ps3 = ps2 + ProcessSet({Pid(3)})
     assert len(ps3) == 3
 
-    ps4 = ps3 + [Pid(4)]
+    ps4 = ps3 + [Pid(4)]  # noqa: RUF005 (the purpose is to test the addition operator)
     assert Pid(4) in ps4
 
     with pytest.raises(TypeError):
@@ -89,7 +88,7 @@ def test_channel_set_addition() -> None:
     cs3 = cs2 + ChannelSet({Channel(p3, p1)})
     assert len(cs3) == 3
 
-    cs4 = cs3 + [Channel(p1, p3)]
+    cs4 = cs3 + [Channel(p1, p3)]  # noqa: RUF005 (testing the addition operator)
     assert len(cs4) == 4
 
     with pytest.raises(TypeError):

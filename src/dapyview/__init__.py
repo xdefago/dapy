@@ -5,6 +5,7 @@
 
 try:
     from importlib.metadata import version
+
     __version__ = version("dapy")  # Read version from pyproject.toml
 except Exception:
     __version__ = "0.0.0"  # Fallback if not installed

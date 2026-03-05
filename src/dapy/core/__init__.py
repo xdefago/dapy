@@ -59,7 +59,7 @@ class MySignal(Signal):
 @dataclass(frozen=True)
 class MyMessage(Message):
     some_information: str
-    
+
 # 4. Define the distributed algorithm by subclassing the Algorithm class and providing
 #    an implementation for the two mandatory abstract methods `initial_state` and `on_event`.
 from typing import Sequence
@@ -87,11 +87,11 @@ from .state import State as State
 from .system import Asynchronous as Asynchronous
 from .system import PartiallySynchronous as PartiallySynchronous
 from .system import SimTime as SimTime
-from .system import simtime as simtime
 from .system import StochasticExponential as StochasticExponential
 from .system import Synchronous as Synchronous
 from .system import SynchronyModel as SynchronyModel
 from .system import System as System
+from .system import simtime as simtime
 from .topology import CompleteGraph as CompleteGraph
 from .topology import NetworkTopology as NetworkTopology
 from .topology import Ring as Ring

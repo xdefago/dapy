@@ -7,7 +7,16 @@ from typing import Optional
 
 import pytest
 
-from dapy.core.topology import Arbitrary, Channel, CompleteGraph, NetworkTopology, Pid, ProcessSet, Ring, Star
+from dapy.core.topology import (
+    Arbitrary,
+    Channel,
+    CompleteGraph,
+    NetworkTopology,
+    Pid,
+    ProcessSet,
+    Ring,
+    Star,
+)
 
 # Helper functions for topology validation
 
@@ -29,11 +38,11 @@ def assert_valid_topology(topology: NetworkTopology, size: int, processes: Optio
     """Assert that a topology is valid (basic properties)."""
     if processes is None:
         processes = ProcessSet(Pid(i + 1) for i in range(size))
-    
+
     assert topology.processes() == processes
     assert len(topology) == size
     assert len(topology.processes()) == size
-    
+
     # Get min and max from processes attribute
     pids = list(processes.processes)
     min_pid = min(pids)
@@ -42,7 +51,7 @@ def assert_valid_topology(topology: NetworkTopology, size: int, processes: Optio
     assert min_pid in topology
     assert max_pid in topology
     assert Pid(max_pid.id + 1) not in topology
-    
+
     assert_all_processes_present(topology, processes)
     assert_no_self_neighbors(topology)
 
@@ -51,9 +60,9 @@ def assert_valid_ring(topology: NetworkTopology, size: int, processes: Optional[
     """Assert that a Ring topology has correct neighbor relationships."""
     if processes is None:
         processes = ProcessSet(Pid(i + 1) for i in range(size))
-    
+
     indexed_processes = list(processes.processes)
-    
+
     # Check the neighbors of each process
     for i, pid in enumerate(processes.processes):
         prev = indexed_processes[i - 1]
@@ -66,7 +75,7 @@ def assert_valid_complete_graph(topology: CompleteGraph, size: int, processes: O
     """Assert that a CompleteGraph topology has all pairwise connections."""
     if processes is None:
         processes = ProcessSet(Pid(i + 1) for i in range(size))
-    
+
     # Check the neighbors of each process
     for pid in processes.processes:
         assert len(topology.neighbors_of(pid)) == size - 1
@@ -77,7 +86,7 @@ def assert_valid_star(topology: Star, size: int, processes: Optional[ProcessSet]
     """Assert that a Star topology has correct hub-and-spoke structure."""
     if processes is None:
         processes = ProcessSet(Pid(i + 1) for i in range(size))
-    
+
     # Check the neighbors of each process
     for pid in processes.processes:
         if pid == topology.center():
@@ -226,4 +235,3 @@ class TestArbitraryTopology:
         topology: NetworkTopology = Arbitrary.from_(channels, directed=False)
         assert_valid_topology(topology, 3, processes)
         assert_valid_ring(topology, 3, processes)
-    

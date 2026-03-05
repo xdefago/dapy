@@ -21,4 +21,4 @@ Using this library consists of two main steps:
 
 from . import algo, core, sim
 
-__all__ = ['algo', 'core', 'sim']
+__all__ = ["algo", "core", "sim"]

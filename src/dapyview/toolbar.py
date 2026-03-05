@@ -9,27 +9,27 @@ from PySide6.QtWidgets import QCheckBox, QLabel, QPushButton, QSlider, QToolBar
 
 class TraceToolbar(QToolBar):
     """Toolbar with trace viewer controls."""
-    
+
     # Signals
     time_mode_changed = Signal(bool)  # True = logical, False = physical
     zoom_changed = Signal(float)  # Zoom factor
     ruler_requested = Signal()  # User wants to add a ruler
-    
+
     def __init__(self) -> None:
         """Initialize the toolbar."""
         super().__init__()
-        
+
         self.setMovable(False)
-        
+
         # Time mode toggle
         self.addWidget(QLabel("Time Mode:"))
         self.time_mode_checkbox = QCheckBox("Logical Time")
         self.time_mode_checkbox.setChecked(True)  # Default to logical time
         self.time_mode_checkbox.stateChanged.connect(self._on_time_mode_changed)
         self.addWidget(self.time_mode_checkbox)
-        
+
         self.addSeparator()
-        
+
         # Zoom controls
         self.addWidget(QLabel("Zoom:"))
         self.zoom_slider = QSlider(Qt.Orientation.Horizontal)
@@ -41,37 +41,37 @@ class TraceToolbar(QToolBar):
         self.zoom_slider.setMaximumWidth(200)
         self.zoom_slider.valueChanged.connect(self._on_zoom_changed)
         self.addWidget(self.zoom_slider)
-        
+
         self.zoom_label = QLabel("100%")
         self.zoom_label.setMinimumWidth(50)
         self.addWidget(self.zoom_label)
-        
+
         self.addSeparator()
-        
+
         # Ruler controls
         self.ruler_button = QPushButton("Add Ruler")
         self.ruler_button.clicked.connect(self.ruler_requested.emit)
         self.addWidget(self.ruler_button)
-        
+
         self.addSeparator()
-        
+
         # Algorithm name label (will be set later)
         self.algorithm_label = QLabel("")
         self.addWidget(self.algorithm_label)
-    
+
     def set_algorithm_name(self, name: str) -> None:
         """Set the algorithm name to display in the toolbar.
-        
+
         Args:
             name: The name of the algorithm.
         """
         self.algorithm_label.setText(name)
-    
+
     def _on_time_mode_changed(self, state: int) -> None:
         """Handle time mode checkbox change."""
-        use_logical = (state == Qt.CheckState.Checked.value)
+        use_logical = state == Qt.CheckState.Checked.value
         self.time_mode_changed.emit(use_logical)
-    
+
     def _on_zoom_changed(self, value: int) -> None:
         """Handle zoom slider change."""
         zoom_factor = value / 100.0

@@ -10,6 +10,7 @@ from dapy.core import Algorithm, Event, Message, Pid, Signal, State
 # Define the State of a process in the algorithm.
 #
 
+
 @dataclass(frozen=True)
 class MyState(State):
     # inherited from State
@@ -17,9 +18,11 @@ class MyState(State):
     # declare any other relevant fields
     ...
 
+
 #
 # Define the messages and signals used in the algorithm.
 #
+
 
 @dataclass(frozen=True)
 class MyMessage(Message):
@@ -28,30 +31,33 @@ class MyMessage(Message):
     #   sender: Pid
     # declare any other relevant fields
     ...
-    
+
+
 @dataclass(frozen=True)
 class MySignal(Signal):
     # inherited from Signal
     #   target: Pid
     # declare any other relevant fields
     ...
-    
+
+
 #
 # Define the algorithm itself.
 #
 @dataclass(frozen=True)
 class MyAlgorithm(Algorithm[MyState]):
     """Brief description of what this algorithm does.
-    
+
     The description is automatically extracted from this docstring.
     """
+
     # inherited from Algorithm
     #   system: System
-    
+
     # Optional class variables for metadata (appear in traces and viewer)
     # algorithm_name: Optional[str] = "My Algorithm"  # defaults to class name if not set
     # algorithm_description: Optional[str] = None  # defaults to the description in docstring if not set
-    
+
     #
     # Mandatory method: given a process id, create and return the initial state of that process.
     #
@@ -64,7 +70,7 @@ class MyAlgorithm(Algorithm[MyState]):
             # initialize any other relevant fields
             # ...
         )
-    
+
     #
     # Mandatory method:
     # given the state of a process and an event (signal or message) applied to it,
@@ -84,14 +90,12 @@ class MyAlgorithm(Algorithm[MyState]):
     #
     # Optional methods
     #
-    
+
     def on_start(self, init_state: MyState) -> tuple[MyState, Sequence[Event]]:
-        """Given the initial state of a process, return a modified state and a sequence of events to be scheduled.
-        """
+        """Given the initial state of a process, return a modified state and a sequence of events to be scheduled."""
         # Although the the state can be modified, the intention is mainly to provide a way to issue initial events.
         # This is not always needed, as the initial events can also be scheduled externally.
         return init_state, [...]  # possibly schedule some initial events
-
 
 
 if __name__ == "__main__":
@@ -111,8 +115,8 @@ if __name__ == "__main__":
     # define the system (topology, synchrony model)
     #
     system = System(
-        topology= ...,  # e.g., RingTopology(num_processes=5)
-        synchrony= ..., # e.g., SynchronousModel()
+        topology=...,  # e.g., RingTopology(num_processes=5)
+        synchrony=...,  # e.g., SynchronousModel()
     )
 
     #
@@ -128,8 +132,8 @@ if __name__ == "__main__":
     #
     # Run the simulation
     #
-    
-    # Start the simulation; all processes are initialized to their initial state 
+
+    # Start the simulation; all processes are initialized to their initial state
     sim.start()
     # Possibly schedule some initial event(s)
     sim.schedule(event=..., at=...)  # e.g., sim.schedule(event=MySignal(target=Pid(1)), at=simtime(seconds=0))
@@ -139,6 +143,6 @@ if __name__ == "__main__":
     #
     # Check the final state of the system
     #
-    print(sim.current_time) # final time reached by the simulation
-    print(sim.current_configuration) # final configuration of the system
-    print(sim.trace) # trace of the simulation (if enabled)
+    print(sim.current_time)  # final time reached by the simulation
+    print(sim.current_configuration)  # final configuration of the system
+    print(sim.trace)  # trace of the simulation (if enabled)

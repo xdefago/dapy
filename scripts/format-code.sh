@@ -1,6 +1,6 @@
 #!/bin/bash
 # Code formatting and linting script
-# Applies ruff (linting + fixing), isort (import sorting), and black (code formatting)
+# Applies ruff (linting + import sorting + formatting) and black (code formatting)
 # All configuration is read from pyproject.toml
 # Usage: ./scripts/format-code.sh [options]
 # Options:
@@ -87,25 +87,7 @@ fi
 
 echo ""
 
-# Step 3: Run isort for import sorting
-echo "→ Running isort (import sorting)..."
-ISORT_CMD="uv run isort src tests examples --profile black"
-if [ "$CHECK_MODE" = true ]; then
-    if $ISORT_CMD --check-only $VERBOSE_FLAG; then
-        echo "  ✓ isort import sorting check passed"
-    else
-        echo "  ✗ isort found unsorted imports"
-        exit 1
-    fi
-else
-    if $ISORT_CMD $VERBOSE_FLAG; then
-        echo "  ✓ isort import sorting completed"
-    fi
-fi
-
-echo ""
-
-# Step 4: Run black for code formatting
+# Step 3: Run black for code formatting
 echo "→ Running black (code formatting)..."
 BLACK_CMD="uv run black src tests examples"
 if [ "$CHECK_MODE" = true ]; then

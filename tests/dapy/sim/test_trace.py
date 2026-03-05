@@ -14,6 +14,7 @@ class TestTraceGeneration:
     def test_trace_properties(self, trace_from_learn_algorithm: Optional[Trace]) -> None:
         """Test that generated trace has expected properties."""
         from dapy.core import simtime
+
         trace = trace_from_learn_algorithm
         assert trace is not None
         assert trace.algorithm_name == "Learn the Topology"
@@ -34,7 +35,7 @@ class TestTraceSerialization:
         trace_json = original_trace.dump_json()
         assert trace_json is not None
         assert isinstance(trace_json, str)
-        
+
         # Deserialize from JSON
         restored_trace = Trace.load_json(trace_json)
         assert restored_trace == original_trace
@@ -46,7 +47,7 @@ class TestTraceSerialization:
         trace_bytes = original_trace.dump_pickle()
         assert trace_bytes is not None
         assert isinstance(trace_bytes, bytes)
-        
+
         # Deserialize from pickle
         restored_trace = Trace.load_pickle(trace_bytes)
         assert restored_trace == original_trace
@@ -58,7 +59,7 @@ class TestTraceSerialization:
         json_trace = Trace.load_json(original_trace.dump_json())
         # Test Pickle roundtrip
         pickle_trace = Trace.load_pickle(original_trace.dump_pickle())
-        
+
         # Both should be equal to original
         assert json_trace == original_trace
         assert pickle_trace == original_trace
@@ -69,15 +70,15 @@ class TestTraceSerialization:
         """Test that dump() and load() default to pickle format."""
         original_trace = trace_from_learn_algorithm
         assert original_trace is not None
-        
+
         # dump() should return bytes (pickle format)
         trace_data = original_trace.dump()
         assert isinstance(trace_data, bytes)
-        
+
         # load() should deserialize pickle
         restored_trace = Trace.load(trace_data)
         assert restored_trace == original_trace
-        
+
         # dump() should be equivalent to dump_pickle()
         assert trace_data == original_trace.dump_pickle()
 
@@ -85,13 +86,13 @@ class TestTraceSerialization:
         """Test that dump_json() produces indented, human-readable JSON."""
         original_trace = trace_from_learn_algorithm
         assert original_trace is not None
-        
+
         trace_json = original_trace.dump_json()
-        
+
         # Check for indentation (pretty print with 2 spaces)
-        assert '\n' in trace_json  # Has newlines
-        assert '  ' in trace_json  # Has 2-space indentation
-        
+        assert "\n" in trace_json  # Has newlines
+        assert "  " in trace_json  # Has 2-space indentation
+
         # Should still deserialize correctly
         restored_trace = Trace.load_json(trace_json)
         assert restored_trace == original_trace
