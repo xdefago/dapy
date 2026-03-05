@@ -206,3 +206,6 @@ poetry add dapy[json] @ git+https://github.com/xdefago/dapy.git
     uv pip install pre-commit
     pre-commit install
     ```
+
+## TODO
+* implement serialization of trace files using `protobuf`
